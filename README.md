@@ -5,8 +5,9 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 
 ## News
 
-[2022/05/17]: ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev.\
-[2022/05/05]: ViT-Adapter-L achieves the [SOTA](https://paperswithcode.com/sota/semantic-segmentation-on-ade20k) on ADE20K val set with 60.5 mIoU!
+(2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev.\
+(2022/05/12) ViT-Adapter-L reachs 85.2 mIoU on Cityscapes test set without coarse data.\
+(2022/05/05) ViT-Adapter-L achieves the [SOTA](https://paperswithcode.com/sota/semantic-segmentation-on-ade20k) on ADE20K val set with 60.5 mIoU!
 
 ## Abstract
 
@@ -31,6 +32,12 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-L | UperNet | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 160k | 640 | [58.0](https://drive.google.com/file/d/1KsV4QPfoRi5cj2hjCzy8VfWih8xCTrE3/view?usp=sharing) | [58.4](https://drive.google.com/file/d/1haeTUvQhKCM7hunVdK60yxULbRH7YYBK/view?usp=sharing) | 451M |
 | ViT-Adapter-L | Mask2Former | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 160k | 640 | [58.3](https://drive.google.com/file/d/1jj56lSbc2s4ZNc-Hi-w6o-OSS99oi-_g/view?usp=sharing) | [59.0](https://drive.google.com/file/d/1hgpZB5gsyd7LTS7Aay2CbHmlY10nafCw/view?usp=sharing) | 568M |
 | ViT-Adapter-L | Mask2Former | [COCO-Stuff-164k]() | 80k | 896 | [59.4](https://drive.google.com/file/d/1B_1XSwdnLhjJeUmn1g_nxfvGJpYmYWHa/view?usp=sharing) | [60.5](https://drive.google.com/file/d/1UtjmgcYKR-2h116oQXklUYOVcTw15woM/view?usp=sharing) | 571M |
+
+### Cityscapes val/test
+
+| Method        | Framework   | Pre-train     | Iters | Crop Size | val mIoU                                                                                   | val/test +MS                                                                                                                                                                                                                 | #Param |
+|:-------------:|:-----------:|:-------------:|:-----:|:---------:|:------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------:|
+| ViT-Adapter-L | Mask2Former | [Mapillary]() | 80k   | 896       | [84.9](https://drive.google.com/file/d/1LKy0zz-brCBbKGmUWquadILaBHdDLR6s/view?usp=sharing) | [85.8](https://drive.google.com/file/d/1LSJvK1BPSbzm9eWpKL8Xo7RmYBrd2xux/view?usp=sharing)/[85.2](https://www.cityscapes-dataset.com/anonymous-results/?id=0ca6821dc3183ff970bd5266f812df2eaa4519ecb1973ca1308d65a3b546bf27) | 571M   |
 
 
 ## Catalog
