@@ -84,6 +84,8 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-S | ATSS               | DeiT      | 3x      | Yes | 49.6   | -       | 36M    |
 | ViT-Adapter-S | GFL                | DeiT      | 3x      | Yes | 50.0   | -       | 36M    |
 | ViT-Adapter-S | Sparse R-CNN       | DeiT      | 3x      | Yes | 48.1   | -       | 110M   |
+| ViT-Adapter-B | Upgraded Mask R-CNN | MAE      | 25ep    | LSJ | 50.3   | 44.7    | 122M    |
+| ViT-Adapter-B | Upgraded Mask R-CNN | MAE      | 50ep    | LSJ | 50.8   | 45.1    | 122M    |
 
 ### ADE20K val
 
