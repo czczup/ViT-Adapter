@@ -1,13 +1,13 @@
 # ViT-Adapter
 
 
-The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions]()".
+The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
 ## News
 
 (2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev.\
 (2022/05/12) ViT-Adapter-L reachs 85.2 mIoU on Cityscapes test set without coarse data.\
-(2022/05/05) ViT-Adapter-L achieves the [SOTA](https://paperswithcode.com/sota/semantic-segmentation-on-ade20k) on ADE20K val set with 60.5 mIoU!
+(2022/05/05) ViT-Adapter-L achieves the SOTA on ADE20K val set with 60.5 mIoU!
 
 ## Abstract
 
