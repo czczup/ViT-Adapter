@@ -24,6 +24,9 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 <img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/168661265-494ecb50-353f-471c-a1d1-c3f98bd82b74.png">
 
+<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/168972788-60e08b3b-5f4a-43d6-b731-3ea52878534f.png">
+
+
 ## SOTA Model Zoo
 
 ### COCO test-dev
