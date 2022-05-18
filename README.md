@@ -63,6 +63,37 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-L | UperNet     | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 80k   | 480       | [67.0](https://drive.google.com/file/d/1BxnwkxGZzncpd_G4cDmHPB6Pq681YogD/view?usp=sharing) | [67.5](https://drive.google.com/file/d/1Ff-6CGyNs5_ORrlLnyYkV9spE59UjwiT/view?usp=sharing) | 451M   |
 | ViT-Adapter-L | Mask2Former | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 40k   | 480       | [67.8](https://drive.google.com/file/d/1AbC7DZeTjZVIqNTRWFCkc16FHEmxvDNK/view?usp=sharing) | [68.2](https://drive.google.com/file/d/1gl_gPF7pxjWKvUubK7g1CB5wtihuAWgA/view?usp=sharing) | 568M   |
 
+## Regular Model Zoo
+
+### COCO mini-val
+
+#### Baseline Detectors
+
+| Method | Framework | Pre-train | Lr schd | Aug | box AP | mask AP | #Param |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| ViT-Adapter-T | Mask R-CNN | DeiT | 3x  | Yes | 46.0 | 41.0 | 28M |
+| ViT-Adapter-S | Mask R-CNN | DeiT | 3x  | Yes | 48.2 | 42.8 | 48M |
+| ViT-Adapter-B | Mask R-CNN | DeiT | 3x  | Yes | 49.6 | 43.6 | 120M |
+| ViT-Adapter-L | Mask R-CNN | DeiT | 3x  | Yes | 50.9 | 44.8 | 348M |
+
+#### Advanced Detectors
+
+| Method        | Framework          | Pre-train | Lr schd | Aug | box AP | mask AP | #Param |
+|:-------------:|:------------------:|:---------:|:-------:|:---:|:------:|:-------:|:------:|
+| ViT-Adapter-S | Cascade Mask R-CNN | DeiT      | 3x      | Yes | 51.5   | TODO    | 86M    |
+| ViT-Adapter-S | ATSS               | DeiT      | 3x      | Yes | 49.6   | -       | 36M    |
+| ViT-Adapter-S | GFL                | DeiT      | 3x      | Yes | 50.0   | -       | 36M    |
+| ViT-Adapter-S | Sparse R-CNN       | DeiT      | 3x      | Yes | 48.1   | -       | 110M   |
+
+### ADE20K val
+
+| Method        | Framework | Pre-train | Iters | Crop Size | mIoU | +MS  | #Param |
+|:-------------:|:---------:|:---------:|:-----:|:---------:|:----:|:----:|:------:|
+| ViT-Adapter-T | UperNet   | DeiT      | 160k  | 512       | 42.6 | 43.6 | 36M  |
+| ViT-Adapter-S | UperNet   | DeiT      | 160k  | 512       | 46.6 | 47.4 | 58M  |
+| ViT-Adapter-B | UperNet   | DeiT      | 160k  | 512       | 48.1 | 49.2 | 134M |
+| ViT-Adapter-B | UperNet   | AugReg    | 160k  | 512       | 51.9 | 52.5 | 134M |
+| ViT-Adapter-L | UperNet   | AugReg    | 160k  | 512       | 53.4 | 54.4 | 364M |
 
 
 ## Catalog
