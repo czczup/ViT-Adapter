@@ -60,6 +60,12 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 If this work is helpful for your research, please consider citing the following BibTeX entry.
 ```
+@article{chen2021vitadapter,
+  title={Vision Transformer Adapter for Dense Predictions},
+  author={Chen, Zhe and Duan, Yuchen and Wang, Wenhai and He, Junjun and Lu, Tong and Dai, Jifeng and Qiao, Yu},
+  journal={arXiv preprint arXiv:2205.08534},
+  year={2022}
+}
 ```
 
 ## License
