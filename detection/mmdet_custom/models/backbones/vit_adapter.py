@@ -312,7 +312,7 @@ class ViTAdapter(TIMMVisionTransformer):
                  deform_num_heads=6,
                  init_values=0.,
                  interaction_indexes=None,
-                 with_cffn=False,
+                 with_cffn=True,
                  cffn_ratio=0.25,
                  deform_ratio=1.0,
                  add_vit_feature=True,
