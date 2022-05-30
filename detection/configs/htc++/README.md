@@ -6,7 +6,7 @@
 
 ## Abstract
 
-For system-level comparison, Swin adopts an improved HTC (denoted as HTC++) with instaboost, stronger multi-scale training (resizing the input such that the shorter side is between 400 and 1400 while the longer side is at most 1600), 6x schedule (72 epochs with the learning rate decayed at epochs 63 and 69 by a factor of 0.1), softNMS, and an extra global self-attention layer appended at the output of last stage and ImageNet-22K pre-trained model as initialization. 
+For system-level comparison, Swin adopts an improved HTC (denoted as HTC++) with instaboost, stronger multi-scale training (resizing the input such that the shorter side is between 400 and 1400 while the longer side is at most 1600), 6x schedule (72 epochs with the learning rate decayed at epochs 63 and 69 by a factor of 0.1), softNMS, and an extra global self-attention layer appended at the output of last stage and ImageNet-22K pre-trained model as initialization.
 
 ## Introduction
 
@@ -14,9 +14,7 @@ HTC++ requires COCO and [COCO-stuff](http://calvin.inf.ed.ac.uk/wp-content/uploa
 The directory should be like this.
 
 ```none
-mmdetection
-├── mmdet
-├── tools
+detection
 ├── configs
 ├── data
 │   ├── coco
@@ -29,7 +27,7 @@ mmdetection
 
 ## Results and Models
 
-The results on **COCO 2017val** are shown in the below table.]
+The results on **COCO 2017val** are shown in the below table.
 
 | Backbone           | Pre-train                                                                                                             | Lr schd | box AP | mask AP | #Param | Config                                                 | Download                                                                                                             |
 |:------------------:|:---------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------:|
