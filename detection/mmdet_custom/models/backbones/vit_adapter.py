@@ -44,7 +44,7 @@ class ConvFFN(nn.Module):
 
 class DWConv(nn.Module):
     def __init__(self, dim=768):
-        super(DWConv, self).__init__()
+        super().__init__()
         self.dwconv = nn.Conv2d(dim, dim, 3, 1, 1, bias=True, groups=dim)
 
     def forward(self, x, H, W):
@@ -60,13 +60,17 @@ class DWConv(nn.Module):
         return x
 
 
-class ExtractLayer(nn.Module):
+class Extractor(nn.Module):
     def __init__(self,
                  dim,
                  num_heads=6,
                  n_points=4,
                  n_levels=1,
-                 ratio=1.0,
+                 deform_ratio=1.0,
+                 with_cffn=True,
+                 cffn_ratio=0.25,
+                 drop=0.,
+                 drop_path=0.,
                  norm_layer=partial(nn.LayerNorm, eps=1e-6)):
         super().__init__()
         self.query_norm = norm_layer(dim)
@@ -75,24 +79,35 @@ class ExtractLayer(nn.Module):
                                  n_levels=n_levels,
                                  n_heads=num_heads,
                                  n_points=n_points,
-                                 ratio=ratio)
+                                 ratio=deform_ratio)
+        self.with_cffn = with_cffn
+        if with_cffn:
+            self.ffn = ConvFFN(in_features=dim,
+                               hidden_features=int(dim * cffn_ratio),
+                               drop=drop)
+            self.ffn_norm = norm_layer(dim)
+            self.drop_path = DropPath(
+                drop_path) if drop_path > 0. else nn.Identity()
 
     def forward(self, query, reference_points, feat, spatial_shapes,
-                level_start_index):
+                level_start_index, H, W):
         attn = self.attn(self.query_norm(query), reference_points,
                          self.feat_norm(feat), spatial_shapes,
                          level_start_index, None)
         query = query + attn
+
+        if self.with_cffn:
+            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
         return query
 
 
-class InsertLayer(nn.Module):
+class Injector(nn.Module):
     def __init__(self,
                  dim,
                  num_heads=6,
                  n_points=4,
                  n_levels=1,
-                 ratio=1.0,
+                 deform_ratio=1.0,
                  norm_layer=partial(nn.LayerNorm, eps=1e-6),
                  init_values=0.):
         super().__init__()
@@ -102,7 +117,7 @@ class InsertLayer(nn.Module):
                                  n_levels=n_levels,
                                  n_heads=num_heads,
                                  n_points=n_points,
-                                 ratio=ratio)
+                                 ratio=deform_ratio)
         self.gamma = nn.Parameter(init_values * torch.ones((dim)),
                                   requires_grad=True)
 
@@ -114,7 +129,7 @@ class InsertLayer(nn.Module):
         return query + self.gamma * attn
 
 
-class InteractBlock(nn.Module):
+class InteractionBlock(nn.Module):
     def __init__(self,
                  dim,
                  num_heads=6,
@@ -122,84 +137,73 @@ class InteractBlock(nn.Module):
                  norm_layer=partial(nn.LayerNorm, eps=1e-6),
                  drop=0.,
                  drop_path=0.,
-                 with_ffn=True,
-                 ffn_ratio=0.25,
+                 with_cffn=True,
+                 cffn_ratio=0.25,
                  init_values=0.,
-                 extract_deform_ratio=1.0,
-                 insert_deform_ratio=1.0):
+                 deform_ratio=1.0,
+                 extra_extractor=False):
         super().__init__()
-        self.extract = ExtractLayer(dim=dim,
-                                    n_levels=1,
-                                    num_heads=num_heads,
-                                    n_points=n_points,
-                                    norm_layer=norm_layer,
-                                    ratio=extract_deform_ratio)
-        self.insert = InsertLayer(dim=dim,
-                                  n_levels=3,
-                                  num_heads=num_heads,
-                                  init_values=init_values,
-                                  n_points=n_points,
-                                  norm_layer=norm_layer,
-                                  ratio=insert_deform_ratio)
 
-        self.with_ffn = with_ffn
-        if with_ffn:
-            self.ffn = ConvFFN(in_features=dim,
-                               hidden_features=int(dim * ffn_ratio),
-                               drop=drop)
-            self.ffn_norm = norm_layer(dim)
-            self.drop_path = DropPath(
-                drop_path) if drop_path > 0. else nn.Identity()
+        self.injector = Injector(dim=dim,
+                                 n_levels=3,
+                                 num_heads=num_heads,
+                                 init_values=init_values,
+                                 n_points=n_points,
+                                 norm_layer=norm_layer,
+                                 deform_ratio=deform_ratio)
+        self.extractor = Extractor(dim=dim,
+                                   n_levels=1,
+                                   num_heads=num_heads,
+                                   n_points=n_points,
+                                   norm_layer=norm_layer,
+                                   deform_ratio=deform_ratio,
+                                   with_cffn=with_cffn,
+                                   cffn_ratio=cffn_ratio,
+                                   drop=drop,
+                                   drop_path=drop_path)
+        if extra_extractor:
+            self.extra_extractors = nn.Sequential(*[
+                Extractor(dim=dim,
+                          num_heads=num_heads,
+                          n_points=n_points,
+                          norm_layer=norm_layer,
+                          with_cffn=with_cffn,
+                          cffn_ratio=cffn_ratio,
+                          deform_ratio=deform_ratio) for _ in range(2)
+            ])
+        else:
+            self.extra_extractors = None
 
-    def forward(self, x, c, blocks, deform_pkg1, deform_pkg2, H, W):
-        x = self.insert(x, deform_pkg1[0], c, deform_pkg1[1], deform_pkg1[2])
+    def forward(self, x, c, blocks, deform_inputs1, deform_inputs2, H, W):
+        x = self.injector(query=x,
+                          reference_points=deform_inputs1[0],
+                          feat=c,
+                          spatial_shapes=deform_inputs1[1],
+                          level_start_index=deform_inputs1[2])
         for idx, blk in enumerate(blocks):
             x = blk(x, H, W)
-        c = self.extract(c, deform_pkg2[0], x, deform_pkg2[1], deform_pkg2[2])
-        if self.with_ffn:
-            c = c + self.drop_path(self.ffn(self.ffn_norm(c), H, W))
+        c = self.extractor(query=c,
+                           reference_points=deform_inputs2[0],
+                           feat=x,
+                           spatial_shapes=deform_inputs2[1],
+                           level_start_index=deform_inputs2[2],
+                           H=H,
+                           W=W)
+        if self.extra_extractors is not None:
+            for extractor in self.extra_extractors:
+                c = extractor(query=c,
+                              reference_points=deform_inputs2[0],
+                              feat=x,
+                              spatial_shapes=deform_inputs2[1],
+                              level_start_index=deform_inputs2[2],
+                              H=H,
+                              W=W)
         return x, c
 
 
-class ExtractBlock(nn.Module):
-    def __init__(self,
-                 dim,
-                 num_heads=6,
-                 n_points=4,
-                 norm_layer=partial(nn.LayerNorm, eps=1e-6),
-                 drop=0.,
-                 drop_path=0.,
-                 with_ffn=True,
-                 ffn_ratio=0.25,
-                 deform_ratio=1.0):
-        super().__init__()
-        self.extract = ExtractLayer(dim=dim,
-                                    n_levels=1,
-                                    num_heads=num_heads,
-                                    n_points=n_points,
-                                    norm_layer=norm_layer,
-                                    ratio=deform_ratio)
-
-        self.with_ffn = with_ffn
-        if with_ffn:
-            self.ffn = ConvFFN(in_features=dim,
-                               hidden_features=int(dim * ffn_ratio),
-                               drop=drop)
-            self.ffn_norm = norm_layer(dim)
-            self.drop_path = DropPath(
-                drop_path) if drop_path > 0. else nn.Identity()
-
-    def forward(self, c, x, deform_pkg, H, W):
-
-        c = self.extract(c, deform_pkg[0], x, deform_pkg[1], deform_pkg[2])
-        if self.with_ffn:
-            c = c + self.drop_path(self.ffn(self.ffn_norm(c), H, W))
-        return c
-
-
-class ConvBranch(nn.Module):
+class SpatialPriorModule(nn.Module):
     def __init__(self, inplanes=64, embed_dim=384):
-        super(ConvBranch, self).__init__()
+        super().__init__()
 
         self.stem = nn.Sequential(*[
             nn.Conv2d(
@@ -307,15 +311,11 @@ class ViTAdapter(TIMMVisionTransformer):
                  n_points=4,
                  deform_num_heads=6,
                  init_values=0.,
-                 interact_indexes=None,
-                 interact_with_ffn=False,
-                 interact_ffn_ratio=0.25,
-                 num_extract_block=3,
-                 extract_with_ffn=True,
-                 extract_ffn_ratio=0.25,
+                 interaction_indexes=None,
+                 with_cffn=False,
+                 cffn_ratio=0.25,
+                 deform_ratio=1.0,
                  add_vit_feature=True,
-                 extract_deform_ratio=1.0,
-                 interact_deform_ratio=1.0,
                  *args,
                  **kwargs):
 
@@ -328,35 +328,26 @@ class ViTAdapter(TIMMVisionTransformer):
         self.flags = [
             i for i in range(-1, self.num_block, self.num_block // 4)
         ][1:]
-        self.interact_indexes = interact_indexes
+        self.interaction_indexes = interaction_indexes
         self.add_vit_feature = add_vit_feature
         embed_dim = self.embed_dim
 
         self.level_embed = nn.Parameter(torch.zeros(3, embed_dim))
-        self.conv_branch = ConvBranch(inplanes=conv_inplane,
+        self.spm = SpatialPriorModule(inplanes=conv_inplane,
                                       embed_dim=embed_dim)
-        self.interact_blocks = nn.Sequential(*[
-            InteractBlock(dim=embed_dim,
-                          num_heads=deform_num_heads,
-                          n_points=n_points,
-                          init_values=init_values,
-                          drop_path=self.drop_path_rate,
-                          norm_layer=self.norm_layer,
-                          with_ffn=interact_with_ffn,
-                          ffn_ratio=interact_ffn_ratio,
-                          extract_deform_ratio=interact_deform_ratio,
-                          insert_deform_ratio=interact_deform_ratio)
-            for _ in range(len(interact_indexes))
-        ])
-        self.extract_blocks = nn.Sequential(*[
-            ExtractBlock(dim=embed_dim,
-                         num_heads=deform_num_heads,
-                         n_points=n_points,
-                         norm_layer=self.norm_layer,
-                         with_ffn=extract_with_ffn,
-                         ffn_ratio=extract_ffn_ratio,
-                         deform_ratio=extract_deform_ratio)
-            for _ in range(num_extract_block)
+        self.interactions = nn.Sequential(*[
+            InteractionBlock(dim=embed_dim,
+                             num_heads=deform_num_heads,
+                             n_points=n_points,
+                             init_values=init_values,
+                             drop_path=self.drop_path_rate,
+                             norm_layer=self.norm_layer,
+                             with_cffn=with_cffn,
+                             cffn_ratio=cffn_ratio,
+                             deform_ratio=deform_ratio,
+                             extra_extractor=True if i ==
+                             len(interaction_indexes) - 1 else False)
+            for i in range(len(interaction_indexes))
         ])
         self.up = nn.ConvTranspose2d(embed_dim, embed_dim, 2, 2)
         self.norm1 = nn.SyncBatchNorm(embed_dim)
@@ -365,9 +356,8 @@ class ViTAdapter(TIMMVisionTransformer):
         self.norm4 = nn.SyncBatchNorm(embed_dim)
 
         self.up.apply(self._init_weights)
-        self.conv_branch.apply(self._init_weights)
-        self.interact_blocks.apply(self._init_weights)
-        self.extract_blocks.apply(self._init_weights)
+        self.spm.apply(self._init_weights)
+        self.interactions.apply(self._init_weights)
         self.apply(self._init_deform_weights)
         normal_(self.level_embed)
 
@@ -390,12 +380,9 @@ class ViTAdapter(TIMMVisionTransformer):
         pos_embed = pos_embed.reshape(1, self.pretrain_size[0] // 16,
                                       self.pretrain_size[1] // 16,
                                       -1).permute(0, 3, 1, 2)
-        pos_embed = F.interpolate(pos_embed,
-                                  size=(H, W),
-                                  mode='bicubic',
-                                  align_corners=False).reshape(1, -1,
-                                                               H * W).permute(
-                                                                   0, 2, 1)
+        pos_embed = F.interpolate(
+            pos_embed, size=(H, W), mode='bicubic', align_corners=False).\
+            reshape(1, -1, H * W).permute(0, 2, 1)
         return pos_embed
 
     def _init_deform_weights(self, m):
@@ -424,58 +411,58 @@ class ViTAdapter(TIMMVisionTransformer):
         reference_points = reference_points[:, :, None]
         return reference_points
 
-    def forward_deform_pkgs(self, x):
+    def _deform_inputs(self, x):
         bs, c, h, w = x.shape
         spatial_shapes = torch.as_tensor([(h // 8, w // 8), (h // 16, w // 16),
                                           (h // 32, w // 32)],
-                                         dtype=torch.long).cuda()
+                                         dtype=torch.long,
+                                         device=x.device)
         level_start_index = torch.cat((spatial_shapes.new_zeros(
             (1, )), spatial_shapes.prod(1).cumsum(0)[:-1]))
         reference_points = self._get_reference_points([(h // 16, w // 16)],
-                                                      'cuda').cuda()
-        deform_pkg1 = [reference_points, spatial_shapes, level_start_index]
+                                                      x.device)
+        deform_inputs1 = [reference_points, spatial_shapes, level_start_index]
 
         spatial_shapes = torch.as_tensor([(h // 16, w // 16)],
-                                         dtype=torch.long).cuda()
+                                         dtype=torch.long,
+                                         device=x.device)
         level_start_index = torch.cat((spatial_shapes.new_zeros(
             (1, )), spatial_shapes.prod(1).cumsum(0)[:-1]))
         reference_points = self._get_reference_points([(h // 8, w // 8),
                                                        (h // 16, w // 16),
                                                        (h // 32, w // 32)],
-                                                      'cuda').cuda()
-        deform_pkg2 = [reference_points, spatial_shapes, level_start_index]
+                                                      x.device)
+        deform_inputs2 = [reference_points, spatial_shapes, level_start_index]
 
-        return deform_pkg1, deform_pkg2
+        return deform_inputs1, deform_inputs2
 
-    def add_level_embed(self, c2, c3, c4):
+    def _add_level_embed(self, c2, c3, c4):
         c2 = c2 + self.level_embed[0]
         c3 = c3 + self.level_embed[1]
         c4 = c4 + self.level_embed[2]
         return c2, c3, c4
 
     def forward(self, x):
-        deform_pkg1, deform_pkg2 = self.forward_deform_pkgs(x)
+        deform_inputs1, deform_inputs2 = self._deform_inputs(x)
 
-        c1, c2, c3, c4 = self.conv_branch(x)
-        c2, c3, c4 = self.add_level_embed(c2, c3, c4)
+        # SPM forward
+        c1, c2, c3, c4 = self.spm(x)
+        c2, c3, c4 = self._add_level_embed(c2, c3, c4)
         c = torch.cat([c2, c3, c4], dim=1)
 
+        # Patch Embedding forward
         x, H, W = self.patch_embed(x)
         bs, n, dim = x.shape
         pos_embed = self._get_pos_embed(self.pos_embed[:, 1:], H, W)
         x = self.pos_drop(x + pos_embed)
 
-        for i, layer in enumerate(self.interact_blocks):
-            indexes = self.interact_indexes[i]
+        # Interaction
+        for i, layer in enumerate(self.interactions):
+            indexes = self.interaction_indexes[i]
             x, c = layer(x, c, self.blocks[indexes[0]:indexes[-1] + 1],
-                         deform_pkg1, deform_pkg2, H, W)
-        if len(self.interact_blocks) == 0:
-            for block in self.blocks:
-                x = block(x, H, W)
+                         deform_inputs1, deform_inputs2, H, W)
 
-        for extract_block in self.extract_blocks:
-            c = extract_block(c, x, deform_pkg2, H, W)
-
+        # Split & Reshape
         c2 = c[:, 0:c2.size(1), :]
         c3 = c[:, c2.size(1):c2.size(1) + c3.size(1), :]
         c4 = c[:, c2.size(1) + c3.size(1):, :]
@@ -501,6 +488,7 @@ class ViTAdapter(TIMMVisionTransformer):
                                align_corners=False)
             c1, c2, c3, c4 = c1 + x1, c2 + x2, c3 + x3, c4 + x4
 
+        # Final Norm
         f1 = self.norm1(c1)
         f2 = self.norm2(c2)
         f3 = self.norm3(c3)

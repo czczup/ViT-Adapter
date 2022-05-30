@@ -1,4 +1,4 @@
-# Copyright (c) OpenMMLab. All rights reserved.
+# Copyright (c) Shanghai AI Lab. All rights reserved.
 import math
 
 import torch

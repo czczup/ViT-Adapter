@@ -97,8 +97,7 @@ class Extractor(nn.Module):
         query = query + attn
 
         if self.with_cffn:
-            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H,
-                                                    W))
+            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
         return query
 
 
@@ -338,19 +337,19 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
                                       embed_dim=embed_dim)
         self.interactions = nn.Sequential(*[
             InteractionBlock(dim=embed_dim,
-                          num_heads=deform_num_heads,
-                          n_points=n_points,
-                          init_values=init_values,
-                          drop_path=self.drop_path_rate,
-                          norm_layer=self.norm_layer,
-                          with_cffn=with_cffn,
-                          cffn_ratio=cffn_ratio,
-                          deform_ratio=deform_ratio,
+                             num_heads=deform_num_heads,
+                             n_points=n_points,
+                             init_values=init_values,
+                             drop_path=self.drop_path_rate,
+                             norm_layer=self.norm_layer,
+                             with_cffn=with_cffn,
+                             cffn_ratio=cffn_ratio,
+                             deform_ratio=deform_ratio,
                              extra_extractor=True if i ==
                              len(interaction_indexes) - 1 else False)
             for i in range(len(interaction_indexes))
         ])
-        
+
         self.up = nn.ConvTranspose2d(embed_dim, embed_dim, 2, 2)
         self.norm1 = nn.SyncBatchNorm(embed_dim)
         self.norm2 = nn.SyncBatchNorm(embed_dim)
@@ -411,22 +410,22 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
                                          dtype=torch.long,
                                          device=x.device)
         level_start_index = torch.cat((spatial_shapes.new_zeros(
-            (1,)), spatial_shapes.prod(1).cumsum(0)[:-1]))
+            (1, )), spatial_shapes.prod(1).cumsum(0)[:-1]))
         reference_points = self._get_reference_points([(h // 16, w // 16)],
                                                       x.device)
         deform_inputs1 = [reference_points, spatial_shapes, level_start_index]
-    
+
         spatial_shapes = torch.as_tensor([(h // 16, w // 16)],
                                          dtype=torch.long,
                                          device=x.device)
         level_start_index = torch.cat((spatial_shapes.new_zeros(
-            (1,)), spatial_shapes.prod(1).cumsum(0)[:-1]))
+            (1, )), spatial_shapes.prod(1).cumsum(0)[:-1]))
         reference_points = self._get_reference_points([(h // 8, w // 8),
                                                        (h // 16, w // 16),
                                                        (h // 32, w // 32)],
                                                       x.device)
         deform_inputs2 = [reference_points, spatial_shapes, level_start_index]
-    
+
         return deform_inputs1, deform_inputs2
 
     def _add_level_embed(self, c2, c3, c4):
@@ -437,7 +436,7 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
 
     def forward(self, x):
         deform_inputs1, deform_inputs2 = self._deform_inputs(x)
-        
+
         # SPM forward
         c1, c2, c3, c4 = self.spm(x)
         c2, c3, c4 = self._add_level_embed(c2, c3, c4)
@@ -479,6 +478,7 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
                                align_corners=False)
             c1, c2, c3, c4 = c1 + x1, c2 + x2, c3 + x3, c4 + x4
 
+        # Final Norm
         f1 = self.norm1(c1)
         f2 = self.norm2(c2)
         f3 = self.norm3(c3)
