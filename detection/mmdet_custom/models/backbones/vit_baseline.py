@@ -96,6 +96,8 @@ class ViTBaseline(TIMMVisionTransformer):
         outs, H, W = self.forward_features(x)
         f1, f2, f3, f4 = outs
         bs, n, dim = f1.shape
+
+        # Final Norm
         f1 = self.norm1(f1).transpose(1, 2).reshape(bs, dim, H, W)
         f2 = self.norm2(f2).transpose(1, 2).reshape(bs, dim, H, W)
         f3 = self.norm3(f3).transpose(1, 2).reshape(bs, dim, H, W)

@@ -97,8 +97,7 @@ class Extractor(nn.Module):
         query = query + attn
 
         if self.with_cffn:
-            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H,
-                                                    W))
+            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
         return query
 
 

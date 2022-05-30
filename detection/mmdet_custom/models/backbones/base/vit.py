@@ -317,7 +317,7 @@ class TIMMVisionTransformer(BaseModule):
                  drop_rate=0.,
                  attn_drop_rate=0.,
                  drop_path_rate=0.,
-                 layer_scale=False,
+                 layer_scale=True,
                  embed_layer=PatchEmbed,
                  norm_layer=partial(nn.LayerNorm, eps=1e-6),
                  act_layer=nn.GELU,

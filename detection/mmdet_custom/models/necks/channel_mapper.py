@@ -1,4 +1,4 @@
-# Copyright (c) OpenMMLab. All rights reserved.
+# Copyright (c) Shanghai AI Lab. All rights reserved.
 import torch.nn as nn
 from mmcv.cnn import ConvModule
 from mmcv.runner import BaseModule
