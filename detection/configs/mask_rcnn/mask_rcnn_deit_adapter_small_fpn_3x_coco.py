@@ -22,7 +22,7 @@ model = dict(
         deform_num_heads=6,
         cffn_ratio=0.25,
         deform_ratio=1.0,
-        interact_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
+        interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
         window_attn=[True, True, False, True, True, False,
                      True, True, False, True, True, False],
         window_size=[14, 14, None, 14, 14, None,
