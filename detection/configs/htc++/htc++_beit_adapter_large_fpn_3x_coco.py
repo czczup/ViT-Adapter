@@ -4,8 +4,7 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://conversationhub.blob.core.windows.net/beit-share-public/' \
-#              'beit/beit_large_patch16_224_pt22k_ft22k.pth'
+# pretrained = 'https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth'
 pretrained = 'pretrained/beit_large_patch16_224_pt22k_ft22k.pth'
 model = dict(
     type='HybridTaskCascade',

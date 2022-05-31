@@ -5,8 +5,7 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://github.com/czczup/ViT-Adapter/' \
-#              'releases/download/v0.1.1/uniperceiver_pretrain.pth'
+# pretrained = 'https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth'
 pretrained = 'pretrained/uniperceiver_pretrain.pth'
 model = dict(
     backbone=dict(
