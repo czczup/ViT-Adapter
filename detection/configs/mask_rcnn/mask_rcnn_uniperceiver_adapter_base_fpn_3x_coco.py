@@ -9,7 +9,6 @@ _base_ = [
 #              'releases/download/v0.1.1/uniperceiver_pretrain.pth'
 pretrained = 'pretrained/uniperceiver_pretrain.pth'
 model = dict(
-    type='MaskRCNN',
     backbone=dict(
         _delete_=True,
         type='UniPerceiverAdapter',

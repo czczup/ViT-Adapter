@@ -40,10 +40,10 @@ model = dict(
         in_channels=[1024, 1024, 1024, 1024],
         out_channels=256,
         num_outs=5,
-        norm_cfg=dict(type='MMSyncBN', requires_grad=True)),
+        norm_cfg=dict(type='MMSyncBN', requires_grad=True)), # BN can be removed
     roi_head=dict(
-        bbox_head=dict(norm_cfg=dict(type='MMSyncBN', requires_grad=True)),
-        mask_head=dict(norm_cfg=dict(type='MMSyncBN', requires_grad=True)))
+        bbox_head=dict(norm_cfg=dict(type='MMSyncBN', requires_grad=True)), # BN can be removed
+        mask_head=dict(norm_cfg=dict(type='MMSyncBN', requires_grad=True))) # BN can be removed
 )
 # optimizer
 img_norm_cfg = dict(
