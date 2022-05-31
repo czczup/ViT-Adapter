@@ -1,3 +1,4 @@
+# Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
     '../_base_/models/mask_rcnn_r50_fpn.py',
     '../_base_/datasets/coco_instance.py',
@@ -25,9 +26,9 @@ model = dict(
         layer_scale=False,
         interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
         window_attn=[True, True, False, True, True, False,
-                   True, True, False, True, True, False],
+                     True, True, False, True, True, False],
         window_size=[14, 14, None, 14, 14, None,
-                   14, 14, None, 14, 14, None],
+                     14, 14, None, 14, 14, None],
         pretrained=pretrained),
     neck=dict(
         type='FPN',
