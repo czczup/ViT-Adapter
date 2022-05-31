@@ -2,7 +2,8 @@
 _base_ = [
     '../_base_/models/mask_rcnn_r50_fpn.py',
     '../_base_/datasets/coco_instance.py',
-    '../_base_/schedules/schedule_3x.py', '../_base_/default_runtime.py'
+    '../_base_/schedules/schedule_3x.py',
+    '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://github.com/czczup/ViT-Adapter/' \
 #              'releases/download/v0.1.1/uniperceiver_pretrain.pth'
@@ -87,3 +88,4 @@ optimizer = dict(
     constructor='LayerDecayOptimizerConstructorUniPerceiver',
     paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.65))
 optimizer_config = dict(grad_clip=None)
+# fp16 = dict(loss_scale=dict(init_scale=512))
