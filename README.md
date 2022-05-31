@@ -79,7 +79,7 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 | Method        | Framework          | Pre-train | Lr schd | Aug | box AP | mask AP | #Param |
 |:-------------:|:------------------:|:---------:|:-------:|:---:|:------:|:-------:|:------:|
-| ViT-Adapter-S | Cascade Mask R-CNN | DeiT      | 3x      | Yes | 51.5   | TODO    | 86M    |
+| ViT-Adapter-S | Cascade Mask R-CNN | DeiT      | 3x      | Yes | 51.5   | 44.5    | 86M    |
 | ViT-Adapter-S | ATSS               | DeiT      | 3x      | Yes | 49.6   | -       | 36M    |
 | ViT-Adapter-S | GFL                | DeiT      | 3x      | Yes | 50.0   | -       | 36M    |
 | ViT-Adapter-S | Sparse R-CNN       | DeiT      | 3x      | Yes | 48.1   | -       | 110M   |
