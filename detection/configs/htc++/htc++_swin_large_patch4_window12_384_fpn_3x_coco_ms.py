@@ -1,7 +1,8 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
     '../_base_/datasets/coco_instance.py',
-    '../_base_/schedules/schedule_3x.py', '../_base_/default_runtime.py'
+    '../_base_/schedules/schedule_3x.py',
+    '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://github.com/SwinTransformer/storage/releases/' \
 #              'download/v1.0.0/swin_large_patch4_window12_384_22k.pth'
@@ -326,5 +327,5 @@ checkpoint_config = dict(
     max_keep_ckpts=2,
     save_last=True,
 )
-
+# fp16 = dict(loss_scale=dict(init_scale=512))
 # find_unused_parameters=True

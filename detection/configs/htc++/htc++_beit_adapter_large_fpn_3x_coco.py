@@ -1,7 +1,8 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
     '../_base_/datasets/coco_instance.py',
-    '../_base_/schedules/schedule_3x.py', '../_base_/default_runtime.py'
+    '../_base_/schedules/schedule_3x.py',
+    '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://conversationhub.blob.core.windows.net/beit-share-public/' \
 #              'beit/beit_large_patch16_224_pt22k_ft22k.pth'
@@ -325,4 +326,5 @@ checkpoint_config = dict(
     max_keep_ckpts=2,
     save_last=True,
 )
+# fp16 = dict(loss_scale=dict(init_scale=512))
 # find_unused_parameters=True

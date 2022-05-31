@@ -37,8 +37,6 @@ The results on **COCO 2017val** are shown in the below table.
 - MS denotes multi-scale testing. Note that the ms config is only for testing.
 - We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.
 
-
-
 The results on **COCO 2017test-dev** are shown in the below table.
 
 | Backbone           | Pre-train                                                                                                             | Lr schd | box AP | mask AP | #Param | Config                                                 | Download                                                                                                             |
