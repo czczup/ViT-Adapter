@@ -316,6 +316,7 @@ class ViTAdapter(TIMMVisionTransformer):
                  cffn_ratio=0.25,
                  deform_ratio=1.0,
                  add_vit_feature=True,
+                 use_extra_extractor=True,
                  *args,
                  **kwargs):
 
@@ -345,8 +346,9 @@ class ViTAdapter(TIMMVisionTransformer):
                              with_cffn=with_cffn,
                              cffn_ratio=cffn_ratio,
                              deform_ratio=deform_ratio,
-                             extra_extractor=True if i ==
-                             len(interaction_indexes) - 1 else False)
+                             extra_extractor=((True if i ==
+                             len(interaction_indexes) - 1
+                             else False) and use_extra_extractor))
             for i in range(len(interaction_indexes))
         ])
         self.up = nn.ConvTranspose2d(embed_dim, embed_dim, 2, 2)
