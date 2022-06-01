@@ -2,7 +2,7 @@
 
 Our detection code is developed on top of [MMDetection v2.23.0](https://github.com/open-mmlab/mmdetection/tree/v2.23.0).
 
-For details see [Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534). 
+For details see [Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534).
 
 If you use this code for a paper please cite:
 
@@ -20,6 +20,7 @@ If you use this code for a paper please cite:
 Install [MMDetection v2.23.0](https://github.com/open-mmlab/mmdetection/tree/v2.23.0).
 
 ```
+cd ops & sh make.sh # compile deformable attention
 pip install timm==0.4.12
 pip install mmdet==2.23.0
 # recommended environment: torch1.9 + cuda11.1
@@ -58,9 +59,9 @@ Baseline Detectors
 |:----------:|:-------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------:|:---:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------:|
 | Mask R-CNN | ViT-Adapter-T | [DeiT-T](https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth)                                                                                 | 3x      | Yes | 46.0   | 41.0    | 28M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py)         | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.pth.tar)         |
 | Mask R-CNN | ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth)                                                                                | 3x      | Yes | 48.2   | 42.8    | 48M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_small_fpn_3x_coco.py)        | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar)        |
-| Mask R-CNN | ViT-Adapter-B | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)                                                                                 | 3x      | Yes | 49.6   | 43.6    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_base_fpn_3x_coco.py)         | [model]()                                                                                                                       |
+| Mask R-CNN | ViT-Adapter-B | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)                                                                                 | 3x      | Yes | 49.6   | 43.6    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_base_fpn_3x_coco.py)         | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/mask_rcnn_deit_adapter_base_fpn_3x_coco.pth.tar)                                                                                                                       |
 | Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                        | 3x      | Yes | 50.7   | 44.9    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.pth.tar) |
-| Mask R-CNN | ViT-Adapter-L | [AugReg](https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz) | 3x      | Yes | 50.9   | 44.8    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth.tar)      |
+| Mask R-CNN | ViT-Adapter-L | [AugReg](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x      | Yes | 50.9   | 44.8    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth.tar)      |
 
 Advanced Detectors
 

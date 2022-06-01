@@ -5,7 +5,7 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
-pretrained = 'pretrained/deit_small_patch16_224-cd65a155_.pth'
+pretrained = 'pretrained/deit_small_patch16_224-cd65a155.pth'
 model = dict(
     type='ATSS',
     backbone=dict(

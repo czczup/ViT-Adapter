@@ -6,7 +6,7 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth'
-pretrained = 'pretrained/deit_tiny_patch16_224-a1311bcf_.pth'
+pretrained = 'pretrained/deit_tiny_patch16_224-a1311bcf.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
@@ -16,7 +16,7 @@ model = dict(
         depth=12,
         num_heads=3,
         mlp_ratio=4,
-        drop_path_rate=0.1, #0.2,
+        drop_path_rate=0.1,
         conv_inplane=64,
         n_points=4,
         deform_num_heads=6,

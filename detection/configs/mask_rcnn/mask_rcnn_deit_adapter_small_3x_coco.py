@@ -5,23 +5,23 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth'
-pretrained = 'pretrained/deit_base_patch16_224-b5f2ef4d.pth'
+# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
+pretrained = 'pretrained/deit_small_patch16_224-cd65a155.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
         type='ViTAdapter',
         patch_size=16,
-        embed_dim=768,
+        embed_dim=384,
         depth=12,
-        num_heads=12,
+        num_heads=6,
         mlp_ratio=4,
-        drop_path_rate=0.3,
+        drop_path_rate=0.2,
         conv_inplane=64,
         n_points=4,
-        deform_num_heads=12,
+        deform_num_heads=6,
         cffn_ratio=0.25,
-        deform_ratio=0.5,
+        deform_ratio=1.0,
         interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
         window_attn=[True, True, False, True, True, False,
                      True, True, False, True, True, False],
@@ -29,14 +29,13 @@ model = dict(
                      14, 14, None, 14, 14, None],
         pretrained=pretrained),
     neck=dict(
-        type='FPN',
-        in_channels=[768, 768, 768, 768],
+        type='ChannelMapperWithPooling',
+        in_channels=[384, 384, 384, 384],
         out_channels=256,
         num_outs=5))
 # optimizer
-img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
-                    std=[58.395, 57.12, 57.375],
-                    to_rgb=True)
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # augmentation strategy originates from DETR / Sparse RCNN
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -81,21 +80,14 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks']),
 ]
 data = dict(train=dict(pipeline=train_pipeline))
-optimizer = dict(_delete_=True,
-                 type='AdamW',
-                 lr=0.0001,
-                 weight_decay=0.05,
-                 paramwise_cfg=dict(
-                     custom_keys={
-                         'level_embed': dict(decay_mult=0.),
-                         'pos_embed': dict(decay_mult=0.),
-                         'norm': dict(decay_mult=0.),
-                         'bias': dict(decay_mult=0.)
-                     }))
+optimizer = dict(
+    _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
+    paramwise_cfg=dict(
+    custom_keys={
+        'level_embed': dict(decay_mult=0.),
+        'pos_embed': dict(decay_mult=0.),
+        'norm': dict(decay_mult=0.),
+        'bias': dict(decay_mult=0.)
+    }))
 optimizer_config = dict(grad_clip=None)
-checkpoint_config = dict(
-    interval=1,
-    max_keep_ckpts=2,
-    save_last=True,
-)
-# fp16 = dict(loss_scale=dict(init_scale=512))
+fp16 = dict(loss_scale=dict(init_scale=512))

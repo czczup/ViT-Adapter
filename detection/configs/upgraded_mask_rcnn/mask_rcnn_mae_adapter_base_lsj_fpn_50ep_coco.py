@@ -6,7 +6,7 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 # pretrained = 'https://dl.fbaipublicfiles.com/mae/pretrain/mae_pretrain_vit_base.pth'
-pretrained = 'pretrained/mae_pretrain_vit_base_.pth'
+pretrained = 'pretrained/mae_pretrain_vit_base.pth'
 model = dict(
     backbone=dict(
         _delete_=True,

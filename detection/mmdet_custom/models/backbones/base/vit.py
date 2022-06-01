@@ -29,7 +29,8 @@ from functools import partial
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.runner import BaseModule, load_checkpoint
+from mmcv.runner import BaseModule
+from mmcv_custom import my_load_checkpoint as load_checkpoint
 from mmdet.utils import get_root_logger
 from timm.models.layers import DropPath, Mlp, to_2tuple
 
