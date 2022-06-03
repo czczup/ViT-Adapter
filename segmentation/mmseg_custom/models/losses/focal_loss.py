@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from mmcv.ops import sigmoid_focal_loss as _sigmoid_focal_loss
-
 from mmseg.models.builder import LOSSES
 from mmseg.models.losses.utils import weight_reduce_loss
 
@@ -105,7 +104,6 @@ def sigmoid_focal_loss(pred,
 
 @LOSSES.register_module(force=True)
 class FocalLoss(nn.Module):
-
     def __init__(self,
                  use_sigmoid=True,
                  gamma=2.0,

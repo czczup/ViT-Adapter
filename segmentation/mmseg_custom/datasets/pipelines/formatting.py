@@ -1,9 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import numpy as np
 from mmcv.parallel import DataContainer as DC
-
-from mmseg.datasets.pipelines.formatting import to_tensor
 from mmseg.datasets.builder import PIPELINES
+from mmseg.datasets.pipelines.formatting import to_tensor
 
 
 @PIPELINES.register_module(force=True)
@@ -17,7 +16,6 @@ class DefaultFormatBundle(object):
     - gt_semantic_seg: (1)unsqueeze dim-0 (2)to tensor,
                        (3)to DataContainer (stack=True)
     """
-
     def __call__(self, results):
         """Call function to transform and format common fields in results.
 
@@ -37,10 +35,9 @@ class DefaultFormatBundle(object):
             results['img'] = DC(to_tensor(img), stack=True)
         if 'gt_semantic_seg' in results:
             # convert to long
-            results['gt_semantic_seg'] = DC(
-                to_tensor(results['gt_semantic_seg'][None,
-                                                     ...].astype(np.int64)),
-                stack=True)
+            results['gt_semantic_seg'] = DC(to_tensor(
+                results['gt_semantic_seg'][None, ...].astype(np.int64)),
+                                            stack=True)
         if 'gt_masks' in results:
             results['gt_masks'] = DC(to_tensor(results['gt_masks']))
         if 'gt_labels' in results:
@@ -55,9 +52,7 @@ class DefaultFormatBundle(object):
 @PIPELINES.register_module()
 class ToMask(object):
     """Transfer gt_semantic_seg to binary mask and generate gt_labels."""
-
-    def __init__(self,
-                 ignore_index=255):
+    def __init__(self, ignore_index=255):
         self.ignore_index = ignore_index
 
     def __call__(self, results):

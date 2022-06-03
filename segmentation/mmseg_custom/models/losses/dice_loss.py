@@ -1,7 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import torch
 import torch.nn as nn
-
 from mmseg.models.builder import LOSSES
 from mmseg.models.losses.utils import weight_reduce_loss
 
@@ -84,7 +83,6 @@ def naive_dice_loss(pred,
 
 @LOSSES.register_module(force=True)
 class DiceLoss(nn.Module):
-
     def __init__(self,
                  use_sigmoid=True,
                  activate=True,
@@ -152,8 +150,8 @@ class DiceLoss(nn.Module):
         """
 
         assert reduction_override in (None, 'none', 'mean', 'sum')
-        reduction = (
-            reduction_override if reduction_override else self.reduction)
+        reduction = (reduction_override
+                     if reduction_override else self.reduction)
 
         if self.activate:
             if self.use_sigmoid:

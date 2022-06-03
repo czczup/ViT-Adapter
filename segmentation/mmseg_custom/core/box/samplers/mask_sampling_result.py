@@ -9,7 +9,6 @@ from .sampling_result import SamplingResult
 
 class MaskSamplingResult(SamplingResult):
     """Mask sampling result."""
-
     def __init__(self, pos_inds, neg_inds, masks, gt_masks, assign_result,
                  gt_flags):
         self.pos_inds = pos_inds

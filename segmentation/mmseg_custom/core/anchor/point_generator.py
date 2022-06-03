@@ -8,7 +8,6 @@ from .builder import PRIOR_GENERATORS
 
 @PRIOR_GENERATORS.register_module()
 class PointGenerator:
-
     def _meshgrid(self, x, y, row_major=True):
         xx = x.repeat(len(y))
         yy = y.view(-1, 1).repeat(1, len(x)).view(-1)
@@ -51,7 +50,6 @@ class MlvlPointGenerator:
         offset (float): The offset of points, the value is normalized with
             corresponding stride. Defaults to 0.5.
     """
-
     def __init__(self, strides, offset=0.5):
         self.strides = [_pair(stride) for stride in strides]
         self.offset = offset
@@ -107,12 +105,11 @@ class MlvlPointGenerator:
         assert self.num_levels == len(featmap_sizes)
         multi_level_priors = []
         for i in range(self.num_levels):
-            priors = self.single_level_grid_priors(
-                featmap_sizes[i],
-                level_idx=i,
-                dtype=dtype,
-                device=device,
-                with_stride=with_stride)
+            priors = self.single_level_grid_priors(featmap_sizes[i],
+                                                   level_idx=i,
+                                                   dtype=dtype,
+                                                   device=device,
+                                                   with_stride=with_stride)
             multi_level_priors.append(priors)
         return multi_level_priors
 

@@ -28,7 +28,6 @@ class PixelDecoder(BaseModule):
         init_cfg (obj:`mmcv.ConfigDict`|dict):  Initialization config dict.
             Default: None
     """
-
     def __init__(self,
                  in_channels,
                  feat_channels,
@@ -133,7 +132,6 @@ class TransformerEncoderPixelDecoder(PixelDecoder):
         init_cfg (obj:`mmcv.ConfigDict`|dict):  Initialization config dict.
             Default: None
     """
-
     def __init__(self,
                  in_channels,
                  feat_channels,

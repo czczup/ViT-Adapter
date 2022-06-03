@@ -1,4 +1,4 @@
-""" Vision Transformer (ViT) in PyTorch
+"""Vision Transformer (ViT) in PyTorch.
 
 A PyTorch implement of Vision Transformers as described in:
 
@@ -22,34 +22,41 @@ for some einops/einsum fun
 
 Hacked together by / Copyright 2021 Ross Wightman
 """
+import logging
 import math
 from functools import partial
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import logging
-
-from timm.models.layers import Mlp, DropPath, to_2tuple
+from mmcv.runner import BaseModule, load_checkpoint
 from mmseg.utils import get_root_logger
-from mmcv.runner import load_checkpoint
-from mmcv.runner import BaseModule
+from timm.models.layers import DropPath, Mlp, to_2tuple
 
 
 class PatchEmbed(nn.Module):
-    """ 2D Image to Patch Embedding
-    """
-    def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, norm_layer=None, flatten=True):
+    """2D Image to Patch Embedding."""
+    def __init__(self,
+                 img_size=224,
+                 patch_size=16,
+                 in_chans=3,
+                 embed_dim=768,
+                 norm_layer=None,
+                 flatten=True):
         super().__init__()
         img_size = to_2tuple(img_size)
         patch_size = to_2tuple(patch_size)
         self.img_size = img_size
         self.patch_size = patch_size
-        self.grid_size = (img_size[0] // patch_size[0], img_size[1] // patch_size[1])
+        self.grid_size = (img_size[0] // patch_size[0],
+                          img_size[1] // patch_size[1])
         self.num_patches = self.grid_size[0] * self.grid_size[1]
         self.flatten = flatten
 
-        self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size)
+        self.proj = nn.Conv2d(in_chans,
+                              embed_dim,
+                              kernel_size=patch_size,
+                              stride=patch_size)
         self.norm = norm_layer(embed_dim) if norm_layer else nn.Identity()
 
     def forward(self, x):
@@ -239,7 +246,7 @@ class Block(nn.Module):
 
 
 class TIMMVisionTransformer(BaseModule):
-    """ Vision Transformer
+    """Vision Transformer.
 
     A PyTorch impl of : `An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale`
         - https://arxiv.org/abs/2010.11929
@@ -247,7 +254,6 @@ class TIMMVisionTransformer(BaseModule):
     Includes distillation token & head support for `DeiT: Data-efficient Image Transformers`
         - https://arxiv.org/abs/2012.12877
     """
-
     def __init__(self,
                  img_size=224,
                  patch_size=16,
@@ -339,5 +345,3 @@ class TIMMVisionTransformer(BaseModule):
     def forward(self, x):
         x = self.forward_features(x)
         return x
-
-

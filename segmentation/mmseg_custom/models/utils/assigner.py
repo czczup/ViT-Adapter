@@ -1,7 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
+from abc import ABCMeta, abstractmethod
+
 import torch
 import torch.nn.functional as F
-from abc import ABCMeta, abstractmethod
 
 from ..builder import MASK_ASSIGNERS, build_match_cost
 
@@ -13,7 +14,6 @@ except ImportError:
 
 class AssignResult(metaclass=ABCMeta):
     """Collection of assign results."""
-
     def __init__(self, num_gts, gt_inds, labels):
         self.num_gts = num_gts
         self.gt_inds = gt_inds
@@ -31,7 +31,6 @@ class AssignResult(metaclass=ABCMeta):
 
 class BaseAssigner(metaclass=ABCMeta):
     """Base assigner that assigns boxes to ground truth boxes."""
-
     @abstractmethod
     def assign(self, masks, gt_masks, gt_masks_ignore=None, gt_labels=None):
         """Assign boxes to either a ground truth boxes or a negative boxes."""
@@ -59,7 +58,6 @@ class MaskHungarianAssigner(BaseAssigner):
         mask_cost (obj:`mmcv.ConfigDict`|dict): Mask cost config.
         dice_cost (obj:`mmcv.ConfigDict`|dict): Dice cost config.
     """
-
     def __init__(self,
                  cls_cost=dict(type='ClassificationCost', weight=1.0),
                  dice_cost=dict(type='DiceCost', weight=1.0),
@@ -111,10 +109,10 @@ class MaskHungarianAssigner(BaseAssigner):
         num_gts, num_queries = gt_labels.shape[0], cls_pred.shape[0]
 
         # 1. assign -1 by default
-        assigned_gt_inds = cls_pred.new_full((num_queries,),
+        assigned_gt_inds = cls_pred.new_full((num_queries, ),
                                              -1,
                                              dtype=torch.long)
-        assigned_labels = cls_pred.new_full((num_queries,),
+        assigned_labels = cls_pred.new_full((num_queries, ),
                                             -1,
                                             dtype=torch.long)
         if num_gts == 0 or num_queries == 0:
@@ -164,5 +162,4 @@ class MaskHungarianAssigner(BaseAssigner):
         # assign foregrounds based on matching results
         assigned_gt_inds[matched_row_inds] = matched_col_inds + 1
         assigned_labels[matched_row_inds] = gt_labels[matched_col_inds]
-        return AssignResult(
-            num_gts, assigned_gt_inds, labels=assigned_labels)
+        return AssignResult(num_gts, assigned_gt_inds, labels=assigned_labels)

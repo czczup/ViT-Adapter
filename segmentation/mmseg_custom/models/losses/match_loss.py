@@ -29,7 +29,6 @@ class FocalLossCost:
                 [-0.4099, -0.3795, -0.2929],
                 [-0.1950, -0.1207, -0.2626]])
     """
-
     def __init__(self, weight=1., alpha=0.25, gamma=2, eps=1e-12):
         self.weight = weight
         self.alpha = alpha
@@ -65,7 +64,6 @@ class MaskFocalLossCost(FocalLossCost):
         gamma (int | float, optional): focal_loss gamma.
         eps (float, optional): default 1e-12.
     """
-
     def __call__(self, cls_pred, gt_labels):
         """
         Args:
@@ -93,7 +91,8 @@ class MaskFocalLossCost(FocalLossCost):
 
 @MATCH_COST.register_module()
 class ClassificationCost:
-    """ClsSoftmaxCost.Borrow from mmdet.core.bbox.match_costs.match_cost.ClassificationCost
+    """ClsSoftmaxCost.Borrow from
+    mmdet.core.bbox.match_costs.match_cost.ClassificationCost.
 
      Args:
          weight (int | float, optional): loss_weight
@@ -110,7 +109,6 @@ class ClassificationCost:
                 [-0.3664, -0.3455, -0.2881],
                 [-0.3343, -0.2701, -0.3956]])
     """
-
     def __init__(self, weight=1.):
         self.weight = weight
 
@@ -143,7 +141,6 @@ class DiceCost:
             Defaults to False.
         eps (float, optional): default 1e-12.
     """
-
     def __init__(self, weight=1., pred_act=False, eps=1e-3):
         self.weight = weight
         self.pred_act = pred_act

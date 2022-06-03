@@ -8,9 +8,8 @@ from mmcv.runner import force_fp32
 from mmseg.models.builder import HEADS, build_loss
 from mmseg.models.decode_heads.decode_head import BaseDecodeHead
 
-
 from ...core import multi_apply, reduce_mean
-from ..builder import  build_assigner, build_transformer
+from ..builder import build_assigner, build_transformer
 
 
 @HEADS.register_module()
@@ -50,7 +49,6 @@ class MaskFormerHead(BaseDecodeHead):
         init_cfg (dict or list[dict], optional): Initialization config dict.
             Defaults to None.
     """
-
     def __init__(self,
                  out_channels,
                  num_queries=100,
@@ -243,7 +241,7 @@ class MaskFormerHead(BaseDecodeHead):
         pos_assigned_gt_inds = assign_result.gt_inds[pos_inds] - 1
 
         # label target
-        labels = gt_labels.new_full((self.num_queries,),
+        labels = gt_labels.new_full((self.num_queries, ),
                                     self.num_classes,
                                     dtype=torch.long)
         labels[pos_inds] = gt_labels[pos_assigned_gt_inds]
@@ -251,7 +249,7 @@ class MaskFormerHead(BaseDecodeHead):
 
         # mask target
         mask_targets = gt_masks[pos_assigned_gt_inds, :]
-        mask_weights = mask_pred.new_zeros((self.num_queries,))
+        mask_weights = mask_pred.new_zeros((self.num_queries, ))
         mask_weights[pos_inds] = 1.0
 
         return (labels, label_weights, mask_targets, mask_weights, pos_inds,

@@ -5,15 +5,12 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-
 import datetime
 from collections import OrderedDict
 
-import torch
-
 import mmcv
-from mmcv.runner import HOOKS
-from mmcv.runner import TextLoggerHook
+import torch
+from mmcv.runner import HOOKS, TextLoggerHook
 
 
 @HOOKS.register_module()
@@ -21,9 +18,7 @@ class CustomizedTextLoggerHook(TextLoggerHook):
     """Customized Text Logger hook.
 
     This logger prints out both lr and layer_0_lr.
-        
     """
-    
     def _log_info(self, log_dict, runner):
         # print exp name for users to distinguish experiments
         # at every ``interval_exp_name`` iterations and the end of each epoch
@@ -55,8 +50,8 @@ class CustomizedTextLoggerHook(TextLoggerHook):
 
             if 'time' in log_dict.keys():
                 self.time_sec_tot += (log_dict['time'] * self.interval)
-                time_sec_avg = self.time_sec_tot / (
-                    runner.iter - self.start_iter + 1)
+                time_sec_avg = self.time_sec_tot / (runner.iter -
+                                                    self.start_iter + 1)
                 eta_sec = time_sec_avg * (runner.max_iters - runner.iter - 1)
                 eta_str = str(datetime.timedelta(seconds=int(eta_sec)))
                 log_str += f'eta: {eta_str}, '
@@ -81,8 +76,8 @@ class CustomizedTextLoggerHook(TextLoggerHook):
             # TODO: resolve this hack
             # these items have been in log_str
             if name in [
-                    'mode', 'Epoch', 'iter', 'lr', 'layer_0_lr', 'time', 'data_time',
-                    'memory', 'epoch'
+                    'mode', 'Epoch', 'iter', 'lr', 'layer_0_lr', 'time',
+                    'data_time', 'memory', 'epoch'
             ]:
                 continue
             if isinstance(val, float):
@@ -92,7 +87,6 @@ class CustomizedTextLoggerHook(TextLoggerHook):
 
         runner.logger.info(log_str)
 
-
     def log(self, runner):
         if 'eval_iter_num' in runner.log_buffer.output:
             # this doesn't modify runner.iter and is regardless of by_epoch
@@ -100,10 +94,9 @@ class CustomizedTextLoggerHook(TextLoggerHook):
         else:
             cur_iter = self.get_iter(runner, inner_iter=True)
 
-        log_dict = OrderedDict(
-            mode=self.get_mode(runner),
-            epoch=self.get_epoch(runner),
-            iter=cur_iter)
+        log_dict = OrderedDict(mode=self.get_mode(runner),
+                               epoch=self.get_epoch(runner),
+                               iter=cur_iter)
 
         # record lr and layer_0_lr
         cur_lr = runner.current_lr()

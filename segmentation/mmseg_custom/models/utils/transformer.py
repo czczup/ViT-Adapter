@@ -59,7 +59,6 @@ class AdaptivePadding(nn.Module):
         >>> out = adap_pad(input)
         >>> assert (out.shape[2], out.shape[3]) == (16, 32)
     """
-
     def __init__(self, kernel_size=1, stride=1, dilation=1, padding='corner'):
 
         super(AdaptivePadding, self).__init__()
@@ -131,7 +130,6 @@ class PatchMerging(BaseModule):
         init_cfg (dict, optional): The extra config for initialization.
             Default: None.
     """
-
     def __init__(self,
                  in_channels,
                  out_channels,
@@ -270,7 +268,6 @@ class DetrTransformerDecoderLayer(BaseTransformerLayer):
         ffn_num_fcs (int): The number of fully-connected layers in FFNs.
             Default：2.
     """
-
     def __init__(self,
                  attn_cfgs,
                  feedforward_channels,
@@ -302,7 +299,6 @@ class DetrTransformerEncoder(TransformerLayerSequence):
         post_norm_cfg (dict): Config of last normalization layer. Default：
             `LN`. Only used when `self.pre_norm` is `True`
     """
-
     def __init__(self, *args, post_norm_cfg=dict(type='LN'), **kwargs):
         super(DetrTransformerEncoder, self).__init__(*args, **kwargs)
         if post_norm_cfg is not None:
@@ -335,7 +331,6 @@ class DetrTransformerDecoder(TransformerLayerSequence):
         post_norm_cfg (dict): Config of last normalization layer. Default：
             `LN`.
     """
-
     def __init__(self,
                  *args,
                  post_norm_cfg=dict(type='LN'),
@@ -401,7 +396,6 @@ class Transformer(BaseModule):
         init_cfg (obj:`mmcv.ConfigDict`): The Config for initialization.
             Defaults to None.
     """
-
     def __init__(self, encoder=None, decoder=None, init_cfg=None):
         super(Transformer, self).__init__(init_cfg=init_cfg)
         self.encoder = build_transformer_layer_sequence(encoder)
@@ -474,7 +468,6 @@ class DeformableDetrTransformerDecoder(TransformerLayerSequence):
         coder_norm_cfg (dict): Config of last normalization layer. Default：
             `LN`.
     """
-
     def __init__(self, *args, return_intermediate=False, **kwargs):
 
         super(DeformableDetrTransformerDecoder, self).__init__(*args, **kwargs)
@@ -924,7 +917,6 @@ class DynamicConv(BaseModule):
         init_cfg (obj:`mmcv.ConfigDict`): The Config for initialization.
             Default: None.
     """
-
     def __init__(self,
                  in_channels=256,
                  feat_channels=64,

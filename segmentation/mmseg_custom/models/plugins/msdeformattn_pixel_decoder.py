@@ -36,7 +36,6 @@ class MSDeformAttnPixelDecoder(BaseModule):
             normalize=True).
         init_cfg (:obj:`mmcv.ConfigDict` | dict): Initialization config dict.
     """
-
     def __init__(self,
                  in_channels=[256, 512, 1024, 2048],
                  strides=[4, 8, 16, 32],

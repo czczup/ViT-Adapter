@@ -32,7 +32,6 @@ class SinePositionalEncoding(BaseModule):
         init_cfg (dict or list[dict], optional): Initialization config dict.
             Default: None
     """
-
     def __init__(self,
                  num_feats,
                  temperature=10000,
@@ -117,7 +116,6 @@ class LearnedPositionalEncoding(BaseModule):
             Default 50.
         init_cfg (dict or list[dict], optional): Initialization config dict.
     """
-
     def __init__(self,
                  num_feats,
                  row_num_embed=50,

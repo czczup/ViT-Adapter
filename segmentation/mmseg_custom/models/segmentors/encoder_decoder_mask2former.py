@@ -2,12 +2,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from mmseg.core import add_prefix
-from mmseg.ops import resize
 from mmseg.models import builder
 from mmseg.models.builder import SEGMENTORS
 from mmseg.models.segmentors.base import BaseSegmentor
+from mmseg.ops import resize
 
 
 @SEGMENTORS.register_module()
@@ -18,7 +17,6 @@ class EncoderDecoderMask2Former(BaseSegmentor):
     Note that auxiliary_head is only used for deep supervision during training,
     which could be dumped during inference.
     """
-
     def __init__(self,
                  backbone,
                  decode_head,
@@ -87,8 +85,7 @@ class EncoderDecoderMask2Former(BaseSegmentor):
         training."""
         losses = dict()
         loss_decode = self.decode_head.forward_train(x, img_metas,
-                                                     gt_semantic_seg,
-                                                     **kwargs)
+                                                     gt_semantic_seg, **kwargs)
 
         losses.update(add_prefix(loss_decode, 'decode'))
         return losses

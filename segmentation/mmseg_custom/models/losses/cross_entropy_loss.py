@@ -4,7 +4,6 @@ import warnings
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from mmseg.models.builder import LOSSES
 from mmseg.models.losses.utils import get_class_weight, weight_reduce_loss
 
@@ -211,7 +210,6 @@ class CrossEntropyLoss(nn.Module):
             only averaged over non-ignored targets. Default: False.
             `New in version 0.23.0.`
     """
-
     def __init__(self,
                  use_sigmoid=False,
                  use_mask=False,
@@ -258,8 +256,8 @@ class CrossEntropyLoss(nn.Module):
                 **kwargs):
         """Forward function."""
         assert reduction_override in (None, 'none', 'mean', 'sum')
-        reduction = (
-            reduction_override if reduction_override else self.reduction)
+        reduction = (reduction_override
+                     if reduction_override else self.reduction)
         if self.class_weight is not None:
             class_weight = cls_score.new_tensor(self.class_weight)
         else:

@@ -7,19 +7,16 @@ import time
 import warnings
 
 import mmcv
+import mmcv_custom
+import mmseg_custom
 import torch
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import (get_dist_info, init_dist, load_checkpoint,
                          wrap_fp16_model)
 from mmcv.utils import DictAction
-
-import mmcv_custom
-import mmseg_custom
 from mmseg.apis import multi_gpu_test, single_gpu_test
-from mmseg.datasets import build_dataloader
-from mmseg.datasets import build_dataset
+from mmseg.datasets import build_dataloader, build_dataset
 from mmseg.models import build_segmentor
-
 
 
 def parse_args():

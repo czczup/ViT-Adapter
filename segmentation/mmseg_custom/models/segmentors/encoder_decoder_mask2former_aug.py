@@ -2,12 +2,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from mmseg.core import add_prefix
-from mmseg.ops import resize
 from mmseg.models import builder
 from mmseg.models.builder import SEGMENTORS
 from mmseg.models.segmentors.base import BaseSegmentor
+from mmseg.ops import resize
 
 
 @SEGMENTORS.register_module()
@@ -18,7 +17,6 @@ class EncoderDecoderMask2FormerAug(BaseSegmentor):
     Note that auxiliary_head is only used for deep supervision during training,
     which could be dumped during inference.
     """
-
     def __init__(self,
                  backbone,
                  decode_head,
@@ -87,8 +85,7 @@ class EncoderDecoderMask2FormerAug(BaseSegmentor):
         training."""
         losses = dict()
         loss_decode = self.decode_head.forward_train(x, img_metas,
-                                                     gt_semantic_seg,
-                                                     **kwargs)
+                                                     gt_semantic_seg, **kwargs)
 
         losses.update(add_prefix(loss_decode, 'decode'))
         return losses
@@ -192,18 +189,17 @@ class EncoderDecoderMask2FormerAug(BaseSegmentor):
             count_mat = torch.from_numpy(
                 count_mat.cpu().detach().numpy()).to(device=img.device)
         preds = preds / count_mat
-        
+
         if unpad:
             unpad_h, unpad_w = img_meta[0]['img_shape'][:2]
             # logging.info(preds.shape, img_meta[0])
             preds = preds[:, :, :unpad_h, :unpad_w]
         if rescale:
-            preds = resize(
-                preds,
-                size=img_meta[0]['ori_shape'][:2],
-                mode='bilinear',
-                align_corners=self.align_corners,
-                warning=False)
+            preds = resize(preds,
+                           size=img_meta[0]['ori_shape'][:2],
+                           mode='bilinear',
+                           align_corners=self.align_corners,
+                           warning=False)
         return preds
 
     def whole_inference(self, img, img_meta, rescale):
@@ -254,9 +250,9 @@ class EncoderDecoderMask2FormerAug(BaseSegmentor):
             flip_direction = img_meta[0]['flip_direction']
             assert flip_direction in ['horizontal', 'vertical']
             if flip_direction == 'horizontal':
-                output = output.flip(dims=(3,))
+                output = output.flip(dims=(3, ))
             elif flip_direction == 'vertical':
-                output = output.flip(dims=(2,))
+                output = output.flip(dims=(2, ))
 
         return output
 

@@ -1,7 +1,6 @@
 import mmcv
 import numpy as np
 import torch
-
 from mmseg.datasets.builder import PIPELINES
 
 
@@ -32,7 +31,6 @@ class SETR_Resize(object):
         keep_ratio (bool): Whether to keep the aspect ratio when resizing the
             image.
     """
-    
     def __init__(self,
                  img_scale=None,
                  multiscale_mode='range',
@@ -40,7 +38,7 @@ class SETR_Resize(object):
                  keep_ratio=True,
                  crop_size=None,
                  setr_multi_scale=False):
-        
+
         if img_scale is None:
             self.img_scale = None
         else:
@@ -49,20 +47,20 @@ class SETR_Resize(object):
             else:
                 self.img_scale = [img_scale]
             # assert mmcv.is_list_of(self.img_scale, tuple)
-        
+
         if ratio_range is not None:
             # mode 1: given a scale and a range of image ratio
             assert len(self.img_scale) == 1
         else:
             # mode 2: given multiple scales or a range of scales
             assert multiscale_mode in ['value', 'range']
-        
+
         self.multiscale_mode = multiscale_mode
         self.ratio_range = ratio_range
         self.keep_ratio = keep_ratio
         self.crop_size = crop_size
         self.setr_multi_scale = setr_multi_scale
-    
+
     @staticmethod
     def random_select(img_scales):
         """Randomly select an img_scale from given candidates.
@@ -75,12 +73,12 @@ class SETR_Resize(object):
                 where ``img_scale`` is the selected image scale and
                 ``scale_idx`` is the selected index in the given candidates.
         """
-        
+
         assert mmcv.is_list_of(img_scales, tuple)
         scale_idx = np.random.randint(len(img_scales))
         img_scale = img_scales[scale_idx]
         return img_scale, scale_idx
-    
+
     @staticmethod
     def random_sample(img_scales):
         """Randomly sample an img_scale when ``multiscale_mode=='range'``.
@@ -127,14 +125,14 @@ class SETR_Resize(object):
                 None is just a placeholder to be consistent with
                 :func:`random_select`.
         """
-        
+
         assert isinstance(img_scale, tuple) and len(img_scale) == 2
         min_ratio, max_ratio = ratio_range
         assert min_ratio <= max_ratio
         ratio = np.random.random_sample() * (max_ratio - min_ratio) + min_ratio
         scale = int(img_scale[0] * ratio), int(img_scale[1] * ratio)
         return scale, None
-    
+
     def _random_scale(self, results):
         """Randomly sample an img_scale according to ``ratio_range`` and
         ``multiscale_mode``.
@@ -152,7 +150,7 @@ class SETR_Resize(object):
             dict: Two new keys 'scale` and 'scale_idx` are added into
                 ``results``, which would be used by subsequent pipelines.
         """
-        
+
         if self.ratio_range is not None:
             scale, scale_idx = self.random_sample_ratio(
                 self.img_scale[0], self.ratio_range)
@@ -164,29 +162,30 @@ class SETR_Resize(object):
             scale, scale_idx = self.random_select(self.img_scale)
         else:
             raise NotImplementedError
-        
+
         results['scale'] = scale
         results['scale_idx'] = scale_idx
-    
+
     def _resize_img(self, results):
         """Resize images with ``results['scale']``."""
-        
+
         if self.keep_ratio:
             if self.setr_multi_scale:
                 if min(results['scale']) < self.crop_size[0]:
                     new_short = self.crop_size[0]
                 else:
                     new_short = min(results['scale'])
-                
+
                 h, w = results['img'].shape[:2]
                 if h > w:
                     new_h, new_w = new_short * h / w, new_short
                 else:
                     new_h, new_w = new_short, new_short * w / h
                 results['scale'] = (new_h, new_w)
-            
-            img, scale_factor = mmcv.imrescale(
-                results['img'], results['scale'], return_scale=True)
+
+            img, scale_factor = mmcv.imrescale(results['img'],
+                                               results['scale'],
+                                               return_scale=True)
             # the w_scale and h_scale has minor difference
             # a real fix should be done in the mmcv.imrescale in the future
             new_h, new_w = img.shape[:2]
@@ -194,8 +193,9 @@ class SETR_Resize(object):
             w_scale = new_w / w
             h_scale = new_h / h
         else:
-            img, w_scale, h_scale = mmcv.imresize(
-                results['img'], results['scale'], return_scale=True)
+            img, w_scale, h_scale = mmcv.imresize(results['img'],
+                                                  results['scale'],
+                                                  return_scale=True)
         scale_factor = np.array([w_scale, h_scale, w_scale, h_scale],
                                 dtype=np.float32)
         results['img'] = img
@@ -203,18 +203,20 @@ class SETR_Resize(object):
         results['pad_shape'] = img.shape  # in case that there is no padding
         results['scale_factor'] = scale_factor
         results['keep_ratio'] = self.keep_ratio
-    
+
     def _resize_seg(self, results):
         """Resize semantic segmentation map with ``results['scale']``."""
         for key in results.get('seg_fields', []):
             if self.keep_ratio:
-                gt_seg = mmcv.imrescale(
-                    results[key], results['scale'], interpolation='nearest')
+                gt_seg = mmcv.imrescale(results[key],
+                                        results['scale'],
+                                        interpolation='nearest')
             else:
-                gt_seg = mmcv.imresize(
-                    results[key], results['scale'], interpolation='nearest')
+                gt_seg = mmcv.imresize(results[key],
+                                       results['scale'],
+                                       interpolation='nearest')
             results['gt_semantic_seg'] = gt_seg
-    
+
     def __call__(self, results):
         """Call function to resize images, bounding boxes, masks, semantic
         segmentation map.
@@ -226,13 +228,13 @@ class SETR_Resize(object):
             dict: Resized results, 'img_shape', 'pad_shape', 'scale_factor',
                 'keep_ratio' keys are added into result dict.
         """
-        
+
         if 'scale' not in results:
             self._random_scale(results)
         self._resize_img(results)
         self._resize_seg(results)
         return results
-    
+
     def __repr__(self):
         repr_str = self.__class__.__name__
         repr_str += (f'(img_scale={self.img_scale}, '
@@ -255,37 +257,33 @@ class PadShortSide(object):
         seg_pad_val (float, optional): Padding value of segmentation map.
             Default: 255.
     """
-    
-    def __init__(self,
-                 size=None,
-                 pad_val=0,
-                 seg_pad_val=255):
+    def __init__(self, size=None, pad_val=0, seg_pad_val=255):
         self.size = size
         self.pad_val = pad_val
         self.seg_pad_val = seg_pad_val
         # only one of size and size_divisor should be valid
         assert size is not None
-    
+
     def _pad_img(self, results):
         """Pad images according to ``self.size``."""
         h, w = results['img'].shape[:2]
         new_h = max(h, self.size)
         new_w = max(w, self.size)
-        padded_img = mmcv.impad(
-            results['img'], shape=(new_h, new_w), pad_val=self.pad_val)
-        
+        padded_img = mmcv.impad(results['img'],
+                                shape=(new_h, new_w),
+                                pad_val=self.pad_val)
+
         results['img'] = padded_img
         results['pad_shape'] = padded_img.shape
         # results['unpad_shape'] = (h, w)
-    
+
     def _pad_seg(self, results):
         """Pad masks according to ``results['pad_shape']``."""
         for key in results.get('seg_fields', []):
-            results[key] = mmcv.impad(
-                results[key],
-                shape=results['pad_shape'][:2],
-                pad_val=self.seg_pad_val)
-    
+            results[key] = mmcv.impad(results[key],
+                                      shape=results['pad_shape'][:2],
+                                      pad_val=self.seg_pad_val)
+
     def __call__(self, results):
         """Call function to pad images, masks, semantic segmentation maps.
 
@@ -302,20 +300,20 @@ class PadShortSide(object):
             self._pad_img(results)
             self._pad_seg(results)
         return results
-    
+
     def __repr__(self):
         repr_str = self.__class__.__name__
         repr_str += f'(size={self.size}, pad_val={self.pad_val})'
         return repr_str
-    
+
 
 @PIPELINES.register_module()
 class MapillaryHack(object):
-    """ map MV 65 class to 19 class like Cityscapes
-    """
+    """map MV 65 class to 19 class like Cityscapes."""
     def __init__(self):
-        self.map = [[13, 24, 41], [2, 15], [17], [6], [3], [45, 47], [48], [50], [30], [29],
-                    [27], [19], [20, 21, 22], [55], [61], [54], [58], [57], [52]]
+        self.map = [[13, 24, 41], [2, 15], [17], [6], [3],
+                    [45, 47], [48], [50], [30], [29], [27], [19], [20, 21, 22],
+                    [55], [61], [54], [58], [57], [52]]
 
         self.others = [i for i in range(66)]
         for i in self.map:
@@ -338,7 +336,7 @@ class MapillaryHack(object):
 
         for value in self.others:
             new_gt_map[gt_map == value] = 255
-        
+
         for index, map in enumerate(self.map):
             for value in map:
                 new_gt_map[gt_map == value] = index

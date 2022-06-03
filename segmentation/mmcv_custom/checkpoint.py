@@ -1,5 +1,6 @@
 # Copyright (c) Open-MMLab. All rights reserved.
 import io
+import math
 import os
 import os.path as osp
 import pkgutil
@@ -9,22 +10,19 @@ from collections import OrderedDict
 from importlib import import_module
 from tempfile import TemporaryDirectory
 
+import mmcv
+import numpy as np
 import torch
 import torchvision
-from torch.optim import Optimizer
-from torch.utils import model_zoo
-from torch.nn import functional as F
-
-import mmcv
 from mmcv.fileio import FileClient
 from mmcv.fileio import load as load_file
 from mmcv.parallel import is_module_wrapper
-from mmcv.utils import mkdir_or_exist
 from mmcv.runner import get_dist_info
-
+from mmcv.utils import mkdir_or_exist
 from scipy import interpolate
-import numpy as np
-import math
+from torch.nn import functional as F
+from torch.optim import Optimizer
+from torch.utils import model_zoo
 
 ENV_MMCV_HOME = 'MMCV_HOME'
 ENV_XDG_CACHE_HOME = 'XDG_CACHE_HOME'
@@ -35,8 +33,8 @@ def _get_mmcv_home():
     mmcv_home = os.path.expanduser(
         os.getenv(
             ENV_MMCV_HOME,
-            os.path.join(
-                os.getenv(ENV_XDG_CACHE_HOME, DEFAULT_CACHE_DIR), 'mmcv')))
+            os.path.join(os.getenv(ENV_XDG_CACHE_HOME, DEFAULT_CACHE_DIR),
+                         'mmcv')))
 
     mkdir_or_exist(mmcv_home)
     return mmcv_home
@@ -44,6 +42,7 @@ def _get_mmcv_home():
 
 def load_state_dict(module, state_dict, strict=False, logger=None):
     """Load state_dict to a module.
+
     This method is modified from :meth:`torch.nn.Module.load_state_dict`.
     Default value for ``strict`` is set to ``False`` and the message for
     param mismatch will be shown even if strict is False.
@@ -108,17 +107,21 @@ def load_state_dict(module, state_dict, strict=False, logger=None):
             print(err_msg)
 
 
-def load_url_dist(url, model_dir=None, map_location="cpu"):
+def load_url_dist(url, model_dir=None, map_location='cpu'):
     """In distributed setting, this function only download checkpoint at local
     rank 0."""
     rank, world_size = get_dist_info()
     rank = int(os.environ.get('LOCAL_RANK', rank))
     if rank == 0:
-        checkpoint = model_zoo.load_url(url, model_dir=model_dir, map_location=map_location)
+        checkpoint = model_zoo.load_url(url,
+                                        model_dir=model_dir,
+                                        map_location=map_location)
     if world_size > 1:
         torch.distributed.barrier()
         if rank > 0:
-            checkpoint = model_zoo.load_url(url, model_dir=model_dir, map_location=map_location)
+            checkpoint = model_zoo.load_url(url,
+                                            model_dir=model_dir,
+                                            map_location=map_location)
     return checkpoint
 
 
@@ -145,8 +148,8 @@ def load_pavimodel_dist(model_path, map_location=None):
             with TemporaryDirectory() as tmp_dir:
                 downloaded_file = osp.join(tmp_dir, model.name)
                 model.download(downloaded_file)
-                checkpoint = torch.load(
-                    downloaded_file, map_location=map_location)
+                checkpoint = torch.load(downloaded_file,
+                                        map_location=map_location)
     return checkpoint
 
 
@@ -226,6 +229,7 @@ def _process_mmcls_checkpoint(checkpoint):
 
 def _load_checkpoint(filename, map_location=None):
     """Load checkpoint from somewhere (modelzoo, file, url).
+
     Args:
         filename (str): Accept local filepath, URL, ``torchvision://xxx``,
             ``open-mmlab://xxx``. Please refer to ``docs/model_zoo.md`` for
@@ -274,8 +278,9 @@ def _load_checkpoint(filename, map_location=None):
         model_path = filename[7:]
         checkpoint = load_pavimodel_dist(model_path, map_location=map_location)
     elif filename.startswith('s3://'):
-        checkpoint = load_fileclient_dist(
-            filename, backend='ceph', map_location=map_location)
+        checkpoint = load_fileclient_dist(filename,
+                                          backend='ceph',
+                                          map_location=map_location)
     else:
         if not osp.isfile(filename):
             raise IOError(f'{filename} is not a checkpoint file')
@@ -283,19 +288,27 @@ def _load_checkpoint(filename, map_location=None):
     return checkpoint
 
 
-def cosine_scheduler(base_value, final_value, epochs, niter_per_ep, warmup_epochs=0,
-                     start_warmup_value=0, warmup_steps=-1):
+def cosine_scheduler(base_value,
+                     final_value,
+                     epochs,
+                     niter_per_ep,
+                     warmup_epochs=0,
+                     start_warmup_value=0,
+                     warmup_steps=-1):
     warmup_schedule = np.array([])
     warmup_iters = warmup_epochs * niter_per_ep
     if warmup_steps > 0:
         warmup_iters = warmup_steps
-    print("Set warmup steps = %d" % warmup_iters)
+    print('Set warmup steps = %d' % warmup_iters)
     if warmup_epochs > 0:
-        warmup_schedule = np.linspace(start_warmup_value, base_value, warmup_iters)
+        warmup_schedule = np.linspace(start_warmup_value, base_value,
+                                      warmup_iters)
 
     iters = np.arange(epochs * niter_per_ep - warmup_iters)
-    schedule = np.array(
-        [final_value + 0.5 * (base_value - final_value) * (1 + math.cos(math.pi * i / (len(iters)))) for i in iters])
+    schedule = np.array([
+        final_value + 0.5 * (base_value - final_value) *
+        (1 + math.cos(math.pi * i / (len(iters)))) for i in iters
+    ])
 
     schedule = np.concatenate((warmup_schedule, schedule))
 
@@ -309,6 +322,7 @@ def load_checkpoint(model,
                     strict=False,
                     logger=None):
     """Load checkpoint from a file or URI.
+
     Args:
         model (Module): Module to load checkpoint.
         filename (str): Accept local filepath, URL, ``torchvision://xxx``,
@@ -341,53 +355,62 @@ def load_checkpoint(model,
 
     # for MoBY, load model of online branch
     if sorted(list(state_dict.keys()))[0].startswith('encoder'):
-        state_dict = {k.replace('encoder.', ''): v for k, v in state_dict.items() if k.startswith('encoder.')}
+        state_dict = {
+            k.replace('encoder.', ''): v
+            for k, v in state_dict.items() if k.startswith('encoder.')
+        }
 
     # reshape absolute position embedding for Swin
     if state_dict.get('absolute_pos_embed') is not None:
         absolute_pos_embed = state_dict['absolute_pos_embed']
         N1, L, C1 = absolute_pos_embed.size()
         N2, C2, H, W = model.absolute_pos_embed.size()
-        if N1 != N2 or C1 != C2 or L != H*W:
-            logger.warning("Error in loading absolute_pos_embed, pass")
+        if N1 != N2 or C1 != C2 or L != H * W:
+            logger.warning('Error in loading absolute_pos_embed, pass')
         else:
-            state_dict['absolute_pos_embed'] = absolute_pos_embed.view(N2, H, W, C2).permute(0, 3, 1, 2)
+            state_dict['absolute_pos_embed'] = absolute_pos_embed.view(
+                N2, H, W, C2).permute(0, 3, 1, 2)
 
     rank, _ = get_dist_info()
-    if "rel_pos_bias.relative_position_bias_table" in state_dict:
+    if 'rel_pos_bias.relative_position_bias_table' in state_dict:
         if rank == 0:
-            print("Expand the shared relative position embedding to each layers. ")
+            print(
+                'Expand the shared relative position embedding to each layers. '
+            )
             num_layers = model.get_num_layers()
-            rel_pos_bias = state_dict["rel_pos_bias.relative_position_bias_table"]
+            rel_pos_bias = state_dict[
+                'rel_pos_bias.relative_position_bias_table']
             for i in range(num_layers):
-                state_dict["blocks.%d.attn.relative_position_bias_table" % i] = rel_pos_bias.clone()
+                state_dict['blocks.%d.attn.relative_position_bias_table' %
+                           i] = rel_pos_bias.clone()
 
-        state_dict.pop("rel_pos_bias.relative_position_bias_table")
+        state_dict.pop('rel_pos_bias.relative_position_bias_table')
 
     all_keys = list(state_dict.keys())
     for key in all_keys:
-        if "relative_position_index" in key:
+        if 'relative_position_index' in key:
             state_dict.pop(key)
 
-        if "relative_position_bias_table" in key:
+        if 'relative_position_bias_table' in key:
             rel_pos_bias = state_dict[key]
             src_num_pos, num_attn_heads = rel_pos_bias.size()
             dst_num_pos, _ = model.state_dict()[key].size()
             dst_patch_shape = model.patch_embed.patch_shape
             if dst_patch_shape[0] != dst_patch_shape[1]:
                 raise NotImplementedError()
-            num_extra_tokens = dst_num_pos - (dst_patch_shape[0] * 2 - 1) * (dst_patch_shape[1] * 2 - 1)
-            src_size = int((src_num_pos - num_extra_tokens) ** 0.5)
-            dst_size = int((dst_num_pos - num_extra_tokens) ** 0.5)
+            num_extra_tokens = dst_num_pos - (dst_patch_shape[0] * 2 -
+                                              1) * (dst_patch_shape[1] * 2 - 1)
+            src_size = int((src_num_pos - num_extra_tokens)**0.5)
+            dst_size = int((dst_num_pos - num_extra_tokens)**0.5)
             if src_size != dst_size:
                 if rank == 0:
-                    print("Position interpolate for %s from %dx%d to %dx%d" % (
-                        key, src_size, src_size, dst_size, dst_size))
+                    print('Position interpolate for %s from %dx%d to %dx%d' %
+                          (key, src_size, src_size, dst_size, dst_size))
                 extra_tokens = rel_pos_bias[-num_extra_tokens:, :]
                 rel_pos_bias = rel_pos_bias[:-num_extra_tokens, :]
 
                 def geometric_progression(a, r, n):
-                    return a * (1.0 - r ** n) / (1.0 - r)
+                    return a * (1.0 - r**n) / (1.0 - r)
 
                 left, right = 1.01, 1.5
                 while right - left > 1e-6:
@@ -405,7 +428,7 @@ def load_checkpoint(model,
                 cur = 1
                 for i in range(src_size // 2):
                     dis.append(cur)
-                    cur += q ** (i + 1)
+                    cur += q**(i + 1)
 
                 r_ids = [-_ for _ in reversed(dis)]
 
@@ -416,19 +439,22 @@ def load_checkpoint(model,
                 dx = np.arange(-t, t + 0.1, 1.0)
                 dy = np.arange(-t, t + 0.1, 1.0)
                 if rank == 0:
-                    print("x = {}".format(x))
-                    print("dx = {}".format(dx))
+                    print('x = {}'.format(x))
+                    print('dx = {}'.format(dx))
 
                 all_rel_pos_bias = []
 
                 for i in range(num_attn_heads):
-                    z = rel_pos_bias[:, i].view(src_size, src_size).float().numpy()
+                    z = rel_pos_bias[:, i].view(src_size,
+                                                src_size).float().numpy()
                     f = interpolate.interp2d(x, y, z, kind='cubic')
                     all_rel_pos_bias.append(
-                        torch.Tensor(f(dx, dy)).contiguous().view(-1, 1).to(rel_pos_bias.device))
+                        torch.Tensor(f(dx, dy)).contiguous().view(-1, 1).to(
+                            rel_pos_bias.device))
 
                 rel_pos_bias = torch.cat(all_rel_pos_bias, dim=-1)
-                new_rel_pos_bias = torch.cat((rel_pos_bias, extra_tokens), dim=0)
+                new_rel_pos_bias = torch.cat((rel_pos_bias, extra_tokens),
+                                             dim=0)
                 state_dict[key] = new_rel_pos_bias
 
     if 'pos_embed' in state_dict:
@@ -437,40 +463,51 @@ def load_checkpoint(model,
         num_patches = model.patch_embed.num_patches
         num_extra_tokens = model.pos_embed.shape[-2] - num_patches
         # height (== width) for the checkpoint position embedding
-        orig_size = int((pos_embed_checkpoint.shape[-2] - num_extra_tokens) ** 0.5)
+        orig_size = int(
+            (pos_embed_checkpoint.shape[-2] - num_extra_tokens)**0.5)
         # height (== width) for the new position embedding
-        new_size = int(num_patches ** 0.5)
+        new_size = int(num_patches**0.5)
         # class_token and dist_token are kept unchanged
         if orig_size != new_size:
             if rank == 0:
-                print("Position interpolate from %dx%d to %dx%d" % (orig_size, orig_size, new_size, new_size))
+                print('Position interpolate from %dx%d to %dx%d' %
+                      (orig_size, orig_size, new_size, new_size))
             extra_tokens = pos_embed_checkpoint[:, :num_extra_tokens]
             # only the position tokens are interpolated
             pos_tokens = pos_embed_checkpoint[:, num_extra_tokens:]
-            pos_tokens = pos_tokens.reshape(-1, orig_size, orig_size, embedding_size).permute(0, 3, 1, 2)
-            pos_tokens = torch.nn.functional.interpolate(
-                pos_tokens, size=(new_size, new_size), mode='bicubic', align_corners=False)
+            pos_tokens = pos_tokens.reshape(-1, orig_size, orig_size,
+                                            embedding_size).permute(
+                                                0, 3, 1, 2)
+            pos_tokens = torch.nn.functional.interpolate(pos_tokens,
+                                                         size=(new_size,
+                                                               new_size),
+                                                         mode='bicubic',
+                                                         align_corners=False)
             pos_tokens = pos_tokens.permute(0, 2, 3, 1).flatten(1, 2)
             new_pos_embed = torch.cat((extra_tokens, pos_tokens), dim=1)
             state_dict['pos_embed'] = new_pos_embed
 
     # interpolate position bias table if needed
-    relative_position_bias_table_keys = [k for k in state_dict.keys() if "relative_position_bias_table" in k]
+    relative_position_bias_table_keys = [
+        k for k in state_dict.keys() if 'relative_position_bias_table' in k
+    ]
     for table_key in relative_position_bias_table_keys:
         table_pretrained = state_dict[table_key]
         table_current = model.state_dict()[table_key]
         L1, nH1 = table_pretrained.size()
         L2, nH2 = table_current.size()
         if nH1 != nH2:
-            logger.warning(f"Error in loading {table_key}, pass")
+            logger.warning(f'Error in loading {table_key}, pass')
         else:
             if L1 != L2:
-                S1 = int(L1 ** 0.5)
-                S2 = int(L2 ** 0.5)
+                S1 = int(L1**0.5)
+                S2 = int(L2**0.5)
                 table_pretrained_resized = F.interpolate(
-                     table_pretrained.permute(1, 0).view(1, nH1, S1, S1),
-                     size=(S2, S2), mode='bicubic')
-                state_dict[table_key] = table_pretrained_resized.view(nH2, L2).permute(1, 0)
+                    table_pretrained.permute(1, 0).view(1, nH1, S1, S1),
+                    size=(S2, S2),
+                    mode='bicubic')
+                state_dict[table_key] = table_pretrained_resized.view(
+                    nH2, L2).permute(1, 0)
 
     # load state_dict
     load_state_dict(model, state_dict, strict, logger)
@@ -479,6 +516,7 @@ def load_checkpoint(model,
 
 def weights_to_cpu(state_dict):
     """Copy a model state_dict to cpu.
+
     Args:
         state_dict (OrderedDict): Model weights on GPU.
     Returns:
@@ -492,6 +530,7 @@ def weights_to_cpu(state_dict):
 
 def _save_to_state_dict(module, destination, prefix, keep_vars):
     """Saves module state to `destination` dictionary.
+
     This method is modified from :meth:`torch.nn.Module._save_to_state_dict`.
     Args:
         module (nn.Module): The module to generate state_dict.
@@ -510,6 +549,7 @@ def _save_to_state_dict(module, destination, prefix, keep_vars):
 
 def get_state_dict(module, destination=None, prefix='', keep_vars=False):
     """Returns a dictionary containing a whole state of the module.
+
     Both parameters and persistent buffers (e.g. running averages) are
     included. Keys are corresponding parameter and buffer names.
     This method is modified from :meth:`torch.nn.Module.state_dict` to
@@ -539,8 +579,10 @@ def get_state_dict(module, destination=None, prefix='', keep_vars=False):
     _save_to_state_dict(module, destination, prefix, keep_vars)
     for name, child in module._modules.items():
         if child is not None:
-            get_state_dict(
-                child, destination, prefix + name + '.', keep_vars=keep_vars)
+            get_state_dict(child,
+                           destination,
+                           prefix + name + '.',
+                           keep_vars=keep_vars)
     for hook in module._state_dict_hooks.values():
         hook_result = hook(module, destination, prefix, local_metadata)
         if hook_result is not None:
@@ -550,6 +592,7 @@ def get_state_dict(module, destination=None, prefix='', keep_vars=False):
 
 def save_checkpoint(model, filename, optimizer=None, meta=None):
     """Save checkpoint to file.
+
     The checkpoint will have 3 fields: ``meta``, ``state_dict`` and
     ``optimizer``. By default ``meta`` will contain version and time info.
     Args:
