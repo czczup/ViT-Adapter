@@ -1,6 +1,6 @@
 # Applying ViT-Adapter to Object Detection
 
-Our detection code is developed on top of [MMDetection v2.23.0](https://github.com/open-mmlab/mmdetection/tree/v2.23.0).
+Our detection code is developed on top of [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/tree/v2.22.0).
 
 For details see [Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534).
 
@@ -17,12 +17,12 @@ If you use this code for a paper please cite:
 
 ## Usage
 
-Install [MMDetection v2.23.0](https://github.com/open-mmlab/mmdetection/tree/v2.23.0).
+Install [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/tree/v2.22.0).
 
 ```
 cd ops & sh make.sh # compile deformable attention
 pip install timm==0.4.12
-pip install mmdet==2.23.0
+pip install mmdet==2.22.0
 # recommended environment: torch1.9 + cuda11.1
 pip install mmcv-full==1.4.2 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
 pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
@@ -31,7 +31,7 @@ pip install instaboostfast # for htc++
 
 ## Data preparation
 
-Prepare COCO according to the guidelines in [MMDetection v2.23.0](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/1_exist_data_model.md).
+Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/1_exist_data_model.md).
 
 ## Results and models
 
