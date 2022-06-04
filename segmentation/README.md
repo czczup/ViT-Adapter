@@ -23,7 +23,7 @@ Install [MMSegmentation v0.20.2](https://github.com/open-mmlab/mmdetection/tree/
 ln -s ../detection/ops ./
 cd ops & sh make.sh # compile deformable attention
 pip install timm==0.4.12
-pip install mmdet==2.23.0 # for Mask2Former
+pip install mmdet==2.22.0 # for Mask2Former
 pip install mmsegmentation==0.20.2
 # recommended environment: torch1.9 + cuda11.1
 pip install mmcv-full==1.4.2 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
