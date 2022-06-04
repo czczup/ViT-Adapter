@@ -152,3 +152,8 @@ optimizer = dict(
     }))
 optimizer_config = dict(grad_clip=None)
 fp16 = dict(loss_scale=dict(init_scale=512))
+checkpoint_config = dict(
+    interval=1,
+    max_keep_ckpts=3,
+    save_last=True,
+)

@@ -34,9 +34,8 @@ model = dict(
         out_channels=256,
         num_outs=5))
 # optimizer
-img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
-                    std=[58.395, 57.12, 57.375],
-                    to_rgb=True)
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # augmentation strategy originates from DETR / Sparse RCNN
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -87,3 +86,8 @@ optimizer = dict(
     paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.65))
 optimizer_config = dict(grad_clip=None)
 # fp16 = dict(loss_scale=dict(init_scale=512))
+checkpoint_config = dict(
+    interval=1,
+    max_keep_ckpts=3,
+    save_last=True,
+)

@@ -11,6 +11,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 
 ## News
 
+(2022/06/04) Segmentation is released.\
 (2022/06/02) Detection is released and segmentation will come soon.\
 (2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev.\
 (2022/05/12) ViT-Adapter-L reaches 85.2 mIoU on Cityscapes test set without coarse data.\
@@ -28,14 +29,14 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 ## SOTA Model Zoo
 
-### COCO test-dev
+COCO test-dev
 
 | Method             | Framework | Pre-train | Lr schd | box AP                                                                                     | mask AP                                                                                    | #Param |
 |:------------------:|:---------:|:---------:|:-------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------:|
 | ViT-Adapter-L      | HTC++     | BEiT      | 3x      | [58.5](https://drive.google.com/file/d/11zpPSvmuAn7aP5brxzHE8naObnOfFxby/view?usp=sharing) | [50.8](https://drive.google.com/file/d/1wIbtzfHfPqkvZaSivzcsh4HWu1oSiun6/view?usp=sharing) | 401M   |
 | ViT-Adapter-L (MS) | HTC++     | BEiT      | 3x      | [60.1](https://drive.google.com/file/d/1i-qjgUK4CMwZcmu5pkndldwfVbdkw5sU/view?usp=sharing) | [52.1](https://drive.google.com/file/d/16mlEOPY7K-Xpx_CL650A-LWbVDm2vl4X/view?usp=sharing) | 401M   |
 
-### ADE20K val
+ADE20K val
 
 | Method        | Framework   | Pre-train       | Iters | Crop Size | mIoU                                                                                       | +MS                                                                                        | #Param |
 |:-------------:|:-----------:|:---------------:|:-----:|:---------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------:|
@@ -43,20 +44,20 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-L | Mask2Former | BEiT            | 160k  | 640       | [58.3](https://drive.google.com/file/d/1jj56lSbc2s4ZNc-Hi-w6o-OSS99oi-_g/view?usp=sharing) | [59.0](https://drive.google.com/file/d/1hgpZB5gsyd7LTS7Aay2CbHmlY10nafCw/view?usp=sharing) | 568M   |
 | ViT-Adapter-L | Mask2Former | COCO-Stuff-164k | 80k   | 896       | [59.4](https://drive.google.com/file/d/1B_1XSwdnLhjJeUmn1g_nxfvGJpYmYWHa/view?usp=sharing) | [60.5](https://drive.google.com/file/d/1UtjmgcYKR-2h116oQXklUYOVcTw15woM/view?usp=sharing) | 571M   |
 
-### Cityscapes val/test
+Cityscapes val/test
 
 | Method        | Framework   | Pre-train | Iters | Crop Size | val mIoU                                                                                   | val/test +MS                                                                                                                                                                                                                 | #Param |
 |:-------------:|:-----------:|:---------:|:-----:|:---------:|:------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------:|
 | ViT-Adapter-L | Mask2Former | Mapillary | 80k   | 896       | [84.9](https://drive.google.com/file/d/1LKy0zz-brCBbKGmUWquadILaBHdDLR6s/view?usp=sharing) | [85.8](https://drive.google.com/file/d/1LSJvK1BPSbzm9eWpKL8Xo7RmYBrd2xux/view?usp=sharing)/[85.2](https://www.cityscapes-dataset.com/anonymous-results/?id=0ca6821dc3183ff970bd5266f812df2eaa4519ecb1973ca1308d65a3b546bf27) | 571M   |
 
-### COCO-Stuff-10k
+COCO-Stuff-10K
 
 | Method        | Framework   | Pre-train | Iters | Crop Size | mIoU                                                                                       | +MS                                                                                        | #Param |
 |:-------------:|:-----------:|:---------:|:-----:|:---------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------:|
 | ViT-Adapter-L | UperNet     | BEiT      | 80k   | 512       | [51.0](https://drive.google.com/file/d/1xZodiAvOLGaLtMGx_btYVZIMC2VKrDhI/view?usp=sharing) | [51.4](https://drive.google.com/file/d/1bmFG9GA4bRqOEJfqXcO7nWYPwG3wSk2J/view?usp=sharing) | 451M   |
 | ViT-Adapter-L | Mask2Former | BEiT      | 40k   | 512       | [53.2](https://drive.google.com/file/d/1Buewc1n7GBAcBDXeia-QarujrDZqc_Sx/view?usp=sharing) | [54.2](https://drive.google.com/file/d/1kQgJUHDeQoO3pPY6QoXRKwyF7heT7wCJ/view?usp=sharing) | 568M   |
 
-### Pascal Context
+Pascal Context
 
 | Method        | Framework   | Pre-train | Iters | Crop Size | mIoU                                                                                       | +MS                                                                                        | #Param |
 |:-------------:|:-----------:|:---------:|:-----:|:---------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------:|
@@ -67,7 +68,7 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 ### COCO mini-val
 
-#### Baseline Detectors
+Baseline Detectors
 
 | Method        | Framework  | Pre-train | Lr schd | Aug | box AP | mask AP | #Param |
 |:-------------:|:----------:|:---------:|:-------:|:---:|:------:|:-------:|:------:|
@@ -76,7 +77,7 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-B | Mask R-CNN | DeiT      | 3x      | Yes | 49.6   | 43.6    | 120M   |
 | ViT-Adapter-L | Mask R-CNN | AugReg    | 3x      | Yes | 50.9   | 44.8    | 348M   |
 
-#### Advanced Detectors
+Advanced Detectors
 
 | Method        | Framework           | Pre-train | Lr schd | Aug | box AP | mask AP | #Param |
 |:-------------:|:-------------------:|:---------:|:-------:|:---:|:------:|:-------:|:------:|
@@ -87,7 +88,7 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 | ViT-Adapter-B | Upgraded Mask R-CNN | MAE       | 25ep    | LSJ | 50.3   | 44.7    | 122M   |
 | ViT-Adapter-B | Upgraded Mask R-CNN | MAE       | 50ep    | LSJ | 50.8   | 45.1    | 122M   |
 
-### ADE20K val
+ADE20K val
 
 | Method        | Framework | Pre-train | Iters | Crop Size | mIoU | +MS  | #Param |
 |:-------------:|:---------:|:---------:|:-----:|:---------:|:----:|:----:|:------:|
@@ -99,8 +100,8 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 
 ## Catalog
 
-- [ ] Segmentation checkpoints
-- [ ] Segmentation code
+- [x] Segmentation checkpoints
+- [x] Segmentation code
 - [x] Detection checkpoints
 - [x] Detection code
 - [x] Initialization
@@ -110,7 +111,7 @@ This work investigates a simple yet powerful adapter for Vision Transformer (ViT
 If this work is helpful for your research, please consider citing the following BibTeX entry.
 
 ```
-@article{chen2021vitadapter,
+@article{chen2022vitadapter,
   title={Vision Transformer Adapter for Dense Predictions},
   author={Chen, Zhe and Duan, Yuchen and Wang, Wenhai and He, Junjun and Lu, Tong and Dai, Jifeng and Qiao, Yu},
   journal={arXiv preprint arXiv:2205.08534},

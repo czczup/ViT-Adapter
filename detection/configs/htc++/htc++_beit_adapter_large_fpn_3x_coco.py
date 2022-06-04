@@ -259,9 +259,8 @@ model = dict(
             max_per_img=100,
             mask_thr_binary=0.5)))
 # optimizer
-img_norm_cfg = dict(mean=[123.675, 116.28, 103.53],
-                    std=[58.395, 57.12, 57.375],
-                    to_rgb=True)
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # augmentation strategy originates from DETR / Sparse RCNN
 # file_client_args = dict(backend='petrel')
 file_client_args = dict(backend='disk')
@@ -288,9 +287,7 @@ train_pipeline = [
     dict(type='Pad', size_divisor=32),
     dict(type='SegRescale', scale_factor=1 / 8),
     dict(type='DefaultFormatBundle'),
-    dict(type='Collect',
-         keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks',
-               'gt_semantic_seg']),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks', 'gt_semantic_seg']),
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile', file_client_args=file_client_args),
@@ -318,7 +315,6 @@ optimizer = dict(_delete_=True,
                  weight_decay=0.05,
                  constructor='LayerDecayOptimizerConstructor',
                  paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.90))
-
 optimizer_config = dict(grad_clip=None)
 checkpoint_config = dict(
     interval=1,
