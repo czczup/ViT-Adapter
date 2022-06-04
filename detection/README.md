@@ -7,7 +7,7 @@ For details see [Vision Transformer Adapter for Dense Predictions](https://arxiv
 If you use this code for a paper please cite:
 
 ```
-@article{chen2021vitadapter,
+@article{chen2022vitadapter,
   title={Vision Transformer Adapter for Dense Predictions},
   author={Chen, Zhe and Duan, Yuchen and Wang, Wenhai and He, Junjun and Lu, Tong and Dai, Jifeng and Qiao, Yu},
   journal={arXiv preprint arXiv:2205.08534},
@@ -78,7 +78,7 @@ Advanced Detectors
 
 To evaluate ViT-Adapter-L + HTC++ on COCO val2017 on a single node with 8 gpus run:
 
-```
+```shell
 sh dist_test.sh configs/htc++/htc++_beit_adapter_large_fpn_3x_coco.py /path/to/checkpoint_file 8 --eval bbox segm
 ```
 
@@ -118,6 +118,6 @@ Evaluate annotation type *segm*
 
 To train ViT-Adapter-T + Mask R-CNN on COCO train2017 on a single node with 8 gpus for 36 epochs run:
 
-```
+```shell
 sh dist_train.sh configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py 8
 ```

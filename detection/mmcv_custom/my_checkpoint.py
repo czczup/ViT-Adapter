@@ -83,11 +83,7 @@ def load_state_dict(module, state_dict, strict=False, logger=None):
             print(err_msg)
 
 
-def my_load_checkpoint(model,
-                       filename,
-                       map_location=None,
-                       strict=False,
-                       logger=None):
+def my_load_checkpoint(model, filename, map_location=None, strict=False, logger=None):
     """Load checkpoint from a file or URI.
 
     Args:

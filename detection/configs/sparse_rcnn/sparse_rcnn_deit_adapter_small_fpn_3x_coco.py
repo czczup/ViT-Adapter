@@ -160,3 +160,8 @@ optimizer = dict(
 optimizer_config = dict(grad_clip=None)
 optimizer_config = dict(_delete_=True, grad_clip=dict(max_norm=1, norm_type=2))
 # fp16 = dict(loss_scale=dict(init_scale=512))
+checkpoint_config = dict(
+    interval=1,
+    max_keep_ckpts=3,
+    save_last=True,
+)

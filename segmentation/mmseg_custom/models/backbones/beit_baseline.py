@@ -38,12 +38,8 @@ class DropPath(nn.Module):
 
 
 class Mlp(nn.Module):
-    def __init__(self,
-                 in_features,
-                 hidden_features=None,
-                 out_features=None,
-                 act_layer=nn.GELU,
-                 drop=0.):
+    def __init__(self, in_features, hidden_features=None, out_features=None,
+                 act_layer=nn.GELU, drop=0.):
         super().__init__()
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
@@ -63,15 +59,8 @@ class Mlp(nn.Module):
 
 
 class Attention(nn.Module):
-    def __init__(self,
-                 dim,
-                 num_heads=8,
-                 qkv_bias=False,
-                 qk_scale=None,
-                 attn_drop=0.,
-                 proj_drop=0.,
-                 window_size=None,
-                 attn_head_dim=None):
+    def __init__(self, dim, num_heads=8, qkv_bias=False, qk_scale=None, attn_drop=0.,
+                 proj_drop=0., window_size=None, attn_head_dim=None):
         super().__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
