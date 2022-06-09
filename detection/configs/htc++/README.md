@@ -27,19 +27,104 @@ detection
 
 ## Results and Models
 
-The results on **COCO 2017val** are shown in the below table.
+The results on COCO mini-val and test-dev are shown in the below table.
 
-| Backbone           | Pre-train                                                                                                             | Lr schd | box AP | mask AP | #Param | Config                                              | Download                                                                                                                                                                                                         |
-|:------------------:|:---------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:---------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| ViT-Adapter-L      | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 3x      | 57.9   | 50.2    | 401M   | [config](./htc++_beit_adapter_large_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log) |
-| ViT-Adapter-L (MS) | -                                                                                                                     | -       | 59.8   | 51.7    | 401M   | TODO                                                | -                                                                                                                                                                                                                |
+<table>
+   <tr  align=center>
+      <td rowspan="2" align=center><b>Backbone</b></td>
+      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Lr schd</b></td>
+      <td colspan="2" align=center><b>mini-val</b></td>
+      <td colspan="2" align=center><b>test-dev</b></td>
+      <td rowspan="2" align=center><b>#Param</b></td>
+      <td rowspan="2" align=center><b>Config</b></td>
+      <td rowspan="2" align=center><b>Download</b></td>
+   </tr>
+   <tr>
+      <td>box AP</td>
+      <td>mask AP</td>
+      <td>box AP</td>
+      <td>mask AP</td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
+      <td>3x</td>
+      <td>58.4</td>
+      <td>50.8</td>
+      <td>-</td>
+      <td>-</td>
+      <td>401M</td>
+      <td><a href="./htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">model</a> | 
+        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log">log</a></td>
+   </tr>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (MS)</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
+      <td>3x</td>
+      <td>60.2</td>
+      <td>52.2</td>
+      <td>-</td>
+      <td>-</td>
+      <td>401M</td>
+      <td>-</td>
+      <td>-</td>
+   </tr>
+</table>
 
 - MS denotes multi-scale testing. Note that the ms config is only for testing.
 - We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.
 
-The results on **COCO 2017test-dev** are shown in the below table.
+## Old Results
 
-| Backbone           | Pre-train                                                                                                             | Lr schd | box AP | mask AP | #Param | Config                                              | Download                                                                                                                                                                                                         |
-|:------------------:|:---------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:---------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| ViT-Adapter-L      | [BEiT-L](https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth) | 3x      | 58.5   | 50.8    | 401M   | [config](./htc++_beit_adapter_large_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log) |
-| ViT-Adapter-L (MS) | -                                                                                                                     | -       | 60.1   | 52.1    | 401M   | TODO                                                | -                                                                                                                                                                                                                |
+The results on COCO mini-val and test-dev are shown in the below table.
+
+<table>
+   <tr  align=center>
+      <td rowspan="2" align=center><b>Backbone</b></td>
+      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Lr schd</b></td>
+      <td colspan="2" align=center><b>mini-val</b></td>
+      <td colspan="2" align=center><b>test-dev</b></td>
+      <td rowspan="2" align=center><b>#Param</b></td>
+      <td rowspan="2" align=center><b>Config</b></td>
+      <td rowspan="2" align=center><b>Download</b></td>
+   </tr>
+   <tr>
+      <td>box AP</td>
+      <td>mask AP</td>
+      <td>box AP</td>
+      <td>mask AP</td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
+      <td>3x</td>
+      <td>57.9</td>
+      <td>50.2</td>
+      <td>58.5</td>
+      <td>50.8</td>
+      <td>401M</td>
+      <td><a href="./htc++_beit_adapter_large_fpn_3x_coco_old.py">config</a> </td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">model</a> | 
+        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log">log</a></td>
+   </tr>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (MS)</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
+      <td>3x</td>
+      <td>59.8</td>
+      <td>51.7</td>
+      <td>60.1</td>
+      <td>52.1</td>
+      <td>401M</td>
+      <td>-</td>
+      <td>-</td>
+   </tr>
+</table>
+
+- MS denotes multi-scale testing. Note that the ms config is only for testing.
+- We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.

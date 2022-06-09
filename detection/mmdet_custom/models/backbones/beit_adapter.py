@@ -20,12 +20,13 @@ _logger = logging.getLogger(__name__)
 class BEiTAdapter(BEiT):
     def __init__(self, pretrain_size=224, conv_inplane=64, n_points=4, deform_num_heads=6,
                  init_values=0., cffn_ratio=0.25, deform_ratio=1.0, with_cffn=True,
-                 interaction_indexes=None, add_vit_feature=True, *args, **kwargs):
+                 interaction_indexes=None, add_vit_feature=True, version='new', *args, **kwargs):
 
         super().__init__(init_values=init_values, *args, **kwargs)
 
         self.num_classes = 80
         # self.cls_token = None
+        self.version = version
         self.num_block = len(self.blocks)
         self.pretrain_size = (pretrain_size, pretrain_size)
         self.flags = [i for i in range(-1, self.num_block, self.num_block // 4)][1:]
@@ -110,7 +111,8 @@ class BEiTAdapter(BEiT):
             indexes = self.interaction_indexes[i]
             x, c = layer(x, c, self.blocks[indexes[0]:indexes[-1] + 1],
                          deform_inputs1, deform_inputs2, H, W)
-            outs.append(x.transpose(1, 2).view(bs, dim, H, W).contiguous())
+            if self.version == 'old':
+                outs.append(x.transpose(1, 2).view(bs, dim, H, W).contiguous())
 
         # Split & Reshape
         c2 = c[:, 0:c2.size(1), :]
@@ -123,7 +125,11 @@ class BEiTAdapter(BEiT):
         c1 = self.up(c2) + c1
 
         if self.add_vit_feature:
-            x1, x2, x3, x4 = outs
+            if self.version == 'old':
+                x1, x2, x3, x4 = outs
+            else:
+                x = x.transpose(1, 2).view(bs, dim, H, W).contiguous()
+                x1, x2, x3, x4 = x, x, x, x
             x1 = F.interpolate(x1, scale_factor=4, mode='bilinear', align_corners=False)
             x2 = F.interpolate(x2, scale_factor=2, mode='bilinear', align_corners=False)
             x4 = F.interpolate(x4, scale_factor=0.5, mode='bilinear', align_corners=False)
