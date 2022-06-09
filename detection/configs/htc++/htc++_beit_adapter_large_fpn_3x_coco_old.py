@@ -20,7 +20,7 @@ model = dict(
         use_abs_pos_emb=False,
         use_rel_pos_bias=True,
         init_values=1e-6,
-        drop_path_rate=0.4,
+        drop_path_rate=0.3, # maybe 0.4 is better
         conv_inplane=64,
         n_points=4,
         deform_num_heads=16,
@@ -35,7 +35,8 @@ model = dict(
                      14, 14, 14, 14, 14, 56,
                      14, 14, 14, 14, 14, 56],
         interaction_indexes=[[0, 5], [6, 11], [12, 17], [18, 23]],
-        pretrained=pretrained),
+        pretrained=pretrained,
+        version='old'),
     neck=[
         dict(
             type='ExtraAttention',
