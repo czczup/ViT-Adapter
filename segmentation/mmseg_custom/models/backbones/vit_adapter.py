@@ -1,14 +1,13 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 import logging
 import math
-from functools import partial
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from mmseg.models.builder import BACKBONES
 from ops.modules import MSDeformAttn
-from timm.models.layers import DropPath, trunc_normal_
+from timm.models.layers import trunc_normal_
 from torch.nn.init import normal_
 
 from .base.vit import TIMMVisionTransformer
@@ -20,7 +19,7 @@ _logger = logging.getLogger(__name__)
 @BACKBONES.register_module()
 class ViTAdapter(TIMMVisionTransformer):
     def __init__(self, pretrain_size=224, num_heads=12, conv_inplane=64, n_points=4,
-                 deform_num_heads=6, init_values=0., interaction_indexes=None, with_cffn=False,
+                 deform_num_heads=6, init_values=0., interaction_indexes=None, with_cffn=True,
                  cffn_ratio=0.25, deform_ratio=1.0, add_vit_feature=True, pretrained=None,
                  use_extra_extractor=True, *args, **kwargs):
         
@@ -94,7 +93,7 @@ class ViTAdapter(TIMMVisionTransformer):
         deform_inputs1, deform_inputs2 = deform_inputs(x)
         
         # SPM forward
-        c1, c2, c3, c4 = self.conv_branch(x)
+        c1, c2, c3, c4 = self.spm(x)
         c2, c3, c4 = self._add_level_embed(c2, c3, c4)
         c = torch.cat([c2, c3, c4], dim=1)
 
@@ -106,7 +105,7 @@ class ViTAdapter(TIMMVisionTransformer):
 
         # Interaction
         outs = list()
-        for i, layer in enumerate(self.interact_blocks):
+        for i, layer in enumerate(self.interactions):
             indexes = self.interaction_indexes[i]
             x, c = layer(x, c, self.blocks[indexes[0]:indexes[-1] + 1],
                          deform_inputs1, deform_inputs2, H, W)
