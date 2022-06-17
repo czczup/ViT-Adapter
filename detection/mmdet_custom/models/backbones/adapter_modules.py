@@ -76,9 +76,9 @@ class DWConv(nn.Module):
     def forward(self, x, H, W):
         B, N, C = x.shape
         n = N // 21
-        x1 = x[:, 0:16 * n, :].transpose(1, 2).view(B, C, H * 2, W * 2)
-        x2 = x[:, 16 * n:20 * n, :].transpose(1, 2).view(B, C, H, W)
-        x3 = x[:, 20 * n:, :].transpose(1, 2).view(B, C, H // 2, W // 2)
+        x1 = x[:, 0:16 * n, :].transpose(1, 2).view(B, C, H * 2, W * 2).contiguous()
+        x2 = x[:, 16 * n:20 * n, :].transpose(1, 2).view(B, C, H, W).contiguous()
+        x3 = x[:, 20 * n:, :].transpose(1, 2).view(B, C, H // 2, W // 2).contiguous()
         x1 = self.dwconv(x1).flatten(2).transpose(1, 2)
         x2 = self.dwconv(x2).flatten(2).transpose(1, 2)
         x3 = self.dwconv(x3).flatten(2).transpose(1, 2)
@@ -143,7 +143,8 @@ class InteractionBlock(nn.Module):
         if extra_extractor:
             self.extra_extractors = nn.Sequential(*[
                 Extractor(dim=dim, num_heads=num_heads, n_points=n_points, norm_layer=norm_layer,
-                          with_cffn=with_cffn, cffn_ratio=cffn_ratio, deform_ratio=deform_ratio)
+                          with_cffn=with_cffn, cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
+                          drop=drop, drop_path=drop_path)
                 for _ in range(2)
             ])
         else:
@@ -200,7 +201,7 @@ class SpatialPriorModule(nn.Module):
         self.fc1 = nn.Conv2d(inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
         self.fc2 = nn.Conv2d(2 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
         self.fc3 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
-        self.fc4 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0,  bias=True)
+        self.fc4 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
 
     def forward(self, x):
         c1 = self.stem(x)

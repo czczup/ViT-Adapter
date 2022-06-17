@@ -9,6 +9,7 @@ from functools import partial
 
 import torch
 import torch.nn.functional as F
+import torch.utils.checkpoint as cp
 from mmcv.runner import load_checkpoint
 from mmdet.utils import get_root_logger
 from timm.models.layers import DropPath
@@ -218,9 +219,10 @@ class BertOutput(nn.Module):
 
 class BertLayer(nn.Module):
     def __init__(self, hidden_size=768, intermediate_size=3072, num_attention_heads=12,
-                 drop_path_ratio=0.1, windowed=False, window_size=14):
+                 drop_path_ratio=0.1, windowed=False, window_size=14, with_cp=False):
 
         super(BertLayer, self).__init__()
+        self.with_cp = with_cp
         self.attention = BertAttention(hidden_size, num_attention_heads,
                                        drop_path_ratio, windowed, window_size)
 
@@ -230,10 +232,19 @@ class BertLayer(nn.Module):
                                  drop_path_ratio=drop_path_ratio)
 
     def forward(self, hidden_states, H, W):
-        attention_output = self.attention(hidden_states, H, W)
-        intermediate_output = self.intermediate(attention_output)
-        layer_output = self.output(intermediate_output, attention_output)
-        return layer_output
+        
+        def _inner_forward(hidden_states):
+            attention_output = self.attention(hidden_states, H, W)
+            intermediate_output = self.intermediate(attention_output)
+            layer_output = self.output(intermediate_output, attention_output)
+            return layer_output
+
+        if self.with_cp and hidden_states.requires_grad:
+            x = cp.checkpoint(_inner_forward, hidden_states)
+        else:
+            x = _inner_forward(hidden_states)
+
+        return x
 
 
 class VisualPatchEmbedding(nn.Module):
@@ -299,7 +310,8 @@ class PatchEmbed(torch.nn.Module):
 class UnifiedBertEncoder(nn.Module):
     def __init__(self, img_size=224, patch_size=16, in_chans=3, embed_dim=768, depth=12,
                  num_heads=12, mlp_ratio=4., drop_path_rate=0., norm_layer=partial(nn.LayerNorm, eps=1e-6),
-                 embed_layer=VisualPatchEmbedding, window_attn=False, window_size=14, pretrained=None):
+                 embed_layer=VisualPatchEmbedding, window_attn=False, window_size=14,
+                 with_cp=False, pretrained=None):
 
         super(UnifiedBertEncoder, self).__init__()
         self.embed_dim = embed_dim
@@ -316,7 +328,7 @@ class UnifiedBertEncoder(nn.Module):
             layers.append(
                 BertLayer(hidden_size=embed_dim, intermediate_size=int(embed_dim * mlp_ratio),
                           num_attention_heads=num_heads, drop_path_ratio=drop_path_rate,
-                          windowed=window_attn[i], window_size=window_size[i])
+                          windowed=window_attn[i], window_size=window_size[i], with_cp=with_cp)
             )
 
         self.layers = nn.ModuleList(layers)
