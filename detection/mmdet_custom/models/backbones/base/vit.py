@@ -29,6 +29,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.utils.checkpoint as cp
 from mmcv.runner import BaseModule
 from mmcv_custom import my_load_checkpoint as load_checkpoint
 from mmdet.utils import get_root_logger
@@ -208,10 +209,11 @@ class WindowedAttention(nn.Module):
 
 
 class Block(nn.Module):
-    def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0.,
+    def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0., with_cp=False,
                  attn_drop=0., drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm,
                  windowed=False, window_size=14, pad_mode='constant', layer_scale=False):
         super().__init__()
+        self.with_cp = with_cp
         self.norm1 = norm_layer(dim)
         if windowed:
             self.attn = WindowedAttention(dim, num_heads=num_heads,
@@ -233,12 +235,21 @@ class Block(nn.Module):
             self.gamma2 = nn.Parameter(torch.ones((dim)), requires_grad=True)
 
     def forward(self, x, H, W):
-        if self.layer_scale:
-            x = x + self.drop_path(self.gamma1 * self.attn(self.norm1(x), H, W))
-            x = x + self.drop_path(self.gamma2 * self.mlp(self.norm2(x)))
+        
+        def _inner_forward(x):
+            if self.layer_scale:
+                x = x + self.drop_path(self.gamma1 * self.attn(self.norm1(x), H, W))
+                x = x + self.drop_path(self.gamma2 * self.mlp(self.norm2(x)))
+            else:
+                x = x + self.drop_path(self.attn(self.norm1(x), H, W))
+                x = x + self.drop_path(self.mlp(self.norm2(x)))
+            return x
+
+        if self.with_cp and x.requires_grad:
+            x = cp.checkpoint(_inner_forward, x)
         else:
-            x = x + self.drop_path(self.attn(self.norm1(x), H, W))
-            x = x + self.drop_path(self.mlp(self.norm2(x)))
+            x = _inner_forward(x)
+        
         return x
 
 
@@ -254,7 +265,7 @@ class TIMMVisionTransformer(BaseModule):
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, embed_dim=768,
                  depth=12, num_heads=12, mlp_ratio=4., qkv_bias=True, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., layer_scale=True, embed_layer=PatchEmbed, norm_layer=partial(nn.LayerNorm, eps=1e-6),
-                 act_layer=nn.GELU, window_attn=False, window_size=14, pretrained=None):
+                 act_layer=nn.GELU, window_attn=False, window_size=14, with_cp=False, pretrained=None):
         """
         Args:
             img_size (int, tuple): input image size
@@ -272,6 +283,7 @@ class TIMMVisionTransformer(BaseModule):
             embed_layer (nn.Module): patch embedding layer
             norm_layer: (nn.Module): normalization layer
             pretrained: (str): pretrained path
+            with_cp: (bool): use checkpoint or not
         """
         super().__init__()
         self.num_classes = num_classes
@@ -307,7 +319,7 @@ class TIMMVisionTransformer(BaseModule):
                   qkv_bias=qkv_bias, drop=drop_rate, attn_drop=attn_drop_rate,
                   drop_path=dpr[i], norm_layer=norm_layer, act_layer=act_layer,
                   windowed=window_attn[i], window_size=window_size[i],
-                  layer_scale=layer_scale) for i in range(depth)
+                  layer_scale=layer_scale, with_cp=with_cp) for i in range(depth)
         ])
 
         self.init_weights(pretrained)
