@@ -61,7 +61,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
    </tr>
    <tr align=center>
-      <td>ViT-Adapter-L (MS)</td>
+      <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
       <td>3x</td>
       <td>60.2</td>
@@ -74,12 +74,11 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
 </table>
 
-- MS denotes multi-scale testing. Note that the ms config is only for testing.
+- TTA denotes test-time augmentation. 
 - We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.
+- If you use V100-32G GPUs, you should set `with_cp=True` to save memory during training.
 
 ## Old Results
-
-The results on COCO mini-val and test-dev are shown in the below table.
 
 <table>
    <tr align=center>
@@ -113,7 +112,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
    </tr>
    <tr align=center>
-      <td>ViT-Adapter-L (MS)</td>
+      <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
       <td>3x</td>
       <td>59.8</td>
@@ -126,5 +125,3 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
 </table>
 
-- MS denotes multi-scale testing. Note that the ms config is only for testing.
-- We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.
