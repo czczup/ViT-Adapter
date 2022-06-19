@@ -29,7 +29,6 @@ class ViTAdapter(TIMMVisionTransformer):
         self.cls_token = None
         self.num_block = len(self.blocks)
         self.pretrain_size = (pretrain_size, pretrain_size)
-        self.flags = [i for i in range(-1, self.num_block, self.num_block // 4)][1:]
         self.interaction_indexes = interaction_indexes
         self.add_vit_feature = add_vit_feature
         embed_dim = self.embed_dim
