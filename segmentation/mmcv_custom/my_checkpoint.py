@@ -127,8 +127,9 @@ def my_load_checkpoint(model, filename, map_location=None, strict=False, logger=
     elif isinstance(checkpoint, dict) and 'model' in checkpoint:
         state_dict = checkpoint['model']  # for classification weights
     else:
-        raise RuntimeError(
-            'No state_dict found in checkpoint file {}'.format(filename))
+        state_dict = checkpoint
+        # raise RuntimeError(
+        #     'No state_dict found in checkpoint file {}'.format(filename))
     # strip prefix of state_dict
     if list(state_dict.keys())[0].startswith('module.'):
         state_dict = {k[7:]: v for k, v in checkpoint['state_dict'].items()}

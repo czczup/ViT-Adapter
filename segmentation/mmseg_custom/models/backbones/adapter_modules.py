@@ -180,7 +180,8 @@ class InteractionBlockWithCls(nn.Module):
         if extra_extractor:
             self.extra_extractors = nn.Sequential(*[
                 Extractor(dim=dim, num_heads=num_heads, n_points=n_points, norm_layer=norm_layer,
-                          with_cffn=with_cffn, cffn_ratio=cffn_ratio, deform_ratio=deform_ratio)
+                          with_cffn=with_cffn, cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
+                          drop=drop, drop_path=drop_path)
                 for _ in range(2)
             ])
         else:
@@ -239,7 +240,7 @@ class SpatialPriorModule(nn.Module):
         self.fc1 = nn.Conv2d(inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
         self.fc2 = nn.Conv2d(2 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
         self.fc3 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
-        self.fc4 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0,  bias=True)
+        self.fc4 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
 
     def forward(self, x):
         c1 = self.stem(x)
