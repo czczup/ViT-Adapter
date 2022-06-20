@@ -61,18 +61,9 @@ test_pipeline = [
             dict(type='Collect', keys=['img']),
         ])
 ]
-optimizer = dict(
-    _delete_=True, type='AdamW', lr=0.00002, betas=(0.9, 0.999), weight_decay=0.05,
-    paramwise_cfg=dict(custom_keys={
-        'level_embed': dict(decay_mult=0.),
-        'pos_embed': dict(decay_mult=0.),
-        'norm': dict(decay_mult=0.),
-        'bias': dict(decay_mult=0.),
-        'head': dict(lr_mult=10.0),
-}))
-# optimizer = dict(_delete_=True, type='AdamW', lr=2e-5, betas=(0.9, 0.999), weight_decay=0.05,
-#                  constructor='LayerDecayOptimizerConstructor',
-#                  paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.95))
+optimizer = dict(_delete_=True, type='AdamW', lr=2e-5, betas=(0.9, 0.999), weight_decay=0.05,
+                 constructor='LayerDecayOptimizerConstructor',
+                 paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.95))
 lr_config = dict(_delete_=True, policy='poly',
                  warmup='linear',
                  warmup_iters=1500,
