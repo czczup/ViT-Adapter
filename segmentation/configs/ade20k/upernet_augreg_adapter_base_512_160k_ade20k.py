@@ -70,9 +70,6 @@ optimizer = dict(
         'bias': dict(decay_mult=0.),
         'head': dict(lr_mult=10.0),
 }))
-# optimizer = dict(_delete_=True, type='AdamW', lr=2e-5, betas=(0.9, 0.999), weight_decay=0.01,
-#                  constructor='LayerDecayOptimizerConstructor',
-#                  paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.95))
 lr_config = dict(_delete_=True, policy='poly',
                  warmup='linear',
                  warmup_iters=1500,
@@ -86,3 +83,4 @@ data=dict(samples_per_gpu=2,
 runner = dict(type='IterBasedRunner')
 checkpoint_config = dict(by_epoch=False, interval=1000, max_keep_ckpts=1)
 evaluation = dict(interval=16000, metric='mIoU', save_best='mIoU')
+fp16 = dict(loss_scale=dict(init_scale=512))

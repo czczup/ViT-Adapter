@@ -291,7 +291,7 @@ class BEiTBaseline(nn.Module):
                  num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., hybrid_backbone=None, norm_layer=None, init_values=None, use_checkpoint=False,
                  use_abs_pos_emb=True, use_rel_pos_bias=False, use_shared_rel_pos_bias=False,
-                 out_indices=[3, 5, 7, 11]):
+                 out_indices=[3, 5, 7, 11], pretrained=None):
         super().__init__()
         norm_layer = norm_layer or partial(nn.LayerNorm, eps=1e-6)
         self.num_classes = num_classes
@@ -365,16 +365,8 @@ class BEiTBaseline(nn.Module):
                 nn.MaxPool2d(kernel_size=4, stride=4),
             )
         self.apply(self._init_weights)
-        self.fix_init_weight()
-    
-    def fix_init_weight(self):
-        def rescale(param, layer_id):
-            param.div_(math.sqrt(2.0 * layer_id))
+        self.init_weights(pretrained)
         
-        for layer_id, layer in enumerate(self.blocks):
-            rescale(layer.attn.proj.weight.data, layer_id + 1)
-            rescale(layer.mlp.fc2.weight.data, layer_id + 1)
-    
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
             trunc_normal_(m.weight, std=.02)
@@ -391,30 +383,12 @@ class BEiTBaseline(nn.Module):
             pretrained (str, optional): Path to pre-trained weights.
                 Defaults to None.
         """
-        def _init_weights(m):
-            if isinstance(m, nn.Linear):
-                trunc_normal_(m.weight, std=.02)
-                if isinstance(m, nn.Linear) and m.bias is not None:
-                    nn.init.constant_(m.bias, 0)
-            elif isinstance(m, nn.LayerNorm):
-                nn.init.constant_(m.bias, 0)
-                nn.init.constant_(m.weight, 1.0)
-
         if isinstance(pretrained, str):
-            self.apply(_init_weights)
             logger = get_root_logger()
             load_checkpoint(self, pretrained, strict=False, logger=logger)
-        elif pretrained is None:
-            self.apply(_init_weights)
-        else:
-            raise TypeError('pretrained must be a str or None')
     
     def get_num_layers(self):
         return len(self.blocks)
-    
-    @torch.jit.ignore
-    def no_weight_decay(self):
-        return {'pos_embed', 'cls_token'}
     
     def forward_features(self, x):
         B, C, H, W = x.shape

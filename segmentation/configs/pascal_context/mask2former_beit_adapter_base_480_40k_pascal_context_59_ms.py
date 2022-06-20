@@ -23,7 +23,7 @@ model = dict(
         use_abs_pos_emb=False,
         use_rel_pos_bias=True,
         init_values=1e-6,
-        drop_path_rate=0.1,
+        drop_path_rate=0.2,
         conv_inplane=64,
         n_points=4,
         deform_num_heads=12,
@@ -134,7 +134,7 @@ test_pipeline = [
 ]
 optimizer = dict(_delete_=True, type='AdamW', lr=3e-5, betas=(0.9, 0.999), weight_decay=0.05,
                  constructor='LayerDecayOptimizerConstructor',
-                 paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.90))
+                 paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.95))
 lr_config = dict(_delete_=True,
                  policy='poly',
                  warmup='linear',
