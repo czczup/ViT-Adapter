@@ -135,4 +135,4 @@ model = dict(
         filter_low_score=True),
     init_cfg=None)
 
-find_unused_parameters = True
+# find_unused_parameters = True

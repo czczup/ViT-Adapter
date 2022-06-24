@@ -123,6 +123,7 @@ class Mask2FormerHead(BaseDecodeHead):
             nn.Linear(feat_channels, feat_channels), nn.ReLU(inplace=True),
             nn.Linear(feat_channels, feat_channels), nn.ReLU(inplace=True),
             nn.Linear(feat_channels, out_channels))
+        self.conv_seg = None # fix a bug here (conv_seg is not used)
 
         self.test_cfg = test_cfg
         self.train_cfg = train_cfg

@@ -21,9 +21,10 @@ class ViTAdapter(TIMMVisionTransformer):
     def __init__(self, pretrain_size=224, num_heads=12, conv_inplane=64, n_points=4,
                  deform_num_heads=6, init_values=0., interaction_indexes=None, with_cffn=True,
                  cffn_ratio=0.25, deform_ratio=1.0, add_vit_feature=True, pretrained=None,
-                 use_extra_extractor=True, *args, **kwargs):
+                 use_extra_extractor=True, with_cp=False, *args, **kwargs):
         
-        super().__init__(num_heads=num_heads, pretrained=pretrained, *args, **kwargs)
+        super().__init__(num_heads=num_heads, pretrained=pretrained,
+                         with_cp=with_cp, *args, **kwargs)
         
         # self.num_classes = 80
         self.cls_token = None
@@ -34,14 +35,15 @@ class ViTAdapter(TIMMVisionTransformer):
         embed_dim = self.embed_dim
         
         self.level_embed = nn.Parameter(torch.zeros(3, embed_dim))
-        self.spm = SpatialPriorModule(inplanes=conv_inplane, embed_dim=embed_dim)
+        self.spm = SpatialPriorModule(inplanes=conv_inplane, embed_dim=embed_dim, with_cp=False)
         self.interactions = nn.Sequential(*[
             InteractionBlock(dim=embed_dim, num_heads=deform_num_heads, n_points=n_points,
                              init_values=init_values, drop_path=self.drop_path_rate,
                              norm_layer=self.norm_layer, with_cffn=with_cffn,
                              cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
                              extra_extractor=((True if i == len(interaction_indexes) - 1
-                                               else False) and use_extra_extractor))
+                                               else False) and use_extra_extractor),
+                             with_cp=with_cp)
             for i in range(len(interaction_indexes))
         ])
         self.up = nn.ConvTranspose2d(embed_dim, embed_dim, 2, 2)
