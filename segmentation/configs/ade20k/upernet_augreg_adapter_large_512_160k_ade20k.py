@@ -23,6 +23,7 @@ model = dict(
         deform_num_heads=16,
         cffn_ratio=0.25,
         deform_ratio=0.5,
+        with_cp=True,  # set with_cp=True to save memory
         interaction_indexes=[[0, 5], [6, 11], [12, 17], [18, 23]],
         window_attn=[False] * 24,
         window_size=[None] * 24),

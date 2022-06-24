@@ -289,7 +289,7 @@ class BEiTBaseline(nn.Module):
     
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=80, embed_dim=768, depth=12,
                  num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
-                 drop_path_rate=0., hybrid_backbone=None, norm_layer=None, init_values=None, use_checkpoint=False,
+                 drop_path_rate=0., hybrid_backbone=None, norm_layer=None, init_values=None, with_cp=False,
                  use_abs_pos_emb=True, use_rel_pos_bias=False, use_shared_rel_pos_bias=False,
                  out_indices=[3, 5, 7, 11], pretrained=None):
         super().__init__()
@@ -321,7 +321,7 @@ class BEiTBaseline(nn.Module):
         
         dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
         self.use_rel_pos_bias = use_rel_pos_bias
-        self.use_checkpoint = use_checkpoint
+        self.with_cp = with_cp
         self.blocks = nn.ModuleList([
             Block(
                 dim=embed_dim, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
@@ -404,7 +404,7 @@ class BEiTBaseline(nn.Module):
         rel_pos_bias = self.rel_pos_bias() if self.rel_pos_bias is not None else None
         features = []
         for i, blk in enumerate(self.blocks):
-            if self.use_checkpoint:
+            if self.with_cp:
                 x = checkpoint.checkpoint(blk, x, rel_pos_bias)
             else:
                 x = blk(x, rel_pos_bias)

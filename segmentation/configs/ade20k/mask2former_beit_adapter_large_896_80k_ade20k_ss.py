@@ -8,6 +8,8 @@ _base_ = [
 crop_size = (896, 896)
 # pretrained = 'https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth'
 pretrained = 'pretrained/beit_large_patch16_224_pt22k_ft22k.pth'
+# load_from = 'https://github.com/czczup/ViT-Adapter/releases/download/v0.2.6/mask2former_beit_adapter_large_896_80k_cocostuff164k.zip'
+load_from = 'pretrained/mask2former_beit_adapter_large_896_80k_cocostuff164k.pth.tar'
 model = dict(
     type='EncoderDecoderMask2Former',
     pretrained=pretrained,
@@ -29,6 +31,7 @@ model = dict(
         deform_num_heads=16,
         cffn_ratio=0.25,
         deform_ratio=0.5,
+        with_cp=True, # set with_cp=True to save memory
         interaction_indexes=[[0, 5], [6, 11], [12, 17], [18, 23]],
     ),
     decode_head=dict(
@@ -63,6 +66,7 @@ model = dict(
                         feedforward_channels=4096,
                         num_fcs=2,
                         ffn_drop=0.0,
+                        with_cp=True,  # set with_cp=True to save memory
                         act_cfg=dict(type='ReLU', inplace=True)),
                     operation_order=('self_attn', 'norm', 'ffn', 'norm')),
                 init_cfg=None),
@@ -92,6 +96,7 @@ model = dict(
                     act_cfg=dict(type='ReLU', inplace=True),
                     ffn_drop=0.0,
                     dropout_layer=None,
+                    with_cp=True,  # set with_cp=True to save memory
                     add_identity=True),
                 feedforward_channels=4096,
                 operation_order=('cross_attn', 'norm', 'self_attn', 'norm',

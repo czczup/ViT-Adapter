@@ -21,9 +21,9 @@ _logger = logging.getLogger(__name__)
 class BEiTAdapter(BEiT):
     def __init__(self, pretrain_size=224, conv_inplane=64, n_points=4, deform_num_heads=6,
                  init_values=0., cffn_ratio=0.25, deform_ratio=1.0, with_cffn=True,
-                 interaction_indexes=None, add_vit_feature=True, *args, **kwargs):
+                 interaction_indexes=None, add_vit_feature=True, with_cp=False, *args, **kwargs):
 
-        super().__init__(init_values=init_values, *args, **kwargs)
+        super().__init__(init_values=init_values, with_cp=with_cp, *args, **kwargs)
 
         # self.num_classes = 80
         # self.cls_token = None
@@ -35,13 +35,14 @@ class BEiTAdapter(BEiT):
         embed_dim = self.embed_dim
 
         self.level_embed = nn.Parameter(torch.zeros(3, embed_dim))
-        self.spm = SpatialPriorModule(inplanes=conv_inplane, embed_dim=embed_dim)
+        self.spm = SpatialPriorModule(inplanes=conv_inplane, embed_dim=embed_dim, with_cp=False)
         self.interactions = nn.Sequential(*[
             InteractionBlock(dim=embed_dim, num_heads=deform_num_heads, n_points=n_points,
                              init_values=init_values, drop_path=self.drop_path_rate,
                              norm_layer=self.norm_layer, with_cffn=with_cffn,
                              cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
-                             extra_extractor=True if i == len(interaction_indexes) - 1 else False)
+                             extra_extractor=True if i == len(interaction_indexes) - 1 else False,
+                             with_cp=with_cp)
             for i in range(len(interaction_indexes))
         ])
 
