@@ -159,3 +159,6 @@ To train ViT-Adapter-T + Mask R-CNN on COCO train2017 on a single node with 8 gp
 ```shell
 sh dist_train.sh configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py 8
 ```
+
+## Image Demo & Video Demo 
+Please see [issue#23](https://github.com/czczup/ViT-Adapter/issues/23).
