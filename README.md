@@ -12,7 +12,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 ## News
 (2022/06/09) ViT-Adapter-L yields 60.4 box AP and 52.5 mask AP on COCO test-dev.\
 (2022/06/04) Code and models are released.\
-(2022/05/17) ~~ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev.~~ \
+(2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev. \
 (2022/05/12) ViT-Adapter-L reaches 85.2 mIoU on Cityscapes test set without coarse data.\
 (2022/05/05) ViT-Adapter-L achieves the SOTA on ADE20K val set with 60.5 mIoU!
 

@@ -20,13 +20,13 @@ If you use this code for a paper please cite:
 Install [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/tree/v2.22.0).
 
 ```
-cd ops & sh make.sh # compile deformable attention
+# recommended environment: torch1.9 + cuda11.1
+pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+pip install mmcv-full==1.4.2 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
 pip install timm==0.4.12
 pip install mmdet==2.22.0
-# recommended environment: torch1.9 + cuda11.1
-pip install mmcv-full==1.4.2 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
-pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 pip install instaboostfast # for htc++
+cd ops & sh make.sh # compile deformable attention
 ```
 
 ## Data Preparation
