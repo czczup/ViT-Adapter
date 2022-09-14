@@ -121,8 +121,8 @@ def window_reverse(windows, window_size, H, W):
 
 
 class WindowedAttention(nn.Module):
-    def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., proj_drop=0.,
-                 window_size=14, pad_mode='constant'):
+    def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0.,
+                 proj_drop=0., window_size=14):
         super().__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
@@ -133,7 +133,6 @@ class WindowedAttention(nn.Module):
         self.proj = nn.Linear(dim, dim)
         self.proj_drop = nn.Dropout(proj_drop)
         self.window_size = window_size
-        self.pad_mode = pad_mode
 
     def forward(self, x, H, W):
         B, N, C = x.shape
@@ -143,7 +142,7 @@ class WindowedAttention(nn.Module):
 
         qkv = self.qkv(x)  # [B, N, C]
         qkv = qkv.transpose(1, 2).reshape(B, C * 3, H, W)  # [B, C, H, W]
-        qkv = F.pad(qkv, [0, W_ - W, 0, H_ - H], mode=self.pad_mode)
+        qkv = F.pad(qkv, [0, W_ - W, 0, H_ - H], mode='constant')
 
         qkv = F.unfold(qkv, kernel_size=(self.window_size, self.window_size),
                        stride=(self.window_size, self.window_size))
@@ -208,18 +207,100 @@ class WindowedAttention(nn.Module):
 #         return x
 
 
+class LayerNorm(nn.Module):
+    """
+    A LayerNorm variant, popularized by Transformers, that performs point-wise mean and
+    variance normalization over the channel dimension for inputs that have shape
+    (batch_size, channels, height, width).
+    https://github.com/facebookresearch/ConvNeXt/blob/d1fa8f6fef0a165b27399986cc2bdacc92777e40/models/convnext.py#L119  # noqa B950
+    """
+
+    def __init__(self, normalized_shape, eps=1e-6):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(normalized_shape))
+        self.bias = nn.Parameter(torch.zeros(normalized_shape))
+        self.eps = eps
+        self.normalized_shape = (normalized_shape,)
+
+    def forward(self, x):
+        u = x.mean(1, keepdim=True)
+        s = (x - u).pow(2).mean(1, keepdim=True)
+        x = (x - u) / torch.sqrt(s + self.eps)
+        x = self.weight[:, None, None] * x + self.bias[:, None, None]
+        return x
+
+
+class ResBottleneckBlock(nn.Module):
+    """
+    The standard bottleneck residual block without the last activation layer.
+    It contains 3 conv layers with kernels 1x1, 3x3, 1x1.
+    """
+
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        bottleneck_channels,
+        norm=LayerNorm,
+        act_layer=nn.GELU,
+    ):
+        """
+        Args:
+            in_channels (int): Number of input channels.
+            out_channels (int): Number of output channels.
+            bottleneck_channels (int): number of output channels for the 3x3
+                "bottleneck" conv layers.
+            norm (str or callable): normalization for all conv layers.
+                See :func:`layers.get_norm` for supported format.
+            act_layer (callable): activation for all conv layers.
+        """
+        super().__init__()
+
+        self.conv1 = nn.Conv2d(in_channels, bottleneck_channels, 1, bias=False)
+        self.norm1 = norm(bottleneck_channels)
+        self.act1 = act_layer()
+
+        self.conv2 = nn.Conv2d(bottleneck_channels,
+                               bottleneck_channels,
+                               3,
+                               padding=1,
+                               bias=False,)
+        self.norm2 = norm(bottleneck_channels)
+        self.act2 = act_layer()
+
+        self.conv3 = nn.Conv2d(bottleneck_channels, out_channels, 1, bias=False)
+        self.norm3 = norm(out_channels)
+
+        for layer in [self.norm1, self.norm2]:
+            layer.weight.data.fill_(1.0)
+            layer.bias.data.zero_()
+        # zero init last norm layer.
+        self.norm3.weight.data.zero_()
+        self.norm3.bias.data.zero_()
+
+    def forward(self, x):
+        out = x
+        for layer in [self.conv1, self.norm1, self.act1,
+                      self.conv2, self.norm2, self.act2,
+                      self.conv3, self.norm3]:
+            x = layer(x)
+
+        out = x + out
+        return out
+
+
 class Block(nn.Module):
     def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0., with_cp=False,
                  attn_drop=0., drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm,
-                 windowed=False, window_size=14, pad_mode='constant', layer_scale=False):
+                 windowed=False, window_size=14, use_residual=False, layer_scale=False):
         super().__init__()
         self.with_cp = with_cp
+        self.use_residual = use_residual
         self.norm1 = norm_layer(dim)
         if windowed:
             self.attn = WindowedAttention(dim, num_heads=num_heads,
                                           qkv_bias=qkv_bias, attn_drop=attn_drop,
-                                          proj_drop=drop, window_size=window_size,
-                                          pad_mode=pad_mode)
+                                          proj_drop=drop, window_size=window_size)
         else:
             self.attn = Attention(dim, num_heads=num_heads, qkv_bias=qkv_bias,
                                   attn_drop=attn_drop, proj_drop=drop)
@@ -233,7 +314,17 @@ class Block(nn.Module):
         if layer_scale:
             self.gamma1 = nn.Parameter(torch.ones((dim)), requires_grad=True)
             self.gamma2 = nn.Parameter(torch.ones((dim)), requires_grad=True)
-
+            
+        if self.use_residual:
+            # Use a residual block with bottleneck channel as dim // 2
+            self.residual = ResBottleneckBlock(
+                in_channels=dim,
+                out_channels=dim,
+                bottleneck_channels=dim // 2,
+                norm=LayerNorm,
+                act_layer=act_layer,
+            )
+            
     def forward(self, x, H, W):
         
         def _inner_forward(x):
@@ -243,6 +334,13 @@ class Block(nn.Module):
             else:
                 x = x + self.drop_path(self.attn(self.norm1(x), H, W))
                 x = x + self.drop_path(self.mlp(self.norm2(x)))
+                
+            if self.use_residual:
+                B, N, C = x.shape
+                x = x.reshape(B, H, W, C).permute(0, 3, 1, 2)
+                x = self.residual(x)
+                x = x.permute(0, 2, 3, 1).reshape(B, N, C)
+                
             return x
 
         if self.with_cp and x.requires_grad:
@@ -262,7 +360,7 @@ class TIMMVisionTransformer(BaseModule):
     Includes distillation token & head support for `DeiT: Data-efficient Image Transformers`
         - https://arxiv.org/abs/2012.12877
     """
-    def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, embed_dim=768,
+    def __init__(self, img_size=224, patch_size=16, in_chans=3, residual_indices=[], embed_dim=768,
                  depth=12, num_heads=12, mlp_ratio=4., qkv_bias=True, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., layer_scale=True, embed_layer=PatchEmbed, norm_layer=partial(nn.LayerNorm, eps=1e-6),
                  act_layer=nn.GELU, window_attn=False, window_size=14, with_cp=False, pretrained=None):
@@ -286,7 +384,7 @@ class TIMMVisionTransformer(BaseModule):
             with_cp: (bool): use checkpoint or not
         """
         super().__init__()
-        self.num_classes = num_classes
+        # self.num_classes = num_classes
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
         self.num_tokens = 1
         norm_layer = norm_layer or partial(nn.LayerNorm, eps=1e-6)
@@ -319,7 +417,8 @@ class TIMMVisionTransformer(BaseModule):
                   qkv_bias=qkv_bias, drop=drop_rate, attn_drop=attn_drop_rate,
                   drop_path=dpr[i], norm_layer=norm_layer, act_layer=act_layer,
                   windowed=window_attn[i], window_size=window_size[i],
-                  layer_scale=layer_scale, with_cp=with_cp) for i in range(depth)
+                  layer_scale=layer_scale, with_cp=with_cp,
+                  use_residual=True if i in residual_indices else False) for i in range(depth)
         ])
 
         self.init_weights(pretrained)

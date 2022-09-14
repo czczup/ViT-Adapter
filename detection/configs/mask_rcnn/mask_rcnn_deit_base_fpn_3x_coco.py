@@ -10,19 +10,14 @@ pretrained = 'pretrained/deit_base_patch16_224-b5f2ef4d.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
-        type='ViTAdapter',
+        type='ViTBaseline',
         patch_size=16,
         embed_dim=768,
         depth=12,
         num_heads=12,
         mlp_ratio=4,
-        drop_path_rate=0.3,
-        conv_inplane=64,
-        n_points=4,
-        deform_num_heads=12,
-        cffn_ratio=0.25,
-        deform_ratio=0.5,
-        interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
+        drop_path_rate=0.1,
+        out_indices=[2, 5, 8, 11],
         window_attn=[True, True, False, True, True, False,
                      True, True, False, True, True, False],
         window_size=[14, 14, None, 14, 14, None,
@@ -98,3 +93,4 @@ checkpoint_config = dict(
     max_keep_ckpts=3,
     save_last=True,
 )
+

@@ -4,26 +4,24 @@ import math
 
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.runner import load_checkpoint
 from mmdet.models.builder import BACKBONES
-from mmdet.utils import get_root_logger
 from timm.models.layers import trunc_normal_
 
 from .base.vit import TIMMVisionTransformer
-
+from .base.vit import ResBottleneckBlock
 _logger = logging.getLogger(__name__)
 
 
 @BACKBONES.register_module()
 class ViTBaseline(TIMMVisionTransformer):
-    def __init__(self, pretrain_size=224, *args, **kwargs):
+    def __init__(self, pretrain_size=224, out_indices=None, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        self.num_classes = 80
         self.cls_token = None
         self.num_block = len(self.blocks)
         self.pretrain_size = (pretrain_size, pretrain_size)
-        self.flags = [i for i in range(-1, self.num_block, self.num_block // 4)][1:]
+        self.out_indices = out_indices
+        assert out_indices is not None
 
         embed_dim = self.embed_dim
         self.norm1 = self.norm_layer(embed_dim)
@@ -46,11 +44,6 @@ class ViTBaseline(TIMMVisionTransformer):
         self.up3.apply(self._init_weights)
         self.up4.apply(self._init_weights)
 
-    def init_weights(self, pretrained=None):
-        if isinstance(pretrained, str):
-            logger = get_root_logger()
-            load_checkpoint(self, pretrained, map_location='cpu', strict=False, logger=logger)
-
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
             trunc_normal_(m.weight, std=.02)
@@ -65,6 +58,9 @@ class ViTBaseline(TIMMVisionTransformer):
             m.weight.data.normal_(0, math.sqrt(2.0 / fan_out))
             if m.bias is not None:
                 m.bias.data.zero_()
+        elif isinstance(m, ResBottleneckBlock):
+            m.norm3.weight.data.zero_()
+            m.norm3.bias.data.zero_()
 
     def _get_pos_embed(self, pos_embed, H, W):
         pos_embed = pos_embed.reshape(
@@ -80,13 +76,16 @@ class ViTBaseline(TIMMVisionTransformer):
         x = self.pos_drop(x + pos_embed)
         for index, blk in enumerate(self.blocks):
             x = blk(x, H, W)
-            if index in self.flags:
+            if index in self.out_indices:
                 outs.append(x)
         return outs, H, W
 
     def forward(self, x):
         outs, H, W = self.forward_features(x)
-        f1, f2, f3, f4 = outs
+        if len(outs) == 1: # for ViTDet
+            f1 = f2 = f3 = f4 = outs[0]
+        else: # for ViT
+            f1, f2, f3, f4 = outs
         bs, n, dim = f1.shape
 
         # Final Norm
