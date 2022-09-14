@@ -347,7 +347,7 @@ class BEiT(nn.Module):
         super().__init__()
         norm_layer = norm_layer or partial(nn.LayerNorm, eps=1e-6)
         self.norm_layer = norm_layer
-        self.num_classes = num_classes
+        # self.num_classes = num_classes
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
         self.drop_path_rate = drop_path_rate
 

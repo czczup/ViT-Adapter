@@ -41,7 +41,8 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 | AugReg        | Supervised | 2021 | ImageNet-22K | [repo](https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py) | [paper](https://arxiv.org/abs/2106.10270)                                                                                                                                       |
 | BEiT          | MIM        | 2021 | ImageNet-22K | [repo](https://github.com/microsoft/unilm/tree/master/beit)                                             | [paper](https://arxiv.org/abs/2106.08254)                                                                                                                                       |
 | MAE           | MIM        | 2021 | ImageNet-1K  | [repo](https://github.com/facebookresearch/mae)                                                         | [paper](https://arxiv.org/abs/2111.06377)                                                                                                                                       |
-| Uni-Perceiver | Supervised | 2022 | Multi-Modal  | -                                                                                                       | [paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Zhu_Uni-Perceiver_Pre-Training_Unified_Architecture_for_Generic_Perception_for_Zero-Shot_and_CVPR_2022_paper.pdf) |
+| Uni-Perceiver | Supervised | 2022 | Multi-Modal  | [repo](https://github.com/fundamentalvision/Uni-Perceiver)                                              | [paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Zhu_Uni-Perceiver_Pre-Training_Unified_Architecture_for_Generic_Perception_for_Zero-Shot_and_CVPR_2022_paper.pdf) |
+| BEiTv2        | MIM        | 2022 | ImageNet-22K | [repo](https://github.com/microsoft/unilm/tree/master/beit2)                                            | [paper](https://arxiv.org/abs/2208.06366)                                                                                                                                       |
 
 ## Results and Models
 
@@ -160,5 +161,6 @@ To train ViT-Adapter-T + Mask R-CNN on COCO train2017 on a single node with 8 gp
 sh dist_train.sh configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py 8
 ```
 
-## Image Demo & Video Demo 
+## Image Demo & Video Demo
+
 Please see [issue#23](https://github.com/czczup/ViT-Adapter/issues/23).

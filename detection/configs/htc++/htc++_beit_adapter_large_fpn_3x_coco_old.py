@@ -196,7 +196,7 @@ model = dict(
         rpn_proposal=dict(
             nms_pre=2000,
             max_per_img=2000,
-            nms=dict(type='soft_nms', iou_threshold=0.7),
+            nms=dict(type='nms', iou_threshold=0.7),
             min_bbox_size=0),
         rcnn=[
             dict(
@@ -252,7 +252,7 @@ model = dict(
         rpn=dict(
             nms_pre=1000,
             max_per_img=1000,
-            nms=dict(type='soft_nms', iou_threshold=0.7),
+            nms=dict(type='nms', iou_threshold=0.7),
             min_bbox_size=0),
         rcnn=dict(
             score_thr=0.001,
@@ -277,8 +277,7 @@ train_pipeline = [
          color_prob=0.5,
          hflag=False,
          aug_ratio=0.5),
-    dict(type='LoadAnnotations', with_bbox=True, with_mask=True,
-         with_seg=True),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True, with_seg=True),
     dict(type='Resize',
          img_scale=[(1600, 400), (1600, 1400)],
          multiscale_mode='range',
@@ -310,10 +309,7 @@ data = dict(samples_per_gpu=1,
             test=dict(pipeline=test_pipeline),
             val=dict(pipeline=test_pipeline))
 optimizer = dict(_delete_=True,
-                 type='AdamW',
-                 lr=0.0001,
-                 betas=(0.9, 0.999),
-                 weight_decay=0.05,
+                 type='AdamW', lr=0.0001, betas=(0.9, 0.999), weight_decay=0.05,
                  constructor='LayerDecayOptimizerConstructor',
                  paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.90))
 optimizer_config = dict(grad_clip=None)

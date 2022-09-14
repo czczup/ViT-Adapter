@@ -24,7 +24,7 @@ class ViTAdapter(TIMMVisionTransformer):
 
         super().__init__(num_heads=num_heads, *args, **kwargs)
 
-        self.num_classes = 80
+        # self.num_classes = 80
         self.cls_token = None
         self.num_block = len(self.blocks)
         self.pretrain_size = (pretrain_size, pretrain_size)

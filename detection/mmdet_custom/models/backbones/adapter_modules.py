@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 from ops.modules import MSDeformAttn
 from timm.models.layers import DropPath
+import torch.utils.checkpoint as cp
 
 _logger = logging.getLogger(__name__)
 
@@ -89,67 +90,90 @@ class DWConv(nn.Module):
 class Extractor(nn.Module):
     def __init__(self, dim, num_heads=6, n_points=4, n_levels=1, deform_ratio=1.0,
                  with_cffn=True, cffn_ratio=0.25, drop=0., drop_path=0.,
-                 norm_layer=partial(nn.LayerNorm, eps=1e-6)):
+                 norm_layer=partial(nn.LayerNorm, eps=1e-6), with_cp=False):
         super().__init__()
         self.query_norm = norm_layer(dim)
         self.feat_norm = norm_layer(dim)
         self.attn = MSDeformAttn(d_model=dim, n_levels=n_levels, n_heads=num_heads,
                                  n_points=n_points, ratio=deform_ratio)
         self.with_cffn = with_cffn
+        self.with_cp = with_cp
         if with_cffn:
             self.ffn = ConvFFN(in_features=dim, hidden_features=int(dim * cffn_ratio), drop=drop)
             self.ffn_norm = norm_layer(dim)
             self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
-
+    
     def forward(self, query, reference_points, feat, spatial_shapes, level_start_index, H, W):
-        attn = self.attn(self.query_norm(query), reference_points,
-                         self.feat_norm(feat), spatial_shapes,
-                         level_start_index, None)
-        query = query + attn
-
-        if self.with_cffn:
-            query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
+        
+        def _inner_forward(query, feat):
+            
+            attn = self.attn(self.query_norm(query), reference_points,
+                             self.feat_norm(feat), spatial_shapes,
+                             level_start_index, None)
+            query = query + attn
+            
+            if self.with_cffn:
+                query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
+            return query
+        
+        if self.with_cp and query.requires_grad:
+            query = cp.checkpoint(_inner_forward, query, feat)
+        else:
+            query = _inner_forward(query, feat)
+        
         return query
 
 
 class Injector(nn.Module):
     def __init__(self, dim, num_heads=6, n_points=4, n_levels=1, deform_ratio=1.0,
-                 norm_layer=partial(nn.LayerNorm, eps=1e-6), init_values=0.):
+                 norm_layer=partial(nn.LayerNorm, eps=1e-6), init_values=0., with_cp=False):
         super().__init__()
+        self.with_cp = with_cp
         self.query_norm = norm_layer(dim)
         self.feat_norm = norm_layer(dim)
         self.attn = MSDeformAttn(d_model=dim, n_levels=n_levels, n_heads=num_heads,
                                  n_points=n_points, ratio=deform_ratio)
         self.gamma = nn.Parameter(init_values * torch.ones((dim)), requires_grad=True)
-
+    
     def forward(self, query, reference_points, feat, spatial_shapes, level_start_index):
-        attn = self.attn(self.query_norm(query), reference_points,
-                         self.feat_norm(feat), spatial_shapes,
-                         level_start_index, None)
-        return query + self.gamma * attn
+        
+        def _inner_forward(query, feat):
+            
+            attn = self.attn(self.query_norm(query), reference_points,
+                             self.feat_norm(feat), spatial_shapes,
+                             level_start_index, None)
+            return query + self.gamma * attn
+        
+        if self.with_cp and query.requires_grad:
+            query = cp.checkpoint(_inner_forward, query, feat)
+        else:
+            query = _inner_forward(query, feat)
+        
+        return query
 
 
 class InteractionBlock(nn.Module):
     def __init__(self, dim, num_heads=6, n_points=4, norm_layer=partial(nn.LayerNorm, eps=1e-6),
                  drop=0., drop_path=0., with_cffn=True, cffn_ratio=0.25, init_values=0.,
-                 deform_ratio=1.0, extra_extractor=False):
+                 deform_ratio=1.0, extra_extractor=False, with_cp=False):
         super().__init__()
-
+        
         self.injector = Injector(dim=dim, n_levels=3, num_heads=num_heads, init_values=init_values,
-                                 n_points=n_points, norm_layer=norm_layer, deform_ratio=deform_ratio)
+                                 n_points=n_points, norm_layer=norm_layer, deform_ratio=deform_ratio,
+                                 with_cp=with_cp)
         self.extractor = Extractor(dim=dim, n_levels=1, num_heads=num_heads, n_points=n_points,
                                    norm_layer=norm_layer, deform_ratio=deform_ratio, with_cffn=with_cffn,
-                                   cffn_ratio=cffn_ratio, drop=drop, drop_path=drop_path)
+                                   cffn_ratio=cffn_ratio, drop=drop, drop_path=drop_path, with_cp=with_cp)
         if extra_extractor:
             self.extra_extractors = nn.Sequential(*[
                 Extractor(dim=dim, num_heads=num_heads, n_points=n_points, norm_layer=norm_layer,
                           with_cffn=with_cffn, cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
-                          drop=drop, drop_path=drop_path)
+                          drop=drop, drop_path=drop_path, with_cp=with_cp)
                 for _ in range(2)
             ])
         else:
             self.extra_extractors = None
-
+    
     def forward(self, x, c, blocks, deform_inputs1, deform_inputs2, H, W):
         x = self.injector(query=x, reference_points=deform_inputs1[0],
                           feat=c, spatial_shapes=deform_inputs1[1],
