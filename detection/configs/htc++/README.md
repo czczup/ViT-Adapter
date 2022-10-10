@@ -48,6 +48,31 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
    <tr align=center>
       <td>ViT-Adapter-L</td>
+      <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
+      <td>3x</td>
+      <td>56.6</td>
+      <td>49.0</td>
+      <td>57.4</td>
+      <td>50.0</td>
+      <td>401M</td>
+      <td><a href="./htc++_augreg_adapter_large_fpn_3x_coco.py">config</a> </td>
+      <td>TODO</td>
+   </tr>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (TTA)</td>
+      <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
+      <td>3x</td>
+      <td>57.7</td>
+      <td>49.9</td>
+      <td>58.4</td>
+      <td>50.7</td>
+      <td>401M</td>
+      <td>-</td>
+      <td>-</td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
       <td>3x</td>
       <td>58.4</td>
@@ -68,6 +93,31 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>52.2</td>
       <td><a href="https://drive.google.com/file/d/15t2Oc3FiNeLr6RnKOJ-0IbI7b2LalxbX/view?usp=sharing">60.4</a></td>
       <td><a href="https://drive.google.com/file/d/1TIPOJC6ieZS_ZRNCbo_AW4UqYAkQIjyN/view?usp=sharing">52.5</a></td>
+      <td>401M</td>
+      <td>-</td>
+      <td>-</td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
+      <td>3x</td>
+      <td>58.8</td>
+      <td>51.1</td>
+      <td>59.5</td>
+      <td>51.8</td>
+      <td>401M</td>
+      <td><a href="./htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
+      <td>TODO</td>
+   </tr>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (TTA)</td>
+      <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
+      <td>3x</td>
+      <td>60.5</td>
+      <td>52.5</td>
+      <td>60.9</td>
+      <td>53.0</td>
       <td>401M</td>
       <td>-</td>
       <td>-</td>

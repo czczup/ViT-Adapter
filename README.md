@@ -10,6 +10,7 @@
 The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
 ## News
+
 (2022/06/09) ViT-Adapter-L yields 60.4 box AP and 52.5 mask AP on COCO test-dev.\
 (2022/06/04) Code and models are released.\
 (2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev. \
@@ -18,13 +19,21 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 
 ## Abstract
 
-This work investigates a simple yet powerful adapter for Vision Transformer (ViT). Unlike recent visual transformers that introduce vision-specific inductive biases into their architectures, ViT achieves inferior performance on dense prediction tasks due to lacking prior information of images. To solve this issue, we propose a Vision Transformer Adapter (ViT-Adapter), which can remedy the defects of ViT and achieve comparable performance to vision-specific models by introducing inductive biases via an additional architecture. Specifically, the backbone in our framework is a vanilla transformer that can be pre-trained with multi-modal data. When fine-tuning on downstream tasks, a modality-specific adapter is used to introduce the data and tasks' prior information into the model, making it suitable for these tasks. We verify the effectiveness of our ViT-Adapter on multiple downstream tasks, including object detection, instance segmentation, and semantic segmentation. Notably, when using HTC++, our ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev, surpassing Swin-L by 1.4 box AP and 1.0 mask AP. For semantic segmentation, our ViT-Adapter-L establishes a new state-of-the-art of 60.5 mIoU on ADE20K val. We hope that the proposed ViT-Adapter could serve as an alternative for vision-specific transformers and facilitate future research.
+This work investigates a simple yet powerful dense prediction task adapter for Vision Transformer (ViT). Unlike recently advanced variants that incorporate vision-specific inductive biases into their architectures, the plain ViT suffers inferior performance on dense predictions due to weak prior assumptions. To address this
+issue, we propose the ViT-Adapter, which allows plain ViT to achieve comparable performance to vision-specific transformers. Specifically, the backbone in our
+framework is a plain ViT that can learn powerful representations from large-scale
+multi-modal data. When transferring to downstream tasks, a pre-training-free
+adapter is used to introduce the image-related inductive biases into the model,
+making it suitable for these tasks. We verify ViT-Adapter on multiple dense prediction tasks, including object detection, instance segmentation, and semantic segmentation. Notably, without using extra detection data, our ViT-Adapter-L yields
+state-of-the-art 60.9 box AP and 53.0 mask AP on COCO test-dev. We hope that
+the ViT-Adapter could serve as an alternative for vision-specific transformers and
+facilitate future research. The code and models will be released.
 
 ## Method
 
-<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/168661265-494ecb50-353f-471c-a1d1-c3f98bd82b74.png">
+<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904519-30d2a5d1-b203-419d-a597-608ee90bb3bb.png">
 
-<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/168972788-60e08b3b-5f4a-43d6-b731-3ea52878534f.png">
+<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904786-ea9c40a3-f6ac-4fe1-90ad-976e7b9e8f03.png">
 
 ## Catalog
 

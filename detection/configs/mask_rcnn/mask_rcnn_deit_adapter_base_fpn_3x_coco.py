@@ -92,7 +92,7 @@ optimizer = dict(_delete_=True,
                          'bias': dict(decay_mult=0.)
                      }))
 optimizer_config = dict(grad_clip=None)
-# fp16 = dict(loss_scale=dict(init_scale=512))
+fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,
