@@ -5,6 +5,7 @@ from .layer_decay_optimizer_constructor import LayerDecayOptimizerConstructor
 from .my_checkpoint import my_load_checkpoint
 
 __all__ = [
-    'LayerDecayOptimizerConstructor', 'CustomizedTextLoggerHook',
-    'load_checkpoint', 'my_checkpoint'
+    'LayerDecayOptimizerConstructor',
+    'CustomizedTextLoggerHook',
+    'load_checkpoint', 'my_checkpoint',
 ]
