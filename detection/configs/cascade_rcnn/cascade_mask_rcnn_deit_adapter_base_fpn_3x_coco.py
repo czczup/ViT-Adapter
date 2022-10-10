@@ -1,26 +1,27 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
-    '../_base_/datasets/coco_detection.py',
+    '../_base_/models/cascade_mask_rcnn_r50_fpn.py',
+    '../_base_/datasets/coco_instance.py',
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
-pretrained = 'pretrained/deit_small_patch16_224-cd65a155.pth'
+# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth'
+pretrained = 'pretrained/deit_base_patch16_224-b5f2ef4d.pth'
 model = dict(
-    type='ATSS',
     backbone=dict(
+        _delete_=True,
         type='ViTAdapter',
         patch_size=16,
-        embed_dim=384,
+        embed_dim=768,
         depth=12,
-        num_heads=6,
+        num_heads=12,
         mlp_ratio=4,
-        drop_path_rate=0.2,
+        drop_path_rate=0.3,
         conv_inplane=64,
         n_points=4,
-        deform_num_heads=6,
+        deform_num_heads=12,
         cffn_ratio=0.25,
-        deform_ratio=1.0,
+        deform_ratio=0.5,
         interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
         window_attn=[True, True, False, True, True, False,
                      True, True, False, True, True, False],
@@ -29,48 +30,70 @@ model = dict(
         pretrained=pretrained),
     neck=dict(
         type='FPN',
-        in_channels=[384, 384, 384, 384],
+        in_channels=[768, 768, 768, 768],
         out_channels=256,
-        start_level=1,
-        add_extra_convs='on_output',
         num_outs=5),
-    bbox_head=dict(
-        type='ATSSHead',
-        num_classes=80,
-        in_channels=256,
-        stacked_convs=4,
-        feat_channels=256,
-        anchor_generator=dict(
-            type='AnchorGenerator',
-            ratios=[1.0],
-            octave_base_scale=8,
-            scales_per_octave=1,
-            strides=[8, 16, 32, 64, 128]),
-        bbox_coder=dict(
-            type='DeltaXYWHBBoxCoder',
-            target_means=[.0, .0, .0, .0],
-            target_stds=[0.1, 0.1, 0.2, 0.2]),
-        loss_cls=dict(
-            type='FocalLoss',
-            use_sigmoid=True,
-            gamma=2.0,
-            alpha=0.25,
-            loss_weight=1.0),
-        loss_bbox=dict(type='GIoULoss', loss_weight=2.0),
-        loss_centerness=dict(
-            type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)),
-    # training and testing settings
-    train_cfg=dict(
-        assigner=dict(type='ATSSAssigner', topk=9),
-        allowed_border=-1,
-        pos_weight=-1,
-        debug=False),
-    test_cfg=dict(
-        nms_pre=1000,
-        min_bbox_size=0,
-        score_thr=0.05,
-        nms=dict(type='nms', iou_threshold=0.6),
-        max_per_img=100))
+    roi_head=dict(
+        bbox_head=[
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=80,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0., 0., 0., 0.],
+                    target_stds=[0.1, 0.1, 0.2, 0.2]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=80,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0., 0., 0., 0.],
+                    target_stds=[0.05, 0.05, 0.1, 0.1]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=7,
+                num_classes=80,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0., 0., 0., 0.],
+                    target_stds=[0.033, 0.033, 0.067, 0.067]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0))
+        ]))
+
 # optimizer
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -115,7 +138,7 @@ train_pipeline = [
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks']),
 ]
 data = dict(train=dict(pipeline=train_pipeline))
 optimizer = dict(
@@ -129,7 +152,6 @@ optimizer = dict(
     }))
 optimizer_config = dict(grad_clip=None)
 fp16 = dict(loss_scale=dict(init_scale=512))
-find_unused_parameters = True
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,

@@ -5,8 +5,9 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth'
-pretrained = 'pretrained/uniperceiver_pretrain.pth'
+# pretrained = 'https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/' \
+#              'uni-perceiver-base-L12-H768-224size-torch-pretrained_converted.pth'
+pretrained = 'pretrained/uni-perceiver-base-L12-H768-224size-torch-pretrained_converted.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
@@ -82,10 +83,11 @@ train_pipeline = [
 data = dict(train=dict(pipeline=train_pipeline))
 optimizer = dict(
     _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
-    constructor='LayerDecayOptimizerConstructorUniPerceiver',
+    constructor='LayerDecayOptimizerConstructor',
     paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.65))
 optimizer_config = dict(grad_clip=None)
-# fp16 = dict(loss_scale=dict(init_scale=512))
+evaluation = dict(save_best='auto')
+fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,

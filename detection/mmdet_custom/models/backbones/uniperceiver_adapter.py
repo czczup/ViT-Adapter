@@ -21,9 +21,9 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
     def __init__(self, pretrain_size=224, num_heads=12, conv_inplane=64, n_points=4,
                  deform_num_heads=6, init_values=0., with_cffn=True, cffn_ratio=0.25,
                  deform_ratio=1.0, add_vit_feature=True, interaction_indexes=None,
-                 *args, **kwargs):
+                 with_cp=False, *args, **kwargs):
 
-        super().__init__(num_heads=num_heads, *args, **kwargs)
+        super().__init__(num_heads=num_heads, with_cp=with_cp, *args, **kwargs)
 
         self.num_classes = 80
         self.cls_token = None
@@ -41,7 +41,8 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
                              init_values=init_values, drop_path=self.drop_path_rate,
                              norm_layer=self.norm_layer, with_cffn=with_cffn,
                              cffn_ratio=cffn_ratio, deform_ratio=deform_ratio,
-                             extra_extractor=True if i == len(interaction_indexes) - 1 else False)
+                             extra_extractor=True if i == len(interaction_indexes) - 1 else False,
+                             with_cp=with_cp)
             for i in range(len(interaction_indexes))
         ])
 
