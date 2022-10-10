@@ -16,9 +16,10 @@ from mmcv.runner import (OPTIMIZER_BUILDERS, DefaultOptimizerConstructor,
 
 def get_num_layer_for_vit(var_name, num_max_layer):
     if var_name in ('backbone.cls_token', 'backbone.mask_token',
-                    'backbone.pos_embed'):
+                    'backbone.pos_embed', 'backbone.visual_embed'):
         return 0
-    elif var_name.startswith('backbone.patch_embed'):
+    elif var_name.startswith('backbone.patch_embed') or \
+            var_name.startswith('backbone.visual_embed'):
         return 0
     elif var_name.startswith('decode_head.mask_embed'):
         return 0
@@ -30,7 +31,8 @@ def get_num_layer_for_vit(var_name, num_max_layer):
         return 0
     elif var_name.startswith('decode_head.query_feat'):
         return 0
-    elif var_name.startswith('backbone.blocks'):
+    elif var_name.startswith('backbone.blocks') or \
+            var_name.startswith('backbone.layers'):
         layer_id = int(var_name.split('.')[2])
         return layer_id + 1
 
@@ -66,7 +68,7 @@ class LayerDecayOptimizerConstructor(DefaultOptimizerConstructor):
             if not param.requires_grad:
                 continue  # frozen weights
             if len(param.shape) == 1 or name.endswith('.bias') \
-                    or name in ('pos_embed', 'cls_token'):
+                    or name in ('pos_embed', 'cls_token', 'visual_embed'):
                 # or "relative_position_bias_table" in name:
                 group_name = 'no_decay'
                 this_weight_decay = 0.
