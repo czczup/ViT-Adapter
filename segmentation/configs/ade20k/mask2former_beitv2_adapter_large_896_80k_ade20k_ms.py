@@ -127,7 +127,6 @@ test_pipeline = [
         type='MultiScaleFlipAug',
         img_scale=(3584, 896),
         img_ratios=[800./896., 832./896., 864./896., 1.0],
-        # Here we only use three scales, i.e., 640, 768, and 896
         flip=True,
         transforms=[
             dict(type='Resize', keep_ratio=True),
