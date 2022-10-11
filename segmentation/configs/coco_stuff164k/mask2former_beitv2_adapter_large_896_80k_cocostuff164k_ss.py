@@ -1,16 +1,13 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
-    '../_base_/models/mask2former_beit.py',
-    '../_base_/datasets/ade20k.py',
+    '../_base_/models/mask2former_beit_cocostuff.py',
+    '../_base_/datasets/coco-stuff164k.py',
     '../_base_/default_runtime.py',
     '../_base_/schedules/schedule_80k.py'
 ]
 crop_size = (896, 896)
 # pretrained = 'https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth'
 pretrained = 'pretrained/beitv2_large_patch16_224_pt1k_ft21k.pth'
-# please download the coco-stuff pre-trained model
-# load_from = 'https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask2former_beitv2_adapter_large_896_80k_cocostuff164k.zip'
-load_from = 'pretrained/mask2former_beitv2_adapter_large_896_80k_cocostuff164k.pth'
 model = dict(
     type='EncoderDecoderMask2Former',
     pretrained=pretrained,
@@ -32,7 +29,7 @@ model = dict(
         deform_num_heads=16,
         cffn_ratio=0.25,
         deform_ratio=0.5,
-        with_cp=True, # set with_cp=True to save memory
+        with_cp=True,  # set with_cp=True to save memory
         interaction_indexes=[[0, 5], [6, 11], [12, 17], [18, 23]],
     ),
     decode_head=dict(
@@ -111,7 +108,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', reduce_zero_label=True),
+    dict(type='LoadAnnotations'),
     dict(type='Resize', img_scale=(3584, 896), ratio_range=(0.5, 2.0)),
     dict(type='RandomCrop', crop_size=crop_size, cat_max_ratio=0.75),
     dict(type='RandomFlip', prob=0.5),
@@ -128,7 +125,7 @@ test_pipeline = [
         type='MultiScaleFlipAug',
         img_scale=(3584, 896),
         # img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],
-        flip=True,
+        flip=False,
         transforms=[
             dict(type='Resize', keep_ratio=True),
             dict(type='ResizeToMultiple', size_divisor=32),

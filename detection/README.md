@@ -46,7 +46,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 
 ## Results and Models
 
-**HTC++**
+**[HTC++](./configs/htc++/)**
 
 <table>
    <tr  align=center>
@@ -68,7 +68,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>56.6</td>
       <td>49.0</td>
       <td>57.4</td>
@@ -81,7 +81,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>57.7</td>
       <td>49.9</td>
       <td>58.4</td>
@@ -93,7 +93,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>58.4</td>
       <td>50.8</td>
       <td><a href="https://drive.google.com/file/d/1lXQxf5PJ0g0bQNkMMrhG63jal0NsmYjb/view?usp=sharing">58.9</a></td>
@@ -107,7 +107,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>60.2</td>
       <td>52.2</td>
       <td><a href="https://drive.google.com/file/d/15t2Oc3FiNeLr6RnKOJ-0IbI7b2LalxbX/view?usp=sharing">60.4</a></td>
@@ -119,7 +119,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>58.8</td>
       <td>51.1</td>
       <td>59.5</td>
@@ -132,7 +132,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>60.5</td>
       <td>52.5</td>
       <td>60.9</td>
@@ -144,22 +144,22 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 </table>
     
 
-**Mask R-CNN**
+**[Mask R-CNN](./configs/mask_rcnn/)**
 
 | Method     | Backbone      | Pre-train                                                                                                                                                                        | Lr schd | box AP | mask AP | #Param | Config                                                                           | Download                                                                                                                 |
 |:----------:|:-------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|
 | Mask R-CNN | ViT-Adapter-T | [DeiT-T](https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth)                                                                                                 | 3x+MS   | 46.0   | 41.0    | 28M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py)         | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.pth.tar)  |
 | Mask R-CNN | ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth)                                                                                                | 3x+MS   | 48.2   | 42.8    | 48M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_small_fpn_3x_coco.py)        | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
 | Mask R-CNN | ViT-Adapter-B | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)                                                                                                 | 3x+MS   | 49.6   | 43.6    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_base_fpn_3x_coco.py)         | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/mask_rcnn_deit_adapter_base_fpn_3x_coco.pth.tar)  |
-| Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver-B](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                                      | 3x+MS   | 51.2   | 45.3    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | TODO                                                                                                                     |
-| Mask R-CNN | ViT-Adapter-L | [AugReg-L](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x+MS   | 52.1   | 46.0    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | TODO                                                                                                                     |
+| Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver-B](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                                      | 3x+MS   | 51.2   | 45.3    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_092016.log)                                                                                                                     |
+| Mask R-CNN | ViT-Adapter-L | [AugReg-L](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x+MS   | 52.1   | 46.0    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_091952.log)                                                                                                                     |
 
 **Advanced Detectors**
 
 | Backbone      | Method              | Pre-train                                                                         | Lr schd  | box AP | mask AP | #Param | Config                                                                                 | Download                                                                                                                         |
 |:-------------:|:-------------------:|:---------------------------------------------------------------------------------:|:--------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
 | ViT-Adapter-S | Cascade Mask R-CNN  | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS    | 51.5   | 44.3    | 86M    | [config](./configs/cascade_rcnn/cascade_mask_rcnn_deit_adapter_small_fpn_3x_coco.py)   | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.3/cascade_mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
-| ViT-Adapter-B | Cascade Mask R-CNN  | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)  | 3x+MS    | 52.1   | 44.8    | 158M   | [config](./configs/cascade_rcnn/cascade_mask_rcnn_deit_adapter_base_fpn_3x_coco.py)    | TODO                                                                                                                             |
+| ViT-Adapter-B | Cascade Mask R-CNN  | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)  | 3x+MS    | 52.1   | 44.8    | 158M   | [config](./configs/cascade_rcnn/cascade_mask_rcnn_deit_adapter_base_fpn_3x_coco.py)    | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/cascade_mask_rcnn_deit_adapter_base_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220917_031121.log)                                                                                                                             |
 | ViT-Adapter-S | ATSS                | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS    | 49.6   | -       | 36M    | [config](./configs/atss/atss_deit_adapter_small_fpn_3x_coco.py)                        | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.5/atss_deit_adapter_small_fpn_3x_coco.pth.tar)              |
 | ViT-Adapter-S | GFL                 | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS    | 50.0   | -       | 36M    | [config](./configs/gfl/gfl_deit_adapter_small_fpn_3x_coco.py)                          | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/gfl_deit_adapter_small_fpn_3x_coco.pth.tar)               |
 | ViT-Adapter-S | Sparse R-CNN        | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS    | 48.1   | -       | 110M   | [config](./configs/sparse_rcnn/sparse_rcnn_deit_adapter_small_fpn_3x_coco.py)          | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/sparse_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar)       |

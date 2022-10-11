@@ -49,7 +49,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>56.6</td>
       <td>49.0</td>
       <td>57.4</td>
@@ -62,7 +62,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz">AugReg-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>57.7</td>
       <td>49.9</td>
       <td>58.4</td>
@@ -74,7 +74,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>58.4</td>
       <td>50.8</td>
       <td><a href="https://drive.google.com/file/d/1lXQxf5PJ0g0bQNkMMrhG63jal0NsmYjb/view?usp=sharing">58.9</a></td>
@@ -88,7 +88,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>60.2</td>
       <td>52.2</td>
       <td><a href="https://drive.google.com/file/d/15t2Oc3FiNeLr6RnKOJ-0IbI7b2LalxbX/view?usp=sharing">60.4</a></td>
@@ -100,7 +100,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>58.8</td>
       <td>51.1</td>
       <td>59.5</td>
@@ -113,7 +113,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beitv2/beitv2_large_patch16_224_pt1k_ft21k.pth">BEiTv2-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>60.5</td>
       <td>52.5</td>
       <td>60.9</td>
@@ -150,7 +150,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>57.9</td>
       <td>50.2</td>
       <td><a href="https://drive.google.com/file/d/11zpPSvmuAn7aP5brxzHE8naObnOfFxby/view?usp=sharing">58.5</a></td>
@@ -164,7 +164,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
       <td><a href="https://conversationhub.blob.core.windows.net/beit-share-public/beit/beit_large_patch16_224_pt22k_ft22k.pth">BEiT-L</a></td>
-      <td>3x</td>
+      <td>3x+MS</td>
       <td>59.8</td>
       <td>51.7</td>
       <td><a href="https://drive.google.com/file/d/1i-qjgUK4CMwZcmu5pkndldwfVbdkw5sU/view?usp=sharing">60.1</a></td>
