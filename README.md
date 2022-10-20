@@ -11,6 +11,8 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 
 ## News
 
+(2022/10/20) ViT-Adapter is adopted by Zhang et al. and ranked 1st in the [UVO Challenge 2022](https://arxiv.org/pdf/2210.09629.pdf).\
+(2022/08/22) ViT-Adapter is adopted by [BEiT-3](https://github.com/microsoft/unilm/tree/master/beit3) and created new SOTA of 62.8 mIoU on ADE20K.\
 (2022/06/09) ViT-Adapter-L yields 60.4 box AP and 52.5 mask AP on COCO test-dev.\
 (2022/06/04) Code and models are released.\
 (2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev. \
