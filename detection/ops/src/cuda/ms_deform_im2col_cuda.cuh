@@ -23,7 +23,7 @@
       i < (n);                                          \
       i += blockDim.x * gridDim.x)
 
-const int CUDA_NUM_THREADS = 128;
+const int CUDA_NUM_THREADS = 1024;
 inline int GET_BLOCKS(const int N, const int num_threads)
 {
   return (N + num_threads - 1) / num_threads;
