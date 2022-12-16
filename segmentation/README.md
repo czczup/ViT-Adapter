@@ -137,3 +137,19 @@ CUDA_VISIBLE_DEVICES=0 python image_demo.py \
 
 The result will be saved at `demo/ADE_val_00000591.jpg`.
 ![image](https://s3.bmp.ovh/imgs/2022/06/05/3c7d0cb18e9f45eb.jpg)
+
+## Video Demo
+To inference a single video like this:
+
+```
+CUDA_VISIBLE_DEVICES=0 python video_demo.py demo.mp4 \
+  configs/ade20k/mask2former_beit_adapter_large_896_80k_ade20k_ss.py  \
+  released/mask2former_beit_adapter_large_896_80k_ade20k.pth.tar  \
+  --output-file results.mp4  \
+  --palette ade20k 
+```
+
+
+https://user-images.githubusercontent.com/23737120/208140362-f2029060-eb16-4280-b85f-074006547a12.mp4
+
+
