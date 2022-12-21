@@ -9,6 +9,8 @@
 
 The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
+https://user-images.githubusercontent.com/23737120/208140362-f2029060-eb16-4280-b85f-074006547a12.mp4
+
 ## News
 
 (2022/10/20) ViT-Adapter is adopted by Zhang et al. and ranked 1st in the [UVO Challenge 2022](https://arxiv.org/pdf/2210.09629.pdf).\
