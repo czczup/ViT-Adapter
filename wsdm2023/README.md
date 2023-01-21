@@ -1,8 +1,8 @@
 # Applying ViT-Adapter to WSDM Cup 2023 Toloka VQA Challenge
 
-Our team wins the champion of [WSDM Cup 2023 Toloka VQA Challenge](https://codalab.lisn.upsaclay.fr/competitions/7434#learn_the_details).
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/43984223/213874986-9f6b5e75-409d-44b1-ba85-df4441dd7ebb.png">
 
-The code is developed on top of [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/tree/v2.22.0).
+Our team wins the champion of [WSDM Cup 2023 Toloka VQA Challenge](https://codalab.lisn.upsaclay.fr/competitions/7434#learn_the_details).
 
 For details please see our [technical report]() (coming soon) for the competition.
 
@@ -34,15 +34,16 @@ pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f ht
 pip install mmcv-full==1.4.2 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
 pip install timm==0.4.12
 pip install tfty
-pip install mmdet==2.22.0 # for Mask2Former
-pip install mmsegmentation==0.20.2
+pip install mmdet==2.22.0
 ln -s ../detection/ops ./
 cd ops & sh make.sh # compile deformable attention
 ```
 
 ## Data Preparation
 
-Preparing the [Toloka VQA Dataset](https://zenodo.org/record/7113781#.Y8tiVOxBz0o) and the [filtered GQA dataset]() (optional, coming soon).
+Preparing the [Toloka VQA Dataset](https://zenodo.org/record/7113781#.Y8tiVOxBz0o) and the [filtered GQA dataset](https://1drv.ms/u/s!Aj8E_V3ugAGMi-tD-d3w1c2wKyEciA?e=0MCCvS) (optional).
+
+Please download the converted annotations for wsdm2023 from [here](https://github.com/czczup/ViT-Adapter/releases/download/wsdm2023/annotations.zip).
 
 ```
 wsdm2023
