@@ -1,17 +1,15 @@
 # Copyright (c) OpenMMLab. All rights reserved.
-import PIL.Image
 from mmdet.models.builder import DETECTORS
 from mmdet.models.detectors.detr import DETR
-from mmdet.core import (bbox2result, bbox_mapping_back, multiclass_nms,
-                        bbox_cxcywh_to_xyxy, bbox_xyxy_to_cxcywh, bbox_flip)
-from mmdet.core.bbox.assigners import HungarianAssigner
+from mmdet.core import (bbox2result, bbox_cxcywh_to_xyxy,
+                        bbox_xyxy_to_cxcywh, bbox_flip)
 from mmdet.core.bbox.iou_calculators import BboxOverlaps2D
 import torch
 from mmcv.runner import auto_fp16
-# from mmseg.models.losses import DiceLoss
 from mmseg.models.decode_heads import FPNHead
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class DiceLoss(nn.Module):
     def __init__(self, loss_weight=1.0):
@@ -102,16 +100,13 @@ class GroundingDINO(DETR):
         
         losses = {}
         if hasattr(self, "aux_seg_head"):
-            # seg = self.aux_seg_head(x)
             b, _, h, w = x[0].shape
             gt_masks = torch.zeros(b, 1, h, w, device=x[0].device)
             for index, bbox in enumerate(gt_bboxes):
                 x1, y1, x2, y2 = (bbox / 8).int()[0]
                 gt_masks[index, :, y1:y2, x1:x2] = 1
             seg = self.aux_seg_head(x)
-            # seg = torch.sigmoid(seg)
             aux_loss = self.loss_aux(seg, gt_masks)
-            # print(seg, gt_masks, gt_masks.sum(), aux_loss)
             losses.update(aux_loss=aux_loss)
             
             if self.mul_aux_seg:
@@ -123,46 +118,17 @@ class GroundingDINO(DETR):
                 x[1] = x[1] * seg_16s
                 x[2] = x[2] * seg_32s
 
-            # import numpy as np
-            # import time
-            # import mmcv
-            # mmcv.mkdir_or_exist("temp/")
-            # t = str(int(time.time()))
-            # temp = (img[0] * 255).permute(1, 2, 0).cpu().numpy()
-            # temp = PIL.Image.fromarray(temp.astype(np.uint8))
-            # temp.save(f"temp/temp_img_{t}.png")
-            # temp = (gt_masks[0][0] * 255).cpu().numpy()
-            # temp = PIL.Image.fromarray(temp.astype(np.uint8))
-            # temp.save(f"temp/temp_gt_{t}.png")
-            # temp = (torch.sigmoid(seg)[0][0] * 255).cpu().numpy()
-            # temp = PIL.Image.fromarray(temp.astype(np.uint8))
-            # temp.save(f"temp/temp_pred_{t}.png")
-
         loss_head = self.bbox_head.forward_train(x, img_metas, gt_bboxes,
                                               gt_labels, gt_bboxes_ignore)
         losses.update(loss_head)
-        
         
         return losses
 
     def simple_test(self, img, img_metas, refer, r_mask, rescale=False):
         feat = self.extract_feat(img, refer, r_mask)
 
-        if hasattr(self, "aux_seg_head"):
-
-            seg = self.aux_seg_head(feat)
- 
-            import numpy as np
-            import time
-            import mmcv
-            mmcv.mkdir_or_exist("temp/")
-            t = str(int(time.time()))
-            temp = (img[0] * 255).permute(1, 2, 0).cpu().numpy()
-            temp = PIL.Image.fromarray(temp.astype(np.uint8))
-            temp.save(f"temp/temp_{t}_img.png")
-            temp = (torch.sigmoid(seg)[0][0] * 255).cpu().numpy()
-            temp = PIL.Image.fromarray(temp.astype(np.uint8))
-            temp.save(f"temp/temp_{t}_pred.png")
+        # if hasattr(self, "aux_seg_head"):
+        #     seg = self.aux_seg_head(feat)
         
         results_list = self.bbox_head.simple_test(
             feat, img_metas, rescale=rescale)
@@ -220,31 +186,6 @@ class GroundingDINO(DETR):
     def aug_test(self, imgs, img_metas, refers, r_masks, rescale=False):
         return [self.aug_test_vote(imgs, img_metas, refers, r_masks, rescale)]
 
-    def select_boxes(self, boxes, scales=['s', 'm', 'l']):
-        # print(boxes.shape, min_scale * min_scale, max_scale * max_scale)
-        areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-        flag = areas < 0.0
-
-        if 's' in scales:
-            flag = flag | (areas <= 32.0 * 32.0)
-        if 's-' in scales:
-            flag = flag | (areas <= 24.0 * 24.0)
-        if 'm' in scales:
-            flag = flag | ((areas > 32.0 * 32.0) & (areas <= 96.0 * 96.0))
-        if 'm-' in scales:
-            flag = flag | ((areas > 32.0 * 32.0) & (areas <= 64.0 * 64.0))
-        if 'm+' in scales:
-            flag = flag | ((areas > 64.0 * 64.0) & (areas <= 96.0 * 96.0))
-        if 'l' in scales:
-            flag = flag | (areas > 96.0 * 96.0)
-        if 'l-' in scales:
-            flag = flag | ((areas > 96.0 * 96.0) & (areas < 512.0 * 512.0))
-        if 'l+' in scales:
-            flag = flag | (areas > 512.0 * 512.0)
-        keep = torch.nonzero(flag, as_tuple=False).squeeze(1)
-
-        return keep
-
     def rescale_boxes(self, det_bboxes, det_scores, img_meta):
         det_scores = det_scores.sigmoid()  # [900, 80]
         scores, indexes = det_scores.view(-1).topk(self.test_cfg.max_per_img)
@@ -285,28 +226,6 @@ class GroundingDINO(DETR):
 
         return det_bboxes
 
-    def aug_test_flip(self, imgs, img_metas, refers, r_masks, rescale=False):
-        feats = [list(item)
-                 for item in self.extract_feats(imgs, refers, r_masks)]
-        feats[0][0] = feats[0][0] + torch.flip(feats[1][0], dims=[3])
-        feats[0][1] = feats[0][1] + torch.flip(feats[1][1], dims=[3])
-        feats[0][2] = feats[0][2] + torch.flip(feats[1][2], dims=[3])
-        feats[0][3] = feats[0][3] + torch.flip(feats[1][3], dims=[3])
-
-        det_bboxes, det_logits = self.bbox_head.tta_test_bboxes(
-            feats[0], img_metas[0], rescale=True)  # [1, 900, 4] & [1, 900, 80]
-        # cxcywh, [0-1]
-        det_bboxes = det_bboxes[0]  # [900, 4]
-        det_logits = det_logits[0]  # [900, 80]
-        det_bboxes, det_scores, det_labels = self.rescale_boxes(
-            det_bboxes, det_logits, img_metas[0])
-
-        det_bboxes = torch.cat(
-            (det_bboxes, det_scores.unsqueeze(1)), -1)  # [300, 5]
-        bbox_results = bbox2result(
-            det_bboxes, det_labels, self.bbox_head.num_classes)
-        return bbox_results
-
     def aug_test_vote(self, imgs, img_metas, refers, r_masks, rescale=False):
         feats = self.extract_feats(imgs, refers, r_masks)
 
@@ -327,26 +246,9 @@ class GroundingDINO(DETR):
         aug_bboxes = torch.cat(aug_bboxes, dim=0)
         aug_scores = torch.cat(aug_scores, dim=0)
         aug_labels = torch.cat(aug_labels, dim=0)
-        # areas = (aug_bboxes[:, 2] - aug_bboxes[:, 0]) * (aug_bboxes[:, 3] - aug_bboxes[:, 1])
-        # delta = 0.1
-        # weights = [[1.0 - delta, 1.0, 1.0 + delta],
-        #            [1.0 - delta, 1.0, 1.0 + delta],
-        #            [1.0, 1.0, 1.0],
-        #            [1.0, 1.0, 1.0],
-        #            [1.0 + delta, 1.0, 1.0 - delta],
-        #            [1.0 + delta, 1.0, 1.0 - delta]]
-        # for index, (area, weight) in enumerate(zip(areas, weights)):
-        #     if area < 32 * 32:
-        #         aug_scores[index] = aug_scores[index] * weight[0]
-        #     elif area >= 32 * 32 and area < 96 * 96:
-        #         aug_scores[index] = aug_scores[index] * weight[1]
-        #     else:
-        #         aug_scores[index] = aug_scores[index] * weight[2]
 
         iou = self.iou_calculator(aug_bboxes, aug_bboxes).mean(1)
         # aug_scores = aug_scores + 2 * iou # 77.5
-        # aug_scores = aug_scores * iou # 77.4
-        # aug_scores = aug_scores + iou # 77.4
         aug_scores = aug_scores + iou # 77.4
 
 
