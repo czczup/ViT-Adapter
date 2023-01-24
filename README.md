@@ -12,14 +12,14 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 https://user-images.githubusercontent.com/23737120/208140362-f2029060-eb16-4280-b85f-074006547a12.mp4
 
 ## News
-
-(2022/10/20) ViT-Adapter is adopted by Zhang et al. and ranked 1st in the [UVO Challenge 2022](https://arxiv.org/pdf/2210.09629.pdf).\
-(2022/08/22) ViT-Adapter is adopted by [BEiT-3](https://github.com/microsoft/unilm/tree/master/beit3) and created new SOTA of 62.8 mIoU on ADE20K.\
-(2022/06/09) ViT-Adapter-L yields 60.4 box AP and 52.5 mask AP on COCO test-dev.\
-(2022/06/04) Code and models are released.\
-(2022/05/17) ViT-Adapter-L yields 60.1 box AP and 52.1 mask AP on COCO test-dev. \
-(2022/05/12) ViT-Adapter-L reaches 85.2 mIoU on Cityscapes test set without coarse data.\
-(2022/05/05) ViT-Adapter-L achieves the SOTA on ADE20K val set with 60.5 mIoU!
+- `2023/01/21`: Our paper is accepted by ICLR 2023!
+- `2023/01/17`: We win the champion of [WSDM Cup 2023 Toloka VQA Challenge](/wsdm2023) using ViT-Adapter.
+- `2022/10/20`: ViT-Adapter is adopted by Zhang et al. and they ranked 1st in the [UVO Challenge 2022](https://arxiv.org/pdf/2210.09629.pdf).
+- `2022/08/22`: ViT-Adapter is adopted by [BEiT-3](https://github.com/microsoft/unilm/tree/master/beit3) and created new SOTA of 62.8 mIoU on ADE20K.
+- `2022/06/09`: ViT-Adapter-L achieves 60.4 box AP and 52.5 mask AP on COCO test-dev without Objects365.
+- `2022/06/04`: Code and models are released.
+- `2022/05/12`: ViT-Adapter-L reaches 85.2 mIoU on Cityscapes test set without coarse data.
+- `2022/05/05`: ViT-Adapter-L achieves the SOTA on ADE20K val set with 60.5 mIoU!
 
 ## Abstract
 

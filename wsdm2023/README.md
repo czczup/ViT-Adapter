@@ -4,16 +4,15 @@
 
 Our team wins the champion of [WSDM Cup 2023 Toloka VQA Challenge](https://codalab.lisn.upsaclay.fr/competitions/7434#learn_the_details).
 
-For details please see our [technical report]() (coming soon) for the competition.
+For details please see our [technical report](https://arxiv.org/abs/2301.09045) for the competition.
 
 If you use this code for a paper please cite:
 
 ```
-# coming soon
 @article{gao2023champion,
   title={Champion Solution for the WSDM2023 Toloka VQA Challenge},
   author={Gao, Shengyi and Chen, Zhe and Chen, Guo and Wang, Wenhai and Lu, Tong},
-  journal={arXiv preprint arXiv:xxxx.xxxx},
+  journal={arXiv preprint arXiv:2301.09045},
   year={2023}
 }
 @article{chen2022vitadapter,
