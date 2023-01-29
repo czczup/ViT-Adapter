@@ -47,7 +47,7 @@ test_pipeline = [
         ])
 ]
 optimizer = dict(_delete_=True, type='AdamW', lr=6e-5, betas=(0.9, 0.999), weight_decay=0.05,
-                 constructor='LayerDecayOptimizerConstructorUniPerceiver',
+                 constructor='LayerDecayOptimizerConstructor',
                  paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.8))
 lr_config = dict(_delete_=True, policy='poly',
                  warmup='linear',
