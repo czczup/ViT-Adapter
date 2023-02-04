@@ -123,10 +123,36 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>TODO</td>
       <td>-</td>
    </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
+      <td>BEiTv2-L+O365</td>
+      <td>20k iters</td>
+      <td>61.8</td>
+      <td>53.0</td>
+      <td>-</td>
+      <td>-</td>
+      <td>401M</td>
+      <td>config</td>
+      <td>model</td>
+   </tr>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (TTA)</td>
+      <td>BEiTv2-L+O365</td>
+      <td>20k iters</td>
+      <td>62.6</td>
+      <td>54.2</td>
+      <td>62.6</td>
+      <td>54.5</td>
+      <td>401M</td>
+      <td>TODO</td>
+      <td>-</td>
+   </tr>
 </table>
 
-- TTA denotes test-time augmentation. 
-- We use 16 A100 GPUs with 1 image/GPU for ViT-Adapter-L models.
+- TTA denotes test-time augmentation. Our code for TTA will be released in the future. 
+- For the models without Objects365 pre-training, we use 16 A100 GPUs with a total batch size of 16 (i.e., 1 image/GPU).
+- For the models with Objects365 pre-training, we first pre-train for 26 epochs, then fine-tune it for 20k iterations using 32 A100 GPUs with a total batch size of 64 (i.e., 2 image/GPU).
 - If you use V100-32G GPUs, you should set `with_cp=True` to save memory during training.
 
 ## Old Results
