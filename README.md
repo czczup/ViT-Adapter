@@ -9,6 +9,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/instance-segmentation-on-coco-minival)](https://paperswithcode.com/sota/instance-segmentation-on-coco-minival?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/instance-segmentation-on-coco)](https://paperswithcode.com/sota/instance-segmentation-on-coco?p=vision-transformer-adapter-for-dense)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/panoptic-segmentation-on-coco-minival)](https://paperswithcode.com/sota/panoptic-segmentation-on-coco-minival?p=vision-transformer-adapter-for-dense)
 
 The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
@@ -27,7 +28,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 
 ## Highlights
 
-- ViT-Adapter supports various dense prediction tasks, including `object detection`, `instance segmentation`, `semantic segmentation`, `visual grounding`, `panoptic segmentation` (todo), etc.
+- ViT-Adapter supports various dense prediction tasks, including `object detection`, `instance segmentation`, `semantic segmentation`, `visual grounding`, `panoptic segmentation`, etc.
 - This codebase includes many SOTA detectors and segmenters to achieve top performance, such as `HTC++`, `Mask2Former`, `DINO`.
 
 https://user-images.githubusercontent.com/23737120/208140362-f2029060-eb16-4280-b85f-074006547a12.mp4
