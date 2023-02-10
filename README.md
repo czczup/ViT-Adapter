@@ -49,7 +49,7 @@ facilitate future research. The code and models will be released.
 
 ## Method
 
-<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904519-30d2a5d1-b203-419d-a597-608ee90bb3bb.png">
+<img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/217998186-8a37eacb-18f8-445a-8d92-0863e35712ab.png">
 
 <img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904786-ea9c40a3-f6ac-4fe1-90ad-976e7b9e8f03.png">
 
