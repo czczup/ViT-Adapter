@@ -5,10 +5,8 @@ _base_ = [
 ]
 NUM_CLASSES = 80
 drop_path_rate = 0.3 # 0.4 (pre-train) -> 0.3 (fine-tune)
-# https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365.pth
-load_from = 'pretrained/htc++_beitv2_adapter_large_fpn_o365.pth'
 model = dict(
-    type='HybridTaskCascade',
+    type='HybridTaskCascadeAug',
     backbone=dict(
         type='BEiTAdapter',
         img_size=224,
@@ -262,7 +260,14 @@ model = dict(
             score_thr=0.001,
             nms=dict(type='soft_nms', iou_threshold=0.5),
             max_per_img=100,
-            mask_thr_binary=0.5)))
+            mask_thr_binary=0.5),
+        aug=dict(
+            score_thr=0.001,
+            nms=dict(type='soft_nms', iou_threshold=0.5),
+            max_per_img=1000,
+            scale_ranges=[['l'], ['l'], ['m', 'l'],
+                          ['s', 'm'], ['s', 'm'], ['s', 'm']],
+    )))
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # train_pipeline, NOTE the img_scale and the Pad's size_divisor is different
@@ -286,8 +291,9 @@ test_pipeline = [
     dict(type='LoadImageFromFile', file_client_args=file_client_args),
     dict(
         type='MultiScaleFlipAug',
-        img_scale=(2000, 1000),
-        flip=False,
+        img_scale=[(3000, 600), (3000, 800), (3000, 1000),
+                   (3000, 1200), (3000, 1400), (3000, 1600)],
+        flip=True,
         transforms=[
             dict(type='Resize', keep_ratio=True),
             dict(type='RandomFlip'),

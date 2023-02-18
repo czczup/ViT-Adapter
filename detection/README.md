@@ -87,7 +87,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>58.4</td>
       <td>50.7</td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./configs/htc++/htc++_augreg_adapter_large_fpn_3x_coco_ms.py">config</a> </td>
       <td>-</td>
    </tr>
    <tr align=center>
@@ -113,7 +113,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td><a href="https://drive.google.com/file/d/15t2Oc3FiNeLr6RnKOJ-0IbI7b2LalxbX/view?usp=sharing">60.4</a></td>
       <td><a href="https://drive.google.com/file/d/1TIPOJC6ieZS_ZRNCbo_AW4UqYAkQIjyN/view?usp=sharing">52.5</a></td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./configs/htc++/htc++_beit_adapter_large_fpn_3x_coco_ms.py">config</a> </td>
       <td>-</td>
    </tr>
    <tr align=center>
@@ -139,7 +139,31 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>60.9</td>
       <td>53.0</td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_3x_coco_ms.py">config</a> </td>
+      <td>-</td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L</td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365.pth">BEiTv2-L+O365</a></td>
+      <td>20k iters</td>
+      <td>61.8</td>
+      <td>53.0</td>
+      <td>-</td>
+      <td>-</td>
+      <td>401M</td>
+      <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_o365_coco.py">config</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">model</a></td>
+   </tr>
+   <tr align=center>
+      <td>ViT-Adapter-L (TTA)</td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365.pth">BEiTv2-L+O365</a></td>
+      <td>20k iters</td>
+      <td>62.6</td>
+      <td>54.2</td>
+      <td>62.6</td>
+      <td>54.5</td>
+      <td>401M</td>
+      <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_o365_coco_ms.py">config</a></td>
       <td>-</td>
    </tr>
 </table>

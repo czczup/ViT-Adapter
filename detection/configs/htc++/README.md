@@ -68,7 +68,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>58.4</td>
       <td>50.7</td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./htc++_augreg_adapter_large_fpn_3x_coco_ms.py">config</a></td>
       <td>-</td>
    </tr>
    <tr align=center>
@@ -94,7 +94,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/15t2Oc3FiNeLr6RnKOJ-0IbI7b2LalxbX/view?usp=sharing">60.4</a></td>
       <td><a href="https://drive.google.com/file/d/1TIPOJC6ieZS_ZRNCbo_AW4UqYAkQIjyN/view?usp=sharing">52.5</a></td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./htc++_beit_adapter_large_fpn_3x_coco_ms.py">config</a></td>
       <td>-</td>
    </tr>
    <tr align=center>
@@ -120,32 +120,32 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>60.9</td>
       <td>53.0</td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./htc++_beitv2_adapter_large_fpn_3x_coco_ms.py">config</a></td>
       <td>-</td>
    </tr>
    <tr align=center>
       <td>ViT-Adapter-L</td>
-      <td>BEiTv2-L+O365</td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365.pth">BEiTv2-L+O365</a></td>
       <td>20k iters</td>
       <td>61.8</td>
       <td>53.0</td>
       <td>-</td>
       <td>-</td>
       <td>401M</td>
-      <td>config</td>
-      <td>model</td>
+      <td><a href="./htc++_beitv2_adapter_large_fpn_o365_coco.py">config</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">model</a></td>
    </tr>
    </tr>
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
-      <td>BEiTv2-L+O365</td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365.pth">BEiTv2-L+O365</a></td>
       <td>20k iters</td>
       <td>62.6</td>
       <td>54.2</td>
       <td>62.6</td>
       <td>54.5</td>
       <td>401M</td>
-      <td>TODO</td>
+      <td><a href="./htc++_beitv2_adapter_large_fpn_o365_coco_ms.py">config</a></td>
       <td>-</td>
    </tr>
 </table>
@@ -197,7 +197,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/1i-qjgUK4CMwZcmu5pkndldwfVbdkw5sU/view?usp=sharing">60.1</a></td>
       <td><a href="https://drive.google.com/file/d/16mlEOPY7K-Xpx_CL650A-LWbVDm2vl4X/view?usp=sharing">52.1</a></td>
       <td>401M</td>
-      <td>TODO</td>
+      <td>-</td>
       <td>-</td>
    </tr>
 </table>
