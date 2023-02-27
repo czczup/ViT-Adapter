@@ -13,7 +13,7 @@
 
 The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
-
+[Paper](https://arxiv.org/abs/2205.08534) | [Blog in Chinese](https://zhuanlan.zhihu.com/p/608272954) | [Slides](https://drive.google.com/file/d/1LotIZIEnZzKhsANjBTZs3qcezk9fbVCV/view?usp=share_link)
 
 ## News
 - `2023/01/21`: Our paper is accepted by ICLR 2023!
@@ -54,7 +54,8 @@ facilitate future research. The code and models will be released.
 <img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904786-ea9c40a3-f6ac-4fe1-90ad-976e7b9e8f03.png">
 
 ## Catalog
-
+- [ ] Support flash attention
+- [ ] Support faster deformable attention
 - [x] Segmentation checkpoints
 - [x] Segmentation code
 - [x] Detection checkpoints
