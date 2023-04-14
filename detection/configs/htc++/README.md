@@ -185,7 +185,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco_old.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">ckpt</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco_old.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
