@@ -75,7 +75,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>50.0</td>
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_augreg_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_augreg_adapter_large_fpn_3x_coco.pth">model</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_augreg_adapter_large_fpn_3x_coco.pth">ckpt</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -100,7 +100,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td><a href="https://drive.google.com/file/d/1nyuONJcHHXki0Cn8dCgbPZ9D_MURh47t/view?usp=sharing">51.3</a></td>
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">model</a> | 
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
         <a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/20220604_210212.log">log</a></td>
    </tr>
    </tr>
@@ -126,7 +126,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>51.8</td>
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">model</a> | 
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> | 
         <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220912_035507.log">log</a></td>
    </tr>
    </tr>
@@ -152,7 +152,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>-</td>
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_o365_coco.py">config</a></td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">model</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">ckpt</a></td>
    </tr>
    <tr align=center>
       <td>ViT-Adapter-L (TTA)</td>
