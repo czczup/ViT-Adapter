@@ -14,6 +14,6 @@ Sparse R-CNN is a purely sparse method for object detection in images. Existing 
 
 ## Results and Models
 
-| Backbone      | Pre-train                                                                         | Lr schd | box AP | #Param | Config                                                    | Download                                                                                                                   |
+| Backbone      | Pretrain                                                                         | Lr schd | box AP | #Param | Config                                                    | Download                                                                                                                   |
 |:-------------:|:---------------------------------------------------------------------------------:|:-------:|:------:|:------:|:---------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
-| ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS   | 48.1   | 110M   | [config](./sparse_rcnn_deit_adapter_small_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/sparse_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
+| ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS   | 48.1   | 110M   | [config](./sparse_rcnn_deit_adapter_small_fpn_3x_coco.py) | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/sparse_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |

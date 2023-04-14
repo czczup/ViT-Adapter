@@ -32,7 +32,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
 <table>
    <tr  align=center>
       <td rowspan="2" align=center><b>Backbone</b></td>
-      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Pretrain</b></td>
       <td rowspan="2" align=center><b>Lr schd</b></td>
       <td colspan="2" align=center><b>mini-val</b></td>
       <td colspan="2" align=center><b>test-dev</b></td>
@@ -56,7 +56,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>50.0</td>
       <td>401M</td>
       <td><a href="./htc++_augreg_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_augreg_adapter_large_fpn_3x_coco.pth">model</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_augreg_adapter_large_fpn_3x_coco.pth">ckpt</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -81,8 +81,8 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/1nyuONJcHHXki0Cn8dCgbPZ9D_MURh47t/view?usp=sharing">51.3</a></td>
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">model</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/20220604_210212.log">log</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -107,8 +107,8 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>51.8</td>
       <td>401M</td>
       <td><a href="./htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">model</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220912_035507.log">log</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> | 
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beitv2_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -133,7 +133,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>-</td>
       <td>401M</td>
       <td><a href="./htc++_beitv2_adapter_large_fpn_o365_coco.py">config</a></td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">model</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_o365_coco.pth">ckpt</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -160,7 +160,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
 <table>
    <tr align=center>
       <td rowspan="2" align=center><b>Backbone</b></td>
-      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Pretrain</b></td>
       <td rowspan="2" align=center><b>Lr schd</b></td>
       <td colspan="2" align=center><b>mini-val</b></td>
       <td colspan="2" align=center><b>test-dev</b></td>
@@ -184,8 +184,8 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/1wIbtzfHfPqkvZaSivzcsh4HWu1oSiun6/view?usp=sharing">50.8</a></td>
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco_old.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">model</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/20220512_030903.log">log</a></td>
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">ckpt</a> | 
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco_old.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
