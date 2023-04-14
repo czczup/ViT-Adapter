@@ -101,7 +101,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
-        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
