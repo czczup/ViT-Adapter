@@ -46,7 +46,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 
 ## Results and Models
 
-**[HTC++](./configs/htc++/)**
+**HTC++**
 
 <table>
    <tr  align=center>
@@ -169,7 +169,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 </table>
     
 
-**[Mask R-CNN](./configs/mask_rcnn/)**
+**Mask R-CNN**
 
 | Method     | Backbone      | Pretrain                                                                                                                                                                        | Lr schd | box AP | mask AP | #Param | Config                                                                           | Download                                                                                                                 |
 |:----------:|:-------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|
@@ -179,7 +179,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 | Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver-B](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                                      | 3x+MS   | 51.2   | 45.3    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_092016.log)                                                                                                                     |
 | Mask R-CNN | ViT-Adapter-L | [AugReg-L](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x+MS   | 52.1   | 46.0    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_091952.log)                                                                                                                     |
 
-**Advanced Detectors**
+**Other Detectors**
 
 | Backbone      | Method              | Pretrain                                                                         | Lr schd  | box AP | mask AP | #Param | Config                                                                                 | Download                                                                                                                         |
 |:-------------:|:-------------------:|:---------------------------------------------------------------------------------:|:--------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
