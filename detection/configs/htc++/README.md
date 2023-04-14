@@ -32,7 +32,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
 <table>
    <tr  align=center>
       <td rowspan="2" align=center><b>Backbone</b></td>
-      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Pretrain</b></td>
       <td rowspan="2" align=center><b>Lr schd</b></td>
       <td colspan="2" align=center><b>mini-val</b></td>
       <td colspan="2" align=center><b>test-dev</b></td>
@@ -160,7 +160,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
 <table>
    <tr align=center>
       <td rowspan="2" align=center><b>Backbone</b></td>
-      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Pretrain</b></td>
       <td rowspan="2" align=center><b>Lr schd</b></td>
       <td colspan="2" align=center><b>mini-val</b></td>
       <td colspan="2" align=center><b>test-dev</b></td>

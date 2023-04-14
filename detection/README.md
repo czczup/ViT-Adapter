@@ -33,7 +33,7 @@ cd ops & sh make.sh # compile deformable attention
 
 Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/1_exist_data_model.md).
 
-## Pre-training Sources
+## Pretraining Sources
 
 | Name          | Type       | Year | Data         | Repo                                                                                                    | Paper                                                                                                                                                                           |
 | ------------- | ---------- | ---- | ------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,7 +51,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 <table>
    <tr  align=center>
       <td rowspan="2" align=center><b>Backbone</b></td>
-      <td rowspan="2" align=center><b>Pre-train</b></td>
+      <td rowspan="2" align=center><b>Pretrain</b></td>
       <td rowspan="2" align=center><b>Lr schd</b></td>
       <td colspan="2" align=center><b>mini-val</b></td>
       <td colspan="2" align=center><b>test-dev</b></td>
@@ -171,7 +171,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 
 **[Mask R-CNN](./configs/mask_rcnn/)**
 
-| Method     | Backbone      | Pre-train                                                                                                                                                                        | Lr schd | box AP | mask AP | #Param | Config                                                                           | Download                                                                                                                 |
+| Method     | Backbone      | Pretrain                                                                                                                                                                        | Lr schd | box AP | mask AP | #Param | Config                                                                           | Download                                                                                                                 |
 |:----------:|:-------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|
 | Mask R-CNN | ViT-Adapter-T | [DeiT-T](https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth)                                                                                                 | 3x+MS   | 46.0   | 41.0    | 28M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py)         | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.pth.tar)  |
 | Mask R-CNN | ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth)                                                                                                | 3x+MS   | 48.2   | 42.8    | 48M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_small_fpn_3x_coco.py)        | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
@@ -181,7 +181,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 
 **Advanced Detectors**
 
-| Backbone      | Method              | Pre-train                                                                         | Lr schd  | box AP | mask AP | #Param | Config                                                                                 | Download                                                                                                                         |
+| Backbone      | Method              | Pretrain                                                                         | Lr schd  | box AP | mask AP | #Param | Config                                                                                 | Download                                                                                                                         |
 |:-------------:|:-------------------:|:---------------------------------------------------------------------------------:|:--------:|:------:|:-------:|:------:|:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
 | ViT-Adapter-S | Cascade Mask R-CNN  | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS    | 51.5   | 44.3    | 86M    | [config](./configs/cascade_rcnn/cascade_mask_rcnn_deit_adapter_small_fpn_3x_coco.py)   | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.3/cascade_mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
 | ViT-Adapter-B | Cascade Mask R-CNN  | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)  | 3x+MS    | 52.1   | 44.8    | 158M   | [config](./configs/cascade_rcnn/cascade_mask_rcnn_deit_adapter_base_fpn_3x_coco.py)    | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/cascade_mask_rcnn_deit_adapter_base_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220917_031121.log)                                                                                                                             |

@@ -18,7 +18,7 @@ Relative to the original Mask R-CNN, Li et al. modernized several of its modules
 
 ## Results and Models
 
-| Backbone      | Pre-train                                                                    | Lr schd | box AP | mask AP | #Param | Config                                                      | Download                                                                                                                     |
+| Backbone      | Pretrain                                                                    | Lr schd | box AP | mask AP | #Param | Config                                                      | Download                                                                                                                     |
 |:-------------:|:----------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:-----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|
 | ViT-B         | [MAE](https://dl.fbaipublicfiles.com/mae/pretrain/mae_pretrain_vit_base.pth) | 25ep+LSJ | 48.1   | 43.2    | 116M   | -                                                           | -                                                                                                                            |
 | ViT-B         | [MAE](https://dl.fbaipublicfiles.com/mae/pretrain/mae_pretrain_vit_base.pth) | 50ep+LSJ | 50.1   | 44.6    | 116M   | -                                                           | -                                                                                                                            |

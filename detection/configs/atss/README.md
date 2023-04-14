@@ -14,6 +14,6 @@ Object detection has been dominated by anchor-based detectors for several years.
 
 ## Results and Models
 
-| Backbone      | Pre-train                                                                         | Lr schd | box AP | #Param | Config                                             | Download                                                                                                            |
+| Backbone      | Pretrain                                                                         | Lr schd | box AP | #Param | Config                                             | Download                                                                                                            |
 |:-------------:|:---------------------------------------------------------------------------------:|:-------:|:------:|:------:|:--------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------:|
 | ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth) | 3x+MS      | 49.6   | 36M    | [config](./atss_deit_adapter_small_fpn_3x_coco.py) | [model](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.5/atss_deit_adapter_small_fpn_3x_coco.pth.tar) |

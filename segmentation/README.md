@@ -34,7 +34,7 @@ cd ops & sh make.sh # compile deformable attention
 
 Preparing ADE20K/Cityscapes/COCO Stuff/Pascal Context according to the [guidelines](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/en/dataset_prepare.md#prepare-datasets) in MMSegmentation.
 
-## Pre-training Sources
+## Pretraining Sources
 
 | Name          | Year | Type       | Data         | Repo                                                                                                    | Paper                                                                                                                                                                           |
 | ------------- | ---- | ---------- | ------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

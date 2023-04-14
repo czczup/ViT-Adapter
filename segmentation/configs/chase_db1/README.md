@@ -16,6 +16,6 @@ The script will make directory structure automatically.
 
 ## Results and Models
 
-| Method      | Backbone      | Pre-train | Batch Size | Lr schd | Crop Size | mDice |  #Param | Config                                                           | Download                                               |
+| Method      | Backbone      | Pretrain | Batch Size | Lr schd | Crop Size | mDice |  #Param | Config                                                           | Download                                               |
 |:-----------:|:-------------:|:---------:|:----------:|:-------:|:---------:|:---------:|:------:|:----------------------------------------------------------------:|:------------------------------------------------------:|
 | Mask2Former | ViT-Adapter-L | BEiT-L    | 4x4        | 40k     | 128       | 89.4      |  350M   | [config](./mask2former_beit_adapter_large_128_40k_chase_db1_ss.py) | [log](https://github.com/czczup/ViT-Adapter/issues/11) |
