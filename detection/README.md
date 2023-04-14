@@ -101,7 +101,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/20220604_210212.log">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">log</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -127,7 +127,7 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
       <td>401M</td>
       <td><a href="./configs/htc++/htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220912_035507.log">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beitv2_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -176,8 +176,8 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 | Mask R-CNN | ViT-Adapter-T | [DeiT-T](https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth)                                                                                                 | 3x+MS   | 46.0   | 41.0    | 28M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.py)         | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_tiny_fpn_3x_coco.pth.tar)  |
 | Mask R-CNN | ViT-Adapter-S | [DeiT-S](https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth)                                                                                                | 3x+MS   | 48.2   | 42.8    | 48M    | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_small_fpn_3x_coco.py)        | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar) |
 | Mask R-CNN | ViT-Adapter-B | [DeiT-B](https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth)                                                                                                 | 3x+MS   | 49.6   | 43.6    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_deit_adapter_base_fpn_3x_coco.py)         | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/mask_rcnn_deit_adapter_base_fpn_3x_coco.pth.tar)  |
-| Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver-B](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                                      | 3x+MS   | 51.2   | 45.3    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_092016.log)                                                                                                                     |
-| Mask R-CNN | ViT-Adapter-L | [AugReg-L](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x+MS   | 52.1   | 46.0    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth) \| [log](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220922_091952.log)                                                                                                                     |
+| Mask R-CNN | ViT-Adapter-B | [Uni-Perceiver-B](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.1/uniperceiver_pretrain.pth)                                                                      | 3x+MS   | 51.2   | 45.3    | 120M   | [config](./configs/mask_rcnn/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.py) | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.pth) \| [log](https://huggingface.co/czczup/ViT-Adapter/raw/main/mask_rcnn_uniperceiver_adapter_base_fpn_3x_coco.log)                                                                                                                     |
+| Mask R-CNN | ViT-Adapter-L | [AugReg-L](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.6/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.pth) | 3x+MS   | 52.1   | 46.0    | 348M   | [config](./configs/mask_rcnn/mask_rcnn_augreg_adapter_large_fpn_3x_coco.py)      | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/mask_rcnn_augreg_adapter_large_fpn_3x_coco.pth) \| [log](https://huggingface.co/czczup/ViT-Adapter/raw/main/mask_rcnn_augreg_adapter_large_fpn_3x_coco.log)                                                                                                                     |
 
 **Other Detectors**
 
