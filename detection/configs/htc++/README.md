@@ -82,7 +82,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/20220604_210212.log">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
@@ -108,7 +108,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>401M</td>
       <td><a href="./htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
       <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> | 
-        <a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/20220912_035507.log">log</a></td>
+        <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beitv2_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
    <tr align=center>
