@@ -16,6 +16,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 [Paper](https://arxiv.org/abs/2205.08534) | [Blog in Chinese](https://zhuanlan.zhihu.com/p/608272954) | [Slides](https://drive.google.com/file/d/1LotIZIEnZzKhsANjBTZs3qcezk9fbVCV/view?usp=share_link) | [Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
+- `2023/04/14`: 🚀 ViT-Adapter is used in [EVA](https://arxiv.org/abs/2211.07636) and [DINOv2](https://arxiv.org/abs/2304.07193)!
 - `2023/01/21`: Our paper is accepted by ICLR 2023!
 - `2023/01/17`: We win the champion of [WSDM Cup 2023 Toloka VQA Challenge](/wsdm2023) using ViT-Adapter.
 - `2022/10/20`: ViT-Adapter is adopted by Zhang et al. and they ranked 1st in the [UVO Challenge 2022](https://arxiv.org/pdf/2210.09629.pdf).
