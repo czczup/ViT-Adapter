@@ -13,7 +13,9 @@
 
 The official implementation of the paper "[Vision Transformer Adapter for Dense Predictions](https://arxiv.org/abs/2205.08534)".
 
-[Paper](https://arxiv.org/abs/2205.08534) | [Blog in Chinese](https://zhuanlan.zhihu.com/p/608272954) | [Slides](https://drive.google.com/file/d/1LotIZIEnZzKhsANjBTZs3qcezk9fbVCV/view?usp=share_link) | [Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
+[Paper](https://arxiv.org/abs/2205.08534) | [Blog in Chinese](https://zhuanlan.zhihu.com/p/608272954) | [Slides](https://drive.google.com/file/d/1LotIZIEnZzKhsANjBTZs3qcezk9fbVCV/view?usp=share_link) | [Poster](https://iclr.cc/media/PosterPDFs/ICLR%202023/12048.png?t=1680764158.7068026) | [Video in English](https://iclr.cc/virtual/2023/poster/12048) | [Video in Chinese](https://www.bilibili.com/video/BV1ry4y1976b/?spm_id_from=333.337.search-card.all.click)
+
+[Segmentation Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) | [Detection Colab Notebook](https://colab.research.google.com/drive/1Im7l0dSvEgsP-AJtUOxgbU9a1C3DdSwe?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
 - `2023/06/07`: 🚀🚀 ViT-Adapter is used by [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE) and they created new SOTA of 63.0 mIoU on ADE20K.
