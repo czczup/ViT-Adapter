@@ -18,6 +18,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 [Segmentation Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) | [Detection Colab Notebook](https://colab.research.google.com/drive/1Im7l0dSvEgsP-AJtUOxgbU9a1C3DdSwe?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
+- `2023/06/26`: ViT-Adapter is adopted by the champion solution [NVOCC](https://opendrivelab.com/e2ead/AD23Challenge/Track_3_NVOCC.pdf) in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge.
 - `2023/06/07`: 🚀🚀 ViT-Adapter is used by [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE) and they created new SOTA of 63.0 mIoU on ADE20K.
 - `2023/04/14`: 🚀 ViT-Adapter is used in [EVA](https://arxiv.org/abs/2211.07636) and [DINOv2](https://arxiv.org/abs/2304.07193)!
 - `2023/01/21`: Our paper is accepted by ICLR 2023!
