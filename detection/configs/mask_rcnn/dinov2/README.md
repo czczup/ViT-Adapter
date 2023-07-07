@@ -1,10 +1,8 @@
-
-
-<!-- [ALGORITHM] -->
+# ViT-Adapter with DINOv2
 
 ## Preparation
 
-Please download the DINOv2 pretrained weights into `pretrained/` folder:
+Please download the DINOv2 pretrained weights into the `pretrained/` folder:
 
 <table style="margin: auto">
   <tr>
@@ -70,14 +68,11 @@ detection
 ```
 
 
-
-
-
 ## Results and Models
 
 | Backbone      | Pretrain                                                                                   | Lr schd | box AP | mask AP | #Param | Config       | Download            |
 |:-------------:|:------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:| ------------ |:-------------------:|
-| ViT-Adapter-S | [DINOv2-S](https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 48M    | [config](./) | [ckpt]() \| [log]() |
-| ViT-Adapter-B | [DINOv2-B](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitb14/dinov2_vitb14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 120M   | [config](./) | [ckpt]() \| [log]() |
-| ViT-Adapter-L | [DINOv2-L](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 348M   | [config](./) | [ckpt]() \| [log]() |
-| ViT-Adapter-g | [DINOv2-g](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitg14/dinov2_vitg14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 348M   | [config](./) | [ckpt]() \| [log]() |
+| ViT-Adapter-S | [DINOv2-S](https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 48M    | [config](./mask_rcnn_dinov2_adapter_small_fpn_3x_coco.py) | TODO |
+| ViT-Adapter-B | [DINOv2-B](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitb14/dinov2_vitb14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 120M   | [config](./mask_rcnn_dinov2_adapter_base_fpn_3x_coco.py) | TODO|
+| ViT-Adapter-L | [DINOv2-L](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 348M   | [config](./mask_rcnn_dinov2_adapter_large_fpn_3x_coco.py) | TODO |
+| ViT-Adapter-g | [DINOv2-g](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitg14/dinov2_vitg14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 1B     |  TODO        | TODO |
