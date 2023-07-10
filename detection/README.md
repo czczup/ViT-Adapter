@@ -42,7 +42,8 @@ Prepare COCO according to the guidelines in [MMDetection v2.22.0](https://github
 | BEiT          | MIM        | 2021 | ImageNet-22K | [repo](https://github.com/microsoft/unilm/tree/master/beit)                                             | [paper](https://arxiv.org/abs/2106.08254)                                                                                                                                       |
 | MAE           | MIM        | 2021 | ImageNet-1K  | [repo](https://github.com/facebookresearch/mae)                                                         | [paper](https://arxiv.org/abs/2111.06377)                                                                                                                                       |
 | Uni-Perceiver | Supervised | 2022 | Multi-Modal  | [repo](https://github.com/fundamentalvision/Uni-Perceiver)                                              | [paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Zhu_Uni-Perceiver_Pre-Training_Unified_Architecture_for_Generic_Perception_for_Zero-Shot_and_CVPR_2022_paper.pdf) |
-| BEiTv2        | MIM        | 2022 | ImageNet-22K | [repo](https://github.com/microsoft/unilm/tree/master/beit2)                                            | [paper](https://arxiv.org/abs/2208.06366)                                                                                                                                       |
+| BEiTv2        | MIM        | 2022 | ImageNet-22K | [repo](https://github.com/microsoft/unilm/tree/master/beit2)                                            | [paper](https://arxiv.org/abs/2208.06366)   |   
+| DINOv2        | Self-Supervised        | 2023 | LVD-142M | [repo](https://github.com/facebookresearch/dinov2)                                            | [paper](https://arxiv.org/abs/2208.06366)     |
 
 ## Results and Models
 

@@ -9,7 +9,7 @@ log_config = dict(
     ])
 # yapf:enable
 custom_hooks = [dict(type='NumClassCheckHook')]
-evaluation = dict(save_best='auto')
+# evaluation = dict(save_best='auto')
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
