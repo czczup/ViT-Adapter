@@ -67,12 +67,21 @@ detection
 └── convert_14to16.py
 ```
 
-
 ## Results and Models
 
-| Backbone      | Pretrain                                                                                   | Lr schd | box AP | mask AP | #Param | Config       | Download            |
-|:-------------:|:------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:| ------------ |:-------------------:|
-| ViT-Adapter-S | [DINOv2-S](https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 48M    | [config](./mask_rcnn_dinov2_adapter_small_fpn_3x_coco.py) | TODO |
-| ViT-Adapter-B | [DINOv2-B](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitb14/dinov2_vitb14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 120M   | [config](./mask_rcnn_dinov2_adapter_base_fpn_3x_coco.py) | TODO|
-| ViT-Adapter-L | [DINOv2-L](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 348M   | [config](./mask_rcnn_dinov2_adapter_large_fpn_3x_coco.py) | TODO |
-| ViT-Adapter-g | [DINOv2-g](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitg14/dinov2_vitg14_pretrain.pth) | 3x+MS   | TODO   | TODO    | 1.0B     |  TODO        | TODO |
+| Backbone      | Pretrain                                                                                   | Lr schd | box AP | mask AP | #Param | Config                                                    | Download                                                                                                                                                                                                                      |
+|:-------------:|:------------------------------------------------------------------------------------------:|:-------:|:------:|:-------:|:------:|:---------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ViT-Adapter-S | DeiT-S                                                                                     | 3x+MS   | 48.2   | 42.8    | 48M    | [config](../mask_rcnn_deit_adapter_small_fpn_3x_coco.py)  | [ckpt](https://github.com/czczup/ViT-Adapter/releases/download/v0.1.2/mask_rcnn_deit_adapter_small_fpn_3x_coco.pth.tar)                                                                                                       |
+| ViT-Adapter-S | [DINOv2-S](https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth) | 3x+MS   | 51.5   | 45.6    | 48M    | [config](./mask_rcnn_dinov2_adapter_small_fpn_3x_coco.py) | [ckpt](https://huggingface.co/czczup/ViT-Adapter/resolve/main/mask_rcnn_dinov2_adapter_small_fpn_3x_coco.pth) \| [log](https://huggingface.co/czczup/ViT-Adapter/resolve/main/mask_rcnn_dinov2_adapter_small_fpn_3x_coco.log) |
+| ViT-Adapter-B | [DINOv2-B](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitb14/dinov2_vitb14_pretrain.pth) | 3x+MS   | -      | -       | 120M   | [config](./mask_rcnn_dinov2_adapter_base_fpn_3x_coco.py)  | -                                                                                                                                                                                                                             |
+| ViT-Adapter-L | [DINOv2-L](https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_pretrain.pth) | 3x+MS   | -      | -       | 348M   | [config](./mask_rcnn_dinov2_adapter_large_fpn_3x_coco.py) | -                                                                                                                                                                                                                             |
+
+Note that, the hyper-parameter `layer_decay_rate`  has a significant impact on performance of DINOv2. For example, for the `ViT-Adapter-S` with `DINOv2-S`, the box AP of different `layer_decay_rate` are:
+
+| Backbone      | Pretrain                                                                                   | 0.70 | 0.75 | 0.80 | 0.90 | 0.95 |
+|:-------------:|:------------------------------------------------------------------------------------------:|:----:|:----:|:----:|:----:|:----:|
+| ViT-Adapter-S | [DINOv2-S](https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth) | 51.5 | 51.0 | 50.8 | 49.4 | 48.8 |
+
+Perhaps further reducing `layer_decay_rate` will continue to improve performance.
+
+

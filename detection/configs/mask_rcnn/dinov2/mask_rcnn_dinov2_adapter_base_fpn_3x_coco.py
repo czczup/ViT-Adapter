@@ -86,15 +86,10 @@ train_pipeline = [
 data = dict(train=dict(pipeline=train_pipeline))
 optimizer = dict(
     _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
-    paramwise_cfg=dict(
-        custom_keys={
-        'level_embed': dict(decay_mult=0.),
-        'pos_embed': dict(decay_mult=0.),
-        'norm': dict(decay_mult=0.),
-        'bias': dict(decay_mult=0.)
-}))
+    constructor='LayerDecayOptimizerConstructor',
+    paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.70))
 optimizer_config = dict(grad_clip=None)
-fp16 = dict(loss_scale=dict(init_scale=512))
+# fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,
