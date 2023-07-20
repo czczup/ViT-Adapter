@@ -68,6 +68,54 @@ facilitate future research. The code and models will be released.
 - [x] Detection code
 - [x] Initialization
 
+## Awesome Competition Solutions with ViT-Adapter
+
+**Champion solution in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge**
+</br>
+[FB-OCC: 3D Occupancy Prediction based on Forward-Backward View Transformation](https://arxiv.org/abs/2307.01492)
+</br>
+Zhiqi Li, Zhiding Yu, David Austin, Mingsheng Fang, Shiyi Lan, Jan Kautz, Jose M. Alvarez
+</br>
+[[`Code`](https://github.com/NVlabs/FB-BEV)]
+[![Star](https://img.shields.io/github/stars/NVlabs/FB-BEV.svg?style=social&label=Star)]([https://github.com/NVlabs/FB-BEV])
+</br>
+June 26, 2023 
+
+**3rd place on the video panoptic segmentation track of the PVUW Challenge 2023**
+</br>
+[3rd Place Solution for PVUW Challenge 2023: Video Panoptic Segmentation](https://arxiv.org/abs/2306.06753)
+</br>
+Jinming Su, Wangwang Yang, Junfeng Luo, Xiaolin Wei
+</br>
+June 6, 2023 
+
+**Champion solution of the CVPR2023 workshop for video semantic segmentation**
+</br>
+[Semantic Segmentation on VSPW Dataset through Contrastive Loss and Multi-dataset Training Approach](https://arxiv.org/abs/2306.03508)
+</br>
+Min Yan, Qianxiong Ning, Qian Wang
+</br>
+June 3, 2023 
+
+**Champion solution of the WSDM2023 Toloka VQA Challenge**
+</br>
+[Champion Solution for the WSDM2023 Toloka VQA Challenge](https://arxiv.org/abs/2301.09045)
+</br>
+Shengyi Gao, Zhe Chen, Guo Chen, Wenhai Wang, Tong Lu
+</br>
+[[`Code`](https://github.com/czczup/ViT-Adapter/tree/main/wsdm2023)]
+</br>
+January 9, 2023
+
+**Champion solution of the UVO Challenge 2022**
+</br>
+[1st Place Solutions for the UVO Challenge 2022](https://arxiv.org/abs/2210.09629)
+</br>
+Jiajun Zhang, Boyu Chen, Zhilong Ji, Jinfeng Bai, Zonghai Hu
+</br>
+October 9, 2022
+
+
 ## Citation
 
 If this work is helpful for your research, please consider citing the following BibTeX entry.
