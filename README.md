@@ -70,6 +70,15 @@ facilitate future research. The code and models will be released.
 
 ## Awesome Competition Solutions with ViT-Adapter
 
+**2nd place solution in Scene Understanding for Autonomous Drone Delivery (SUADD'23) competition**
+</br>
+Mykola Lavreniuk, Nivedita Rufus, Unnikrishnan R Nair
+</br>
+[[`Code`](https://github.com/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery)]
+[![Star](https://img.shields.io/github/stars/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery.svg?style=social&label=Star)]([https://github.com/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery])
+</br>
+July 18, 2023
+
 **Champion solution in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge**
 </br>
 [FB-OCC: 3D Occupancy Prediction based on Forward-Backward View Transformation](https://arxiv.org/abs/2307.01492)
