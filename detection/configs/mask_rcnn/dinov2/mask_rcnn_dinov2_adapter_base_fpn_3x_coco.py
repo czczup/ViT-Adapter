@@ -87,7 +87,7 @@ data = dict(train=dict(pipeline=train_pipeline))
 optimizer = dict(
     _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
     constructor='LayerDecayOptimizerConstructor',
-    paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.70))
+    paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.60))
 optimizer_config = dict(grad_clip=None)
 # fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
