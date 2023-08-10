@@ -98,13 +98,21 @@ Jinming Su, Wangwang Yang, Junfeng Luo, Xiaolin Wei
 </br>
 June 6, 2023 
 
-**Champion solution of the CVPR2023 workshop for video semantic segmentation**
+**Champion solution in the Video Scene Parsing in the Wild Challenge at CVPR 2023**
 </br>
 [Semantic Segmentation on VSPW Dataset through Contrastive Loss and Multi-dataset Training Approach](https://arxiv.org/abs/2306.03508)
 </br>
 Min Yan, Qianxiong Ning, Qian Wang
 </br>
 June 3, 2023 
+
+**2nd place in the Video Scene Parsing in the Wild Challenge at CVPR 2023**
+</br>
+[Recyclable Semi-supervised Method Based on Multi-model Ensemble for Video Scene Parsing](https://arxiv.org/abs/2306.02894)
+</br>
+Biao Wu, Shaoli Liu, Diankai Zhang, Chengjian Zheng, Si Gao, Xiaofeng Zhang, Ning Wang
+</br>
+June 2, 2023 
 
 **Champion solution of the WSDM2023 Toloka VQA Challenge**
 </br>
