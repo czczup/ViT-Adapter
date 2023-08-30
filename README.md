@@ -70,6 +70,15 @@ facilitate future research. The code and models will be released.
 
 ## Awesome Competition Solutions with ViT-Adapter
 
+**[1st Place Solution for the 5th LSVOS Challenge: Video Instance Segmentation](https://arxiv.org/abs/2306.04091)**
+</br>
+Tao Zhang, Xingye Tian, Yikang Zhou, Yuehua Wu, Shunping Ji, Cilin Yan, Xuebo Wang, Xin Tao, Yuanhui Zhang, Pengfei Wan
+</br>
+[[`Code`](https://github.com/zhang-tao-whu/DVIS)]
+[![Star](https://img.shields.io/github/stars/zhang-tao-whu/DVIS.svg?style=social&label=Star)]([https://github.com/zhang-tao-whu/DVIS])
+</br>
+August 28, 2023
+
 **2nd place solution in Scene Understanding for Autonomous Drone Delivery (SUADD'23) competition**
 </br>
 Mykola Lavreniuk, Nivedita Rufus, Unnikrishnan R Nair
@@ -90,9 +99,8 @@ Zhiqi Li, Zhiding Yu, David Austin, Mingsheng Fang, Shiyi Lan, Jan Kautz, Jose M
 </br>
 June 26, 2023 
 
-**3rd place on the video panoptic segmentation track of the PVUW Challenge 2023**
-</br>
-[3rd Place Solution for PVUW Challenge 2023: Video Panoptic Segmentation](https://arxiv.org/abs/2306.06753)
+
+**[3rd Place Solution for PVUW Challenge 2023: Video Panoptic Segmentation](https://arxiv.org/abs/2306.06753)**
 </br>
 Jinming Su, Wangwang Yang, Junfeng Luo, Xiaolin Wei
 </br>
@@ -114,9 +122,8 @@ Biao Wu, Shaoli Liu, Diankai Zhang, Chengjian Zheng, Si Gao, Xiaofeng Zhang, Nin
 </br>
 June 2, 2023 
 
-**Champion solution of the WSDM2023 Toloka VQA Challenge**
-</br>
-[Champion Solution for the WSDM2023 Toloka VQA Challenge](https://arxiv.org/abs/2301.09045)
+
+**[Champion Solution for the WSDM2023 Toloka VQA Challenge](https://arxiv.org/abs/2301.09045)**
 </br>
 Shengyi Gao, Zhe Chen, Guo Chen, Wenhai Wang, Tong Lu
 </br>
@@ -124,9 +131,7 @@ Shengyi Gao, Zhe Chen, Guo Chen, Wenhai Wang, Tong Lu
 </br>
 January 9, 2023
 
-**Champion solution of the UVO Challenge 2022**
-</br>
-[1st Place Solutions for the UVO Challenge 2022](https://arxiv.org/abs/2210.09629)
+**[1st Place Solutions for the UVO Challenge 2022](https://arxiv.org/abs/2210.09629)**
 </br>
 Jiajun Zhang, Boyu Chen, Zhilong Ji, Jinfeng Bai, Zonghai Hu
 </br>
