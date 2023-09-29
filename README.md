@@ -3,7 +3,6 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/semantic-segmentation-on-ade20k)](https://paperswithcode.com/sota/semantic-segmentation-on-ade20k?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/semantic-segmentation-on-cityscapes)](https://paperswithcode.com/sota/semantic-segmentation-on-cityscapes?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/semantic-segmentation-on-cityscapes-val)](https://paperswithcode.com/sota/semantic-segmentation-on-cityscapes-val?p=vision-transformer-adapter-for-dense)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/semantic-segmentation-on-coco-stuff-test)](https://paperswithcode.com/sota/semantic-segmentation-on-coco-stuff-test?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/semantic-segmentation-on-pascal-context)](https://paperswithcode.com/sota/semantic-segmentation-on-pascal-context?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/object-detection-on-coco-minival)](https://paperswithcode.com/sota/object-detection-on-coco-minival?p=vision-transformer-adapter-for-dense)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/vision-transformer-adapter-for-dense/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=vision-transformer-adapter-for-dense)
@@ -18,8 +17,9 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 [Segmentation Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) | [Detection Colab Notebook](https://colab.research.google.com/drive/1Im7l0dSvEgsP-AJtUOxgbU9a1C3DdSwe?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
-- `2023/07/10`: 🚀🚀 Support the weights of [DINOv2](https://github.com/facebookresearch/dinov2) for object detection, see [here](detection/configs/mask_rcnn/dinov2/)!
-- `2023/06/26`: 🚀 ViT-Adapter is adopted by the champion solution [NVOCC](https://opendrivelab.com/e2ead/AD23Challenge/Track_3_NVOCC.pdf) in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge.
+- `2023/08/31`: 🚀🚀 DINOv2 released the ViT-g-based segmentor with ViT-Adapter, see [here](https://github.com/facebookresearch/dinov2/blob/main/notebooks/semantic_segmentation.ipynb).
+- `2023/07/10`: 🚀 Support the weights of [DINOv2](https://github.com/facebookresearch/dinov2) for object detection, see [here](detection/configs/mask_rcnn/dinov2/)!
+- `2023/06/26`: ViT-Adapter is adopted by the champion solution [NVOCC](https://opendrivelab.com/e2ead/AD23Challenge/Track_3_NVOCC.pdf) in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge.
 - `2023/06/07`: ViT-Adapter is used by [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE) and they created new SOTA of 63.0 mIoU on ADE20K.
 - `2023/04/14`: ViT-Adapter is used in [EVA](https://arxiv.org/abs/2211.07636) and [DINOv2](https://arxiv.org/abs/2304.07193)!
 - `2023/01/21`: Our paper is accepted by ICLR 2023!
