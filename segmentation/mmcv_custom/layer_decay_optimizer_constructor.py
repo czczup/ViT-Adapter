@@ -10,8 +10,12 @@ https://github.com/microsoft/unilm/blob/master/beit/semantic_segmentation/mmcv_c
 
 import json
 
-from mmcv.runner import (OPTIMIZER_BUILDERS, DefaultOptimizerConstructor,
-                         get_dist_info)
+try: # for newer version of mmsegmentation, such as v0.27.0
+    from mmseg.core.builder import OPTIMIZER_BUILDERS
+    from mmcv.runner import DefaultOptimizerConstructor, get_dist_info
+except: # for old version of mmsegmentation
+    from mmcv.runner import (OPTIMIZER_BUILDERS, DefaultOptimizerConstructor,
+                             get_dist_info)
 
 
 def get_num_layer_for_vit(var_name, num_max_layer):
@@ -40,7 +44,7 @@ def get_num_layer_for_vit(var_name, num_max_layer):
         return num_max_layer - 1
 
 
-@OPTIMIZER_BUILDERS.register_module()
+@OPTIMIZER_BUILDERS.register_module(force=True)
 class LayerDecayOptimizerConstructor(DefaultOptimizerConstructor):
     def add_params(self, params, module, prefix='', is_dcn_module=None):
         """Add all parameters of module to the params list.

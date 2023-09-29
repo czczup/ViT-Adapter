@@ -135,6 +135,7 @@ def main():
         _, world_size = get_dist_info()
         cfg.gpu_ids = range(world_size)
 
+    cfg.device = 'cuda'  # fix 'ConfigDict' object has no attribute 'device'
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
     # dump config
