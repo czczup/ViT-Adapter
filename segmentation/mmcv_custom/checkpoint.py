@@ -394,7 +394,7 @@ def load_checkpoint(model,
         if 'relative_position_bias_table' in key:
             rel_pos_bias = state_dict[key]
             src_num_pos, num_attn_heads = rel_pos_bias.size()
-            dst_num_pos, _ = model.state_dict()[key].size()
+            dst_num_pos, _ = model.state_dict()[key[9:]].size()
             dst_patch_shape = model.patch_embed.patch_shape
             if dst_patch_shape[0] != dst_patch_shape[1]:
                 raise NotImplementedError()
@@ -455,7 +455,7 @@ def load_checkpoint(model,
                 rel_pos_bias = torch.cat(all_rel_pos_bias, dim=-1)
                 new_rel_pos_bias = torch.cat((rel_pos_bias, extra_tokens),
                                              dim=0)
-                state_dict[key] = new_rel_pos_bias
+                state_dict[key[9:]] = new_rel_pos_bias
 
     if 'pos_embed' in state_dict:
         pos_embed_checkpoint = state_dict['pos_embed']
@@ -493,7 +493,7 @@ def load_checkpoint(model,
     ]
     for table_key in relative_position_bias_table_keys:
         table_pretrained = state_dict[table_key]
-        table_current = model.state_dict()[table_key]
+        table_current = model.state_dict()[table_key[9:]]
         L1, nH1 = table_pretrained.size()
         L2, nH2 = table_current.size()
         if nH1 != nH2:

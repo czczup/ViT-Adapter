@@ -1,0 +1,20 @@
+{
+    "config": "configs/pizze-sv/pizze_training_base.py",
+    "metric": {
+        "aAcc": 0.9604,
+        "mIoU": 0.7856000000000001,
+        "mAcc": 0.8753,
+        "IoU.bg": 0.9594999694824219,
+        "IoU.Anchovy": 0.7855000305175781,
+        "IoU.Olives": 0.836500015258789,
+        "IoU.Salami": 0.5447000122070312,
+        "IoU.Red_Pepper": 0.794000015258789,
+        "IoU.Yellow_Pepper": 0.7930999755859375,
+        "Acc.bg": 0.9791999816894531,
+        "Acc.Anchovy": 0.8891000366210937,
+        "Acc.Olives": 0.8933999633789063,
+        "Acc.Salami": 0.7448999786376953,
+        "Acc.Red_Pepper": 0.8801999664306641,
+        "Acc.Yellow_Pepper": 0.864800033569336
+    }
+}

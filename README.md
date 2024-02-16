@@ -17,6 +17,8 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 [Segmentation Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) | [Detection Colab Notebook](https://colab.research.google.com/drive/1Im7l0dSvEgsP-AJtUOxgbU9a1C3DdSwe?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
+- `2024/01/19`: Train ViT-Adapter with frozen InternViT-6B, see [here](https://github.com/OpenGVLab/InternVL-MMDetSeg)!
+- `2023/12/23`: 🚀🚀🚀 We release a ViT-based vision foundation model with 6B parameters, see [here](https://github.com/OpenGVLab/InternVL)!
 - `2023/08/31`: 🚀🚀 DINOv2 released the ViT-g-based segmentor with ViT-Adapter, see [here](https://github.com/facebookresearch/dinov2/blob/main/notebooks/semantic_segmentation.ipynb).
 - `2023/07/10`: 🚀 Support the weights of [DINOv2](https://github.com/facebookresearch/dinov2) for object detection, see [here](detection/configs/mask_rcnn/dinov2/)!
 - `2023/06/26`: ViT-Adapter is adopted by the champion solution [NVOCC](https://opendrivelab.com/e2ead/AD23Challenge/Track_3_NVOCC.pdf) in Track 3 (3D Occupancy Prediction) of the CVPR 2023 Autonomous Driving Challenge.
