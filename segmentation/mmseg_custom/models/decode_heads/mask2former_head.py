@@ -80,6 +80,7 @@ class Mask2FormerHead(BaseDecodeHead):
             init_cfg=init_cfg,
             input_transform='multiple_select',
             **kwargs)
+        
         self.num_things_classes = num_things_classes
         self.num_stuff_classes = num_stuff_classes
         self.num_classes = self.num_things_classes + self.num_stuff_classes
@@ -139,7 +140,7 @@ class Mask2FormerHead(BaseDecodeHead):
         self.loss_cls = build_loss(loss_cls)
         self.loss_mask = build_loss(loss_mask)
         self.loss_dice = build_loss(loss_dice)
-
+    
     def init_weights(self):
         for m in self.decoder_input_projs:
             if isinstance(m, Conv2d):

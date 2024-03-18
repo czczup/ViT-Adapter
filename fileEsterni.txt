@@ -1,0 +1,9 @@
+Queste sono le cartelle/i files non committate/i, 
+le trovi componendo il primo path con il secondo.
+Se le vuoi utilizzare le puoi mettere all'interno della cartella contenente questo file.
+
+\\fileserver.sve.private\commesse\tesi\EdoardoProcino\2023_12_19_TestCVat\pesi_adapter
+./
+
+best_mIoU_adapterBase.pth
+best_mIoU_adapterLarge.pth
