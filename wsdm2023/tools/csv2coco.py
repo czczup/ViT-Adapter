@@ -1,6 +1,7 @@
-import json
-import pandas as pd
 import datetime
+import json
+
+import pandas as pd
 
 
 def load_dataset(name):
@@ -17,26 +18,26 @@ def load_dataset(name):
 
     anno_path = f'data/wsdm2023/annotations/{name}.json'
     info = {
-        "description": "WSDMCUP2023 dataset",
-        "url": "https://toloka.ai/challenges/wsdm2023/",
-        "version": "1.0",
-        "year": 2022,
-        "contributor": "toloka",
-        "date_created": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        'description': 'WSDMCUP2023 dataset',
+        'url': 'https://toloka.ai/challenges/wsdm2023/',
+        'version': '1.0',
+        'year': 2022,
+        'contributor': 'toloka',
+        'date_created': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
     licenses = []  # no license
     images = []
     for idx, data in dataset.iterrows():
         url = data['image']
         img_info = {
-            "coco_url": url,
-            "date_captured": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "file_name": url.split('/')[-1],
-            "flickr_url": "",
-            "id": idx,
-            "license": 0,
-            "width": data['width'],
-            "height": data['height']
+            'coco_url': url,
+            'date_captured': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'file_name': url.split('/')[-1],
+            'flickr_url': '',
+            'id': idx,
+            'license': 0,
+            'width': data['width'],
+            'height': data['height']
         }
         images.append(img_info)
     annotations = []
@@ -44,37 +45,37 @@ def load_dataset(name):
         x, y, w, h = data['left'], data['top'], data['right'] - \
             data['left'], data['bottom']-data['top']
         bbox_info = {
-            "id": idx,
-            "image_id": idx,
-            "category_id": 1,
-            "segmentation": [[x, y, x+w, y, x+w, y+h, x, y+h]],
-            "area": w * h,
-            "bbox": [] if name == 'test_public' else [x, y, w, h],
-            "iscrowd": 0
+            'id': idx,
+            'image_id': idx,
+            'category_id': 1,
+            'segmentation': [[x, y, x+w, y, x+w, y+h, x, y+h]],
+            'area': w * h,
+            'bbox': [] if name == 'test_public' else [x, y, w, h],
+            'iscrowd': 0
         }
         annotations.append(bbox_info)
     categories = [{
-        "id": 1,
-        "name": "object",
-        "supercategory": "object",
+        'id': 1,
+        'name': 'object',
+        'supercategory': 'object',
     }]
     # add question to annotation
     questions = []
     for idx, data in dataset.iterrows():
         question_info = {
-            "id": idx,
-            "image_id": idx,
-            "question": data['question']
+            'id': idx,
+            'image_id': idx,
+            'question': data['question']
         }
         questions.append(question_info)
     anno = {
-        "info": info,
-        "lisences": licenses,
-        "images": images,
-        "annotations": annotations,
-        "categories": categories,
-        "type": 'instances',
-        "questions": questions
+        'info': info,
+        'lisences': licenses,
+        'images': images,
+        'annotations': annotations,
+        'categories': categories,
+        'type': 'instances',
+        'questions': questions
     }
     anno = json.dumps(anno)
     with open(anno_path, 'w') as f:

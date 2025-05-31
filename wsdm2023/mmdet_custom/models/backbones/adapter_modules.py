@@ -3,9 +3,9 @@ from functools import partial
 
 import torch
 import torch.nn as nn
+import torch.utils.checkpoint as cp
 from ops.modules import MSDeformAttn
 from timm.models.layers import DropPath
-import torch.utils.checkpoint as cp
 
 _logger = logging.getLogger(__name__)
 
@@ -252,7 +252,7 @@ class SpatialPriorModule(nn.Module):
                                  kernel_size=1, stride=1, padding=0, bias=True)
             self.fc4 = nn.Conv2d(4 * inplanes, embed_dim,
                                  kernel_size=1, stride=1, padding=0, bias=True)
-            
+
     def forward(self, x):
         c1 = self.stem(x)
         c2 = self.conv2(c1)

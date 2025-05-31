@@ -7,8 +7,8 @@ from mmcv import Config, DictAction
 from mmdet.models import build_detector
 
 try:
-    from mmcv.cnn.utils.flops_counter import flops_to_string, params_to_string
     from mmcv.cnn import get_model_complexity_info
+    from mmcv.cnn.utils.flops_counter import flops_to_string, params_to_string
 except ImportError:
     raise ImportError('Please upgrade mmcv to >0.6.2')
 
@@ -52,7 +52,7 @@ def window_sa_flops(h, w, dim, window_size):
 
 def get_flops(model, input_shape):
     flops, params = get_model_complexity_info(model, input_shape, as_strings=False)
-    
+
     backbone = model.backbone
     backbone_name = type(backbone).__name__
     if 'ViT' in backbone_name:
@@ -62,7 +62,7 @@ def get_flops(model, input_shape):
         dim = cfg.model.backbone.embed_dim
         for flag, size in zip(window_attn, window_size):
             print(flag, size)
-            if flag == True:
+            if flag:
                 flops += window_sa_flops(H // 16, W // 16, dim, size)
             else:
                 flops += sa_flops(H // 16, W // 16, dim)
@@ -70,9 +70,9 @@ def get_flops(model, input_shape):
 
 
 if __name__ == '__main__':
-    
+
     args = parse_args()
-    
+
     if len(args.shape) == 1:
         h = w = args.shape[0]
     elif len(args.shape) == 2:
@@ -84,13 +84,13 @@ if __name__ == '__main__':
     if divisor > 0:
         h = int(np.ceil(h / divisor)) * divisor
         w = int(np.ceil(w / divisor)) * divisor
-    
+
     input_shape = (3, h, w)
-    
+
     cfg = Config.fromfile(args.config)
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
-    
+
     model = build_detector(
         cfg.model,
         train_cfg=cfg.get('train_cfg'),
@@ -98,17 +98,16 @@ if __name__ == '__main__':
     if torch.cuda.is_available():
         model.cuda()
     model.eval()
-    
+
     if hasattr(model, 'forward_dummy'):
         model.forward = model.forward_dummy
     else:
         raise NotImplementedError(
-            'FLOPs counter is currently not currently supported with {}'.
-                format(model.__class__.__name__))
-    
+            'FLOPs counter is currently not currently supported with {}'.format(model.__class__.__name__))
+
     flops, params = get_flops(model, input_shape)
     split_line = '=' * 30
-    
+
     if divisor > 0 and \
             input_shape != orig_shape:
         print(f'{split_line}\nUse size divisor set input shape '

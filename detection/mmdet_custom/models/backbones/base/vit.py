@@ -314,7 +314,7 @@ class Block(nn.Module):
         if layer_scale:
             self.gamma1 = nn.Parameter(torch.ones((dim)), requires_grad=True)
             self.gamma2 = nn.Parameter(torch.ones((dim)), requires_grad=True)
-            
+
         if self.use_residual:
             # Use a residual block with bottleneck channel as dim // 2
             self.residual = ResBottleneckBlock(
@@ -324,9 +324,9 @@ class Block(nn.Module):
                 norm=LayerNorm,
                 act_layer=act_layer,
             )
-            
+
     def forward(self, x, H, W):
-        
+
         def _inner_forward(x):
             if self.layer_scale:
                 x = x + self.drop_path(self.gamma1 * self.attn(self.norm1(x), H, W))
@@ -334,20 +334,20 @@ class Block(nn.Module):
             else:
                 x = x + self.drop_path(self.attn(self.norm1(x), H, W))
                 x = x + self.drop_path(self.mlp(self.norm2(x)))
-                
+
             if self.use_residual:
                 B, N, C = x.shape
                 x = x.reshape(B, H, W, C).permute(0, 3, 1, 2)
                 x = self.residual(x)
                 x = x.permute(0, 2, 3, 1).reshape(B, N, C)
-                
+
             return x
 
         if self.with_cp and x.requires_grad:
             x = cp.checkpoint(_inner_forward, x)
         else:
             x = _inner_forward(x)
-        
+
         return x
 
 

@@ -342,8 +342,7 @@ class BEiT(nn.Module):
                  qk_scale=None, drop_rate=0., attn_drop_rate=0., drop_path_rate=0.,
                  hybrid_backbone=None, norm_layer=None, init_values=None, use_checkpoint=False,
                  use_abs_pos_emb=False, use_rel_pos_bias=True, use_shared_rel_pos_bias=False,
-                 pretrained=None, with_cp=False, window_attn=False, window_size=14,
-    ):
+                 pretrained=None, with_cp=False, window_attn=False, window_size=14):
         super().__init__()
         norm_layer = norm_layer or partial(nn.LayerNorm, eps=1e-6)
         self.norm_layer = norm_layer

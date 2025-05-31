@@ -1,16 +1,15 @@
 # Copyright (c) OpenMMLab. All rights reserved.
+import os.path as osp
 from argparse import ArgumentParser
 
-import mmcv
-
-import mmcv_custom   # noqa: F401,F403
-import mmseg_custom   # noqa: F401,F403
-from mmseg.apis import inference_segmentor, init_segmentor, show_result_pyplot
-from mmseg.core.evaluation import get_palette
-from mmcv.runner import load_checkpoint
-from mmseg.core import get_classes
 import cv2
-import os.path as osp
+import mmcv
+import mmcv_custom  # noqa: F401,F403
+import mmseg_custom  # noqa: F401,F403
+from mmcv.runner import load_checkpoint
+from mmseg.apis import inference_segmentor, init_segmentor, show_result_pyplot
+from mmseg.core import get_classes
+from mmseg.core.evaluation import get_palette
 
 
 def main():
@@ -18,7 +17,7 @@ def main():
     parser.add_argument('config', help='Config file')
     parser.add_argument('checkpoint', help='Checkpoint file')
     parser.add_argument('img', help='Image file')
-    parser.add_argument('--out', type=str, default="demo", help='out dir')
+    parser.add_argument('--out', type=str, default='demo', help='out dir')
     parser.add_argument(
         '--device', default='cuda:0', help='Device used for inference')
     parser.add_argument(
@@ -33,14 +32,14 @@ def main():
     args = parser.parse_args()
 
     # build the model from a config file and a checkpoint file
-    
+
     model = init_segmentor(args.config, checkpoint=None, device=args.device)
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
     if 'CLASSES' in checkpoint.get('meta', {}):
         model.CLASSES = checkpoint['meta']['CLASSES']
     else:
         model.CLASSES = get_classes(args.palette)
-        
+
     # test a single image
     result = inference_segmentor(model, args.img)
     # show the results
@@ -52,7 +51,8 @@ def main():
     mmcv.mkdir_or_exist(args.out)
     out_path = osp.join(args.out, osp.basename(args.img))
     cv2.imwrite(out_path, img)
-    print(f"Result is save at {out_path}")
+    print(f'Result is save at {out_path}')
+
 
 if __name__ == '__main__':
     main()

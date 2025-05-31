@@ -4,15 +4,15 @@ import os
 from functools import lru_cache
 
 import ftfy
+import pandas as pd
 import regex as re
 import torch
 from torch._C import Value
-import pandas as pd
 
 
 @lru_cache()
 def default_bpe():
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "bpe_simple_vocab_16e6.txt.gz")
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bpe_simple_vocab_16e6.txt.gz')
 
 
 @lru_cache()
@@ -26,8 +26,8 @@ def bytes_to_unicode():
     To avoid that, we want lookup tables between utf-8 bytes and unicode strings.
     And avoids mapping to whitespace/control characters the bpe code barfs on.
     """
-    bs = list(range(ord("!"), ord("~")+1))+list(range(ord("¡"),
-                                                      ord("¬")+1))+list(range(ord("®"), ord("ÿ")+1))
+    bs = list(range(ord('!'), ord('~')+1))+list(range(ord('¡'),
+                                                      ord('¬')+1))+list(range(ord('®'), ord('ÿ')+1))
     cs = bs[:]
     n = 0
     for b in range(2**8):
@@ -67,7 +67,7 @@ class ClipTokenizer(object):
     def __init__(self, bpe_path: str = default_bpe()):
         self.byte_encoder = bytes_to_unicode()
         self.byte_decoder = {v: k for k, v in self.byte_encoder.items()}
-        merges = gzip.open(bpe_path).read().decode("utf-8").split('\n')
+        merges = gzip.open(bpe_path).read().decode('utf-8').split('\n')
         merges = merges[1:49152-256-2+1]
         merges = [tuple(merge.split()) for merge in merges]
         vocab = list(bytes_to_unicode().values())
@@ -115,7 +115,7 @@ class ClipTokenizer(object):
                     j = word.index(first, i)
                     new_word.extend(word[i:j])
                     i = j
-                except:
+                except Exception:
                     new_word.extend(word[i:])
                     break
 
@@ -148,7 +148,7 @@ class ClipTokenizer(object):
     def decode(self, tokens):
         text = ''.join([self.decoder[token] for token in tokens])
         text = bytearray([self.byte_decoder[c] for c in text]).decode(
-            'utf-8', errors="replace").replace('</w>', ' ')
+            'utf-8', errors='replace').replace('</w>', ' ')
         return text
 
     def basic_tokenize(self, text):
@@ -205,7 +205,7 @@ class ClipTokenizer(object):
     def convert_tokens_to_string(self, tokens):
         text = ''.join(tokens).strip()
         text = bytearray([self.byte_decoder[c] for c in text]).decode(
-            'utf-8', errors="replace").replace('</w>', ' ')
+            'utf-8', errors='replace').replace('</w>', ' ')
         return text
 
 
@@ -216,7 +216,7 @@ class MaskClipTokenizer(ClipTokenizer):
 
     def encode(self, text):
         input_ids = torch.tensor(super().encode(text))
-        
+
         if len(input_ids) > self.max_sent_len:
             input_ids = input_ids[0:self.max_sent_len]
             mask = torch.ones_like(input_ids)
@@ -226,5 +226,5 @@ class MaskClipTokenizer(ClipTokenizer):
                 [self.max_sent_len-len(input_ids)], dtype=input_ids.dtype)
             input_ids = torch.cat([input_ids, pad], dim=0)
             mask = torch.cat([mask, pad], dim=0)
-        
+
         return input_ids,mask

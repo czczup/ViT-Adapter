@@ -1,13 +1,14 @@
-import pandas as pd
-from mmdet.apis import init_detector
-import torch
-from mmcv.parallel import collate, scatter
-from mmdet.datasets import replace_ImageToTensor
-from mmdet.datasets.pipelines import Compose
-from mmcv.ops import RoIPool
 import argparse
+
 import mmcv_custom  # noqa: F401,F403
 import mmdet_custom  # noqa: F401,F403
+import pandas as pd
+import torch
+from mmcv.ops import RoIPool
+from mmcv.parallel import collate, scatter
+from mmdet.apis import init_detector
+from mmdet.datasets import replace_ImageToTensor
+from mmdet.datasets.pipelines import Compose
 
 
 def multimodel_inference(model, imgs, questions):
@@ -61,21 +62,21 @@ def main(dataset, config_file, checkpoint_file,device='cuda:0'):
                         device=device)
     ann=pd.read_csv(f'data/wsdm2023/annotations/{dataset}.csv')
     data_root=(f'data/wsdm2023/{dataset}/')
-    
+
     for idx,data in ann.iterrows():
         img_url=data['image']
         img_name=img_url.split('/')[-1]
         res=multimodel_inference(model,data_root+img_name,data['question'])
         print(res)
-        
-        
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    
+
     parser.add_argument('config',type=str,default='')
     parser.add_argument('checkpoint',type=str,default='')
     parser.add_argument('dataset',type=str,default='')
     parser.add_argument('--device',type=str,default='cuda:0')
-    
+
     args=parser.parse_args()
     main(args.dataset,args.config,args.checkpoint,args.device)

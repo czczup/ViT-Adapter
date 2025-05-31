@@ -10,9 +10,10 @@ from ops.modules import MSDeformAttn
 from timm.models.layers import DropPath, trunc_normal_
 from torch.nn.init import normal_
 
-from .base.uniperceiver import UnifiedBertEncoder
-from .adapter_modules import SpatialPriorModule, InteractionBlock, deform_inputs
+from .adapter_modules import (InteractionBlock, SpatialPriorModule,
+                              deform_inputs)
 from .base.grounding_block import GroundingCrossAttention
+from .base.uniperceiver import UnifiedBertEncoder
 
 _logger = logging.getLogger(__name__)
 
@@ -65,7 +66,7 @@ class UniPerceiverAdapter(UnifiedBertEncoder):
 
         for index in out_indices:
             norm = nn.SyncBatchNorm(embed_dim)
-            setattr(self, f"norm{index+1}", norm)
+            setattr(self, f'norm{index+1}', norm)
 
         self.spm.apply(self._init_weights)
         self.interactions.apply(self._init_weights)

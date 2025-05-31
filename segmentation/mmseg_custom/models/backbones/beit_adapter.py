@@ -11,9 +11,10 @@ from ops.modules import MSDeformAttn
 from timm.models.layers import DropPath, trunc_normal_
 from torch.nn.init import normal_
 
-from .base.beit import BEiT
-from .adapter_modules import SpatialPriorModule, deform_inputs
 from .adapter_modules import InteractionBlockWithCls as InteractionBlock
+from .adapter_modules import SpatialPriorModule, deform_inputs
+from .base.beit import BEiT
+
 _logger = logging.getLogger(__name__)
 
 

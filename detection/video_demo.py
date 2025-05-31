@@ -3,10 +3,10 @@ import argparse
 
 import cv2
 import mmcv
-
-from mmdet.apis import inference_detector, init_detector
 import mmcv_custom  # noqa: F401,F403
 import mmdet_custom  # noqa: F401,F403
+from mmdet.apis import inference_detector, init_detector
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MMDetection video demo')

@@ -1,14 +1,14 @@
 # Copyright (c) OpenMMLab. All rights reserved.
-from mmdet.models.builder import DETECTORS
-from mmdet.models.detectors.detr import DETR
-from mmdet.core import (bbox2result, bbox_cxcywh_to_xyxy,
-                        bbox_xyxy_to_cxcywh, bbox_flip)
-from mmdet.core.bbox.iou_calculators import BboxOverlaps2D
 import torch
-from mmcv.runner import auto_fp16
-from mmseg.models.decode_heads import FPNHead
 import torch.nn as nn
 import torch.nn.functional as F
+from mmcv.runner import auto_fp16
+from mmdet.core import (bbox2result, bbox_cxcywh_to_xyxy, bbox_flip,
+                        bbox_xyxy_to_cxcywh)
+from mmdet.core.bbox.iou_calculators import BboxOverlaps2D
+from mmdet.models.builder import DETECTORS
+from mmdet.models.detectors.detr import DETR
+from mmseg.models.decode_heads import FPNHead
 
 
 class DiceLoss(nn.Module):
@@ -45,7 +45,7 @@ class GroundingDINO(DETR):
         self.iou_calculator = BboxOverlaps2D()
         self.with_aux_loss = with_aux_loss
         self.mul_aux_seg = mul_aux_seg
-        
+
         if self.with_aux_loss:
             self.aux_seg_head = FPNHead(
                 in_channels=[256, 256, 256],
@@ -70,7 +70,7 @@ class GroundingDINO(DETR):
         if self.with_neck:
             x = self.neck(x)
         return x
-    
+
     def extract_feats(self, imgs, refers, r_masks):
         """Extract features from multiple images.
 
@@ -83,7 +83,7 @@ class GroundingDINO(DETR):
         """
         assert isinstance(imgs, list)
         return [self.extract_feat(img, refer, r_mask) for img, refer, r_mask in zip(imgs, refers, r_masks)]
-    
+
     def forward_train(self,
                       img,
                       img_metas,
@@ -97,9 +97,9 @@ class GroundingDINO(DETR):
             img_meta['batch_input_shape'] = batch_input_shape
 
         x = self.extract_feat(img, refer, r_mask)
-        
+
         losses = {}
-        if hasattr(self, "aux_seg_head"):
+        if hasattr(self, 'aux_seg_head'):
             b, _, h, w = x[0].shape
             gt_masks = torch.zeros(b, 1, h, w, device=x[0].device)
             for index, bbox in enumerate(gt_bboxes):
@@ -108,20 +108,19 @@ class GroundingDINO(DETR):
             seg = self.aux_seg_head(x)
             aux_loss = self.loss_aux(seg, gt_masks)
             losses.update(aux_loss=aux_loss)
-            
+
             if self.mul_aux_seg:
                 seg_8s = torch.sigmoid(seg) # [b, 1, h, w]
                 x = list(x)
-                seg_16s = F.interpolate(seg_8s, size=x[1].shape[-2:], mode="nearest")
-                seg_32s = F.interpolate(seg_16s, size=x[2].shape[-2:], mode="nearest")
+                seg_16s = F.interpolate(seg_8s, size=x[1].shape[-2:], mode='nearest')
+                seg_32s = F.interpolate(seg_16s, size=x[2].shape[-2:], mode='nearest')
                 x[0] = x[0] * seg_8s
                 x[1] = x[1] * seg_16s
                 x[2] = x[2] * seg_32s
 
-        loss_head = self.bbox_head.forward_train(x, img_metas, gt_bboxes,
-                                              gt_labels, gt_bboxes_ignore)
+        loss_head = self.bbox_head.forward_train(x, img_metas, gt_bboxes, gt_labels, gt_bboxes_ignore)
         losses.update(loss_head)
-        
+
         return losses
 
     def simple_test(self, img, img_metas, refer, r_mask, rescale=False):
@@ -129,7 +128,7 @@ class GroundingDINO(DETR):
 
         # if hasattr(self, "aux_seg_head"):
         #     seg = self.aux_seg_head(feat)
-        
+
         results_list = self.bbox_head.simple_test(
             feat, img_metas, rescale=rescale)
         bbox_results = [
@@ -251,12 +250,11 @@ class GroundingDINO(DETR):
         # aug_scores = aug_scores + 2 * iou # 77.5
         aug_scores = aug_scores + iou # 77.4
 
-
         max_index = torch.argmax(aug_scores).item()
         aug_bboxes = aug_bboxes[max_index].unsqueeze(0)
         aug_scores = aug_scores[max_index].unsqueeze(0)
         aug_labels = aug_labels[max_index].unsqueeze(0)
-        
+
         out_bboxes = torch.cat((aug_bboxes, aug_scores.unsqueeze(1)), -1)  # [300, 5]
         bbox_results = bbox2result(
             out_bboxes, aug_labels, self.bbox_head.num_classes)

@@ -1,5 +1,6 @@
 import logging
 import math
+
 import torch
 import torch.nn.functional as F
 import torch.utils.checkpoint as cp
@@ -89,7 +90,7 @@ class Attention(nn.Module):
             mask = torch.cat(
                 [torch.ones([B, N], dtype=q_mask.dtype).cuda(), q_mask], dim=1)
             mask = mask.reshape(B, 1, 1, N+Nq)
-            attn = attn.masked_fill(mask == 0, float("-inf"))
+            attn = attn.masked_fill(mask == 0, float('-inf'))
 
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)
@@ -101,7 +102,7 @@ class Attention(nn.Module):
         x = x[:, :N, :]
 
         return x, q
-    
+
 
 class WindowedAttention(nn.Module):
     def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., proj_drop=0., window_size=14):
@@ -149,7 +150,7 @@ class WindowedAttention(nn.Module):
             mask = mask.reshape(B, 1, 1, N_+Nq)
             mask = mask.unsqueeze(0).expand(
                 B_//B, B, 1, 1, N_+Nq).reshape(B_, 1, 1, N_+Nq)
-            attn = attn.masked_fill(mask == 0, float("-inf"))
+            attn = attn.masked_fill(mask == 0, float('-inf'))
 
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)  # [B, L, num_head, N_, N_]
@@ -229,13 +230,13 @@ class VisualPatchEmbedding(nn.Module):
         self.embeddings_norm = nn.LayerNorm(out_dim)
         # self.embeddings_type = nn.Embedding(1, 768)
         self.embeddings_dropout = nn.Dropout(dropout)
-        
+
         self.patch_embed = PatchEmbed(
             img_size=(image_size, image_size),
             patch_size=(patch_size, patch_size),
             in_chans=in_dim, embed_dim=out_dim,
         )
-    
+
     def forward(self, x):
         embeddings, H, W = self.patch_embed(x)
         # data_type = torch.zeros(1).long().cuda()
@@ -244,19 +245,19 @@ class VisualPatchEmbedding(nn.Module):
         # embeddings = embeddings + self.embeddings_type.weight[0].unsqueeze(0).unsqueeze(1).to(embeddings.dtype)
         if self.embeddings_act is not None:
             embeddings = self.embeddings_act(embeddings)
-        
+
         if self.embeddings_norm is not None:
             embeddings = self.embeddings_norm(embeddings)
-        
+
         if self.embeddings_dropout is not None:
             embeddings = self.embeddings_dropout(embeddings)
-        
+
         return embeddings, H, W
 
 
 class PatchEmbed(torch.nn.Module):
     """Image to Patch Embedding."""
-    
+
     def __init__(self, img_size=(224, 224), patch_size=(16, 16), in_chans=3, embed_dim=768):
         super().__init__()
         num_patches = (img_size[1] // patch_size[1]) * (img_size[0] // patch_size[0])
@@ -264,18 +265,18 @@ class PatchEmbed(torch.nn.Module):
         self.patch_size = patch_size
         self.num_patches = num_patches
         self.pretrain_size = img_size
-        
+
         self.spatial_pos_embed = nn.Embedding(num_patches, embed_dim)
         self.temporal_pos_embed = nn.Embedding(8, embed_dim)
         self.proj = torch.nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size)
-    
+
     def _get_pos_embed(self, pos_embed, H, W):
         pos_embed = pos_embed.reshape(
             1, self.pretrain_size[0] // 16, self.pretrain_size[1] // 16, -1).permute(0, 3, 1, 2)
         pos_embed = F.interpolate(pos_embed, size=(H, W), mode='bicubic', align_corners=False). \
             reshape(1, -1, H * W).permute(0, 2, 1)
         return pos_embed
-    
+
     def forward(self, x):
         B, C, H, W = x.shape
         x = self.proj(x).flatten(2).transpose(1, 2)  # B, N, C
@@ -291,7 +292,7 @@ class NNEmbeddingEncoding(nn.Module):
     def __init__(self, dim, max_len):
         super(NNEmbeddingEncoding, self).__init__()
         self.position_embeddings = nn.Embedding(max_len, dim)
-    
+
     def forward(self, x, start_time=0):
         if isinstance(x, int):
             position_embeddings = self.position_embeddings(torch.tensor([x], dtype=torch.long).cuda())
@@ -311,17 +312,17 @@ class TokenBaseEmbedding(nn.Module):
         self.embeddings_norm = nn.LayerNorm(dim)
         self.embeddings_pos = NNEmbeddingEncoding(dim, 512)
         self.embeddings_token_type = nn.Embedding(2, dim)
-    
+
     def forward(self, input_ids, time_step=None, start_time=0):
         embeddings = self.embeddings(input_ids)
         pos_inputs = input_ids if time_step is None else time_step
         position_embeddings = self.embeddings_pos(pos_inputs, start_time=start_time)
         embeddings = embeddings + position_embeddings.to(embeddings.dtype)
-        
+
         embeddings_token_type = self.embeddings_token_type.weight[0].unsqueeze(0).unsqueeze(1)
         embeddings = embeddings + embeddings_token_type.to(embeddings.dtype)
         embeddings = self.embeddings_norm(embeddings)
-        
+
         return embeddings
 
 

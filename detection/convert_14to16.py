@@ -1,5 +1,6 @@
-import torch
 import argparse
+
+import torch
 import torch.nn.functional as F
 
 parser = argparse.ArgumentParser(description='Hyperparams')
@@ -17,10 +18,10 @@ model['patch_embed.proj.weight'] = patch_embed
 # rename parameters of layer scale
 new_model = {}
 for k, v in model.items():
-    if "mask_token" in k:
+    if 'mask_token' in k:
         continue
-    new_k = k.replace("ls1.gamma", 'gamma1')
-    new_k = new_k.replace("ls2.gamma", 'gamma2')
+    new_k = k.replace('ls1.gamma', 'gamma1')
+    new_k = new_k.replace('ls2.gamma', 'gamma2')
     new_model[new_k] = v
 
-torch.save(new_model, args.filename.replace(".pth", "_14to16.pth"))
+torch.save(new_model, args.filename.replace('.pth', '_14to16.pth'))

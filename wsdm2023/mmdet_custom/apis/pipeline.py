@@ -1,9 +1,10 @@
+import json
+
+import numpy as np
+import torch
 from mmdet.datasets.builder import PIPELINES
 from mmdet.datasets.pipelines import RandomFlip
 from mmdet_custom.models.utils.tokenization import ClipTokenizer
-import torch
-import json
-import numpy as np
 
 
 @PIPELINES.register_module()
@@ -48,7 +49,7 @@ class TokenizeRefer:
         input_ids = torch.tensor(
             self.tokenizer.encode(refer))
         if len(input_ids) > self.max_sent_len:
-            print(f"len(input_ids) > self.max_sent_len! len(input_ids) = {len(input_ids)}")
+            print(f'len(input_ids) > self.max_sent_len! len(input_ids) = {len(input_ids)}')
             input_ids = input_ids[0:self.max_sent_len]
             mask = torch.ones_like(input_ids)
         else:

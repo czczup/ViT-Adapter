@@ -7,8 +7,8 @@ import torch.nn.functional as F
 from mmdet.models.builder import BACKBONES
 from timm.models.layers import trunc_normal_
 
-from .base.vit import TIMMVisionTransformer
-from .base.vit import ResBottleneckBlock
+from .base.vit import ResBottleneckBlock, TIMMVisionTransformer
+
 _logger = logging.getLogger(__name__)
 
 

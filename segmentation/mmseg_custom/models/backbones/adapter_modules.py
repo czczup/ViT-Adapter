@@ -35,7 +35,7 @@ def deform_inputs(x):
         (1,)), spatial_shapes.prod(1).cumsum(0)[:-1]))
     reference_points = get_reference_points([(h // 16, w // 16)], x.device)
     deform_inputs1 = [reference_points, spatial_shapes, level_start_index]
-    
+
     spatial_shapes = torch.as_tensor([(h // 16, w // 16)], dtype=torch.long, device=x.device)
     level_start_index = torch.cat((spatial_shapes.new_zeros(
         (1,)), spatial_shapes.prod(1).cumsum(0)[:-1]))
@@ -43,7 +43,7 @@ def deform_inputs(x):
                                              (h // 16, w // 16),
                                              (h // 32, w // 32)], x.device)
     deform_inputs2 = [reference_points, spatial_shapes, level_start_index]
-    
+
     return deform_inputs1, deform_inputs2
 
 
@@ -104,23 +104,23 @@ class Extractor(nn.Module):
             self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
 
     def forward(self, query, reference_points, feat, spatial_shapes, level_start_index, H, W):
-        
+
         def _inner_forward(query, feat):
 
             attn = self.attn(self.query_norm(query), reference_points,
                              self.feat_norm(feat), spatial_shapes,
                              level_start_index, None)
             query = query + attn
-    
+
             if self.with_cffn:
                 query = query + self.drop_path(self.ffn(self.ffn_norm(query), H, W))
             return query
-        
+
         if self.with_cp and query.requires_grad:
             query = cp.checkpoint(_inner_forward, query, feat)
         else:
             query = _inner_forward(query, feat)
-            
+
         return query
 
 
@@ -136,19 +136,19 @@ class Injector(nn.Module):
         self.gamma = nn.Parameter(init_values * torch.ones((dim)), requires_grad=True)
 
     def forward(self, query, reference_points, feat, spatial_shapes, level_start_index):
-        
+
         def _inner_forward(query, feat):
 
             attn = self.attn(self.query_norm(query), reference_points,
                              self.feat_norm(feat), spatial_shapes,
                              level_start_index, None)
             return query + self.gamma * attn
-        
+
         if self.with_cp and query.requires_grad:
             query = cp.checkpoint(_inner_forward, query, feat)
         else:
             query = _inner_forward(query, feat)
-            
+
         return query
 
 
@@ -230,7 +230,7 @@ class InteractionBlockWithCls(nn.Module):
                               feat=x, spatial_shapes=deform_inputs2[1],
                               level_start_index=deform_inputs2[2], H=H, W=W)
         return x, c, cls
-    
+
 
 class SpatialPriorModule(nn.Module):
     def __init__(self, inplanes=64, embed_dim=384, with_cp=False):
@@ -270,7 +270,7 @@ class SpatialPriorModule(nn.Module):
         self.fc4 = nn.Conv2d(4 * inplanes, embed_dim, kernel_size=1, stride=1, padding=0, bias=True)
 
     def forward(self, x):
-        
+
         def _inner_forward(x):
             c1 = self.stem(x)
             c2 = self.conv2(c1)
@@ -280,15 +280,15 @@ class SpatialPriorModule(nn.Module):
             c2 = self.fc2(c2)
             c3 = self.fc3(c3)
             c4 = self.fc4(c4)
-    
+
             bs, dim, _, _ = c1.shape
             # c1 = c1.view(bs, dim, -1).transpose(1, 2)  # 4s
             c2 = c2.view(bs, dim, -1).transpose(1, 2)  # 8s
             c3 = c3.view(bs, dim, -1).transpose(1, 2)  # 16s
             c4 = c4.view(bs, dim, -1).transpose(1, 2)  # 32s
-    
+
             return c1, c2, c3, c4
-        
+
         if self.with_cp and x.requires_grad:
             outs = cp.checkpoint(_inner_forward, x)
         else:

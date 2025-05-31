@@ -1,7 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import torch
 from mmcv.runner import BaseModule
-
 from mmdet.core import bbox_xyxy_to_cxcywh
 from mmdet.models.utils.transformer import inverse_sigmoid
 

@@ -81,7 +81,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/1nyuONJcHHXki0Cn8dCgbPZ9D_MURh47t/view?usp=sharing">51.3</a></td>
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> | 
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/0.3.0/htc++_beit_adapter_large_fpn_3x_coco.pth.tar">ckpt</a> |
         <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
@@ -107,7 +107,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>51.8</td>
       <td>401M</td>
       <td><a href="./htc++_beitv2_adapter_large_fpn_3x_coco.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> | 
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.3.1/htc++_beitv2_adapter_large_fpn_3x_coco.pth">ckpt</a> |
         <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beitv2_adapter_large_fpn_3x_coco.log">log</a></td>
    </tr>
    </tr>
@@ -150,7 +150,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
    </tr>
 </table>
 
-- TTA denotes test-time augmentation. Our code for TTA will be released in the future. 
+- TTA denotes test-time augmentation. Our code for TTA will be released in the future.
 - For the models without Objects365 pre-training, we use 16 A100 GPUs with a total batch size of 16 (i.e., 1 image/GPU).
 - For the models with Objects365 pre-training, we first pre-train for 26 epochs, then fine-tune it for 20k iterations using 32 A100 GPUs with a total batch size of 64 (i.e., 2 image/GPU).
 - If you use V100-32G GPUs, you should set `with_cp=True` to save memory during training.
@@ -184,7 +184,7 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td><a href="https://drive.google.com/file/d/1wIbtzfHfPqkvZaSivzcsh4HWu1oSiun6/view?usp=sharing">50.8</a></td>
       <td>401M</td>
       <td><a href="./htc++_beit_adapter_large_fpn_3x_coco_old.py">config</a> </td>
-      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">ckpt</a> | 
+      <td><a href="https://github.com/czczup/ViT-Adapter/releases/download/v0.1.0/htc++_beit_adapter_large_fpn_3x_coco_old.pth.tar">ckpt</a> |
         <a href="https://huggingface.co/czczup/ViT-Adapter/raw/main/htc++_beit_adapter_large_fpn_3x_coco_old.log">log</a></td>
    </tr>
    </tr>
@@ -201,4 +201,3 @@ The results on COCO mini-val and test-dev are shown in the below table.
       <td>-</td>
    </tr>
 </table>
-

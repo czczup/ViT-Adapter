@@ -18,6 +18,6 @@ In the default setting, it will generate 3456 images for training and 2016 image
 
 ## Results and Models
 
-| Method      | Backbone      | Pretrain | Batch Size | Lr schd | Crop Size | mIoU (SS) | #Param | Config                                                           | Download                                               |
-|:-----------:|:-------------:|:--------:|:----------:|:-------:|:---------:|:---------:|:------:|:----------------------------------------------------------------:|:------------------------------------------------------:|
-| Mask2Former | ViT-Adapter-L | BEiT-L   | 8x1        | 80k     | 512       | 80.0      | 352M   | [config](./mask2former_beit_adapter_large_512_80k_potsdam_ss.py) | [log](https://github.com/czczup/ViT-Adapter/issues/38) |
+|   Method    |   Backbone    | Pretrain | Batch Size | Lr schd | Crop Size | mIoU (SS) | #Param |                              Config                              |                        Download                        |
+| :---------: | :-----------: | :------: | :--------: | :-----: | :-------: | :-------: | :----: | :--------------------------------------------------------------: | :----------------------------------------------------: |
+| Mask2Former | ViT-Adapter-L |  BEiT-L  |    8x1     |   80k   |    512    |   80.0    |  352M  | [config](./mask2former_beit_adapter_large_512_80k_potsdam_ss.py) | [log](https://github.com/czczup/ViT-Adapter/issues/38) |

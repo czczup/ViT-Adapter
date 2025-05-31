@@ -103,8 +103,7 @@ class Mask2FormerHead(BaseDecodeHead):
         self.decoder_input_projs = ModuleList()
         # from low resolution to high resolution
         for _ in range(num_transformer_feat_level):
-            if (self.decoder_embed_dims != feat_channels
-                    or enforce_decoder_input_project):
+            if (self.decoder_embed_dims != feat_channels or enforce_decoder_input_project):
                 self.decoder_input_projs.append(
                     Conv2d(
                         feat_channels, self.decoder_embed_dims, kernel_size=1))

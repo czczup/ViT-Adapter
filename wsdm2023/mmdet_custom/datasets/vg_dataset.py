@@ -1,11 +1,11 @@
 import json
-import numpy as np
+from collections import OrderedDict
 
+import numpy as np
+from mmcv.utils import print_log
+from mmdet.core.evaluation.bbox_overlaps import bbox_overlaps
 from mmdet.datasets.builder import DATASETS
 from mmdet.datasets.custom import CustomDataset
-from collections import OrderedDict
-from mmdet.core.evaluation.bbox_overlaps import bbox_overlaps
-from mmcv.utils import print_log
 
 
 @DATASETS.register_module()
@@ -36,7 +36,7 @@ class VGDataset(CustomDataset):
             if min(img_info['width'], img_info['height']) >= min_size:
                 if self.filter_empty_gt:
                     bbox = img_info.get('bbox')
-                    if bbox != None and len(bbox) == 4:
+                    if bbox is not None and len(bbox) == 4:
                         valid_inds.append(i)
                 else:
                     valid_inds.append(i)
@@ -63,7 +63,7 @@ class VGDataset(CustomDataset):
             print_log(msg, logger=logger)
 
             if m == 'IoU':
-                if ious == None:
+                if ious is None:
                     ious = self.eval_ious(results)
                 eval_results['mIoU'] = np.mean(ious)
             elif m == 'Acc':

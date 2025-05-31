@@ -7,8 +7,8 @@ import time
 import warnings
 
 import mmcv
-import mmcv_custom   # noqa: F401,F403
-import mmseg_custom   # noqa: F401,F403
+import mmcv_custom  # noqa: F401,F403
+import mmseg_custom  # noqa: F401,F403
 import torch
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import (get_dist_info, init_dist, load_checkpoint,

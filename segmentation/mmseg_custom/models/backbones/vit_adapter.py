@@ -10,8 +10,9 @@ from ops.modules import MSDeformAttn
 from timm.models.layers import trunc_normal_
 from torch.nn.init import normal_
 
+from .adapter_modules import (InteractionBlock, SpatialPriorModule,
+                              deform_inputs)
 from .base.vit import TIMMVisionTransformer
-from .adapter_modules import SpatialPriorModule, InteractionBlock, deform_inputs
 
 _logger = logging.getLogger(__name__)
 
@@ -22,10 +23,10 @@ class ViTAdapter(TIMMVisionTransformer):
                  deform_num_heads=6, init_values=0., interaction_indexes=None, with_cffn=True,
                  cffn_ratio=0.25, deform_ratio=1.0, add_vit_feature=True, pretrained=None,
                  use_extra_extractor=True, with_cp=False, *args, **kwargs):
-        
+
         super().__init__(num_heads=num_heads, pretrained=pretrained,
                          with_cp=with_cp, *args, **kwargs)
-        
+
         # self.num_classes = 80
         self.cls_token = None
         self.num_block = len(self.blocks)
@@ -33,7 +34,7 @@ class ViTAdapter(TIMMVisionTransformer):
         self.interaction_indexes = interaction_indexes
         self.add_vit_feature = add_vit_feature
         embed_dim = self.embed_dim
-        
+
         self.level_embed = nn.Parameter(torch.zeros(3, embed_dim))
         self.spm = SpatialPriorModule(inplanes=conv_inplane, embed_dim=embed_dim, with_cp=False)
         self.interactions = nn.Sequential(*[
@@ -92,7 +93,7 @@ class ViTAdapter(TIMMVisionTransformer):
 
     def forward(self, x):
         deform_inputs1, deform_inputs2 = deform_inputs(x)
-        
+
         # SPM forward
         c1, c2, c3, c4 = self.spm(x)
         c2, c3, c4 = self._add_level_embed(c2, c3, c4)
@@ -111,7 +112,7 @@ class ViTAdapter(TIMMVisionTransformer):
             x, c = layer(x, c, self.blocks[indexes[0]:indexes[-1] + 1],
                          deform_inputs1, deform_inputs2, H, W)
             outs.append(x.transpose(1, 2).view(bs, dim, H, W).contiguous())
-        
+
         # Split & Reshape
         c2 = c[:, 0:c2.size(1), :]
         c3 = c[:, c2.size(1):c2.size(1) + c3.size(1), :]

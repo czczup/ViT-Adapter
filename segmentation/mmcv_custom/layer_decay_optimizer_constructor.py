@@ -11,9 +11,9 @@ https://github.com/microsoft/unilm/blob/master/beit/semantic_segmentation/mmcv_c
 import json
 
 try: # for newer version of mmsegmentation, such as v0.27.0
-    from mmseg.core.builder import OPTIMIZER_BUILDERS
     from mmcv.runner import DefaultOptimizerConstructor, get_dist_info
-except: # for old version of mmsegmentation
+    from mmseg.core.builder import OPTIMIZER_BUILDERS
+except Exception: # for old version of mmsegmentation
     from mmcv.runner import (OPTIMIZER_BUILDERS, DefaultOptimizerConstructor,
                              get_dist_info)
 

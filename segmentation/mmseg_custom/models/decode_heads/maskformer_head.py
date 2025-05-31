@@ -94,9 +94,7 @@ class MaskFormerHead(BaseDecodeHead):
             transformer_decoder)
         self.decoder_embed_dims = self.transformer_decoder.embed_dims
         pixel_decoder_type = pixel_decoder.get('type')
-        if pixel_decoder_type == 'PixelDecoder' and (
-                self.decoder_embed_dims != self.in_channels[-1]
-                or enforce_decoder_input_project):
+        if pixel_decoder_type == 'PixelDecoder' and (self.decoder_embed_dims != self.in_channels[-1] or enforce_decoder_input_project):
             self.decoder_input_proj = Conv2d(
                 self.in_channels[-1], self.decoder_embed_dims, kernel_size=1)
         else:
@@ -388,8 +386,8 @@ class MaskFormerHead(BaseDecodeHead):
         # shape [num_gts, h, w] -> [num_gts * h * w]
         mask_targets = mask_targets.reshape(-1)
         # target is (1 - mask_targets) !!!
-        print("mask_pred:", mask_preds.shape)
-        print("mask_targets:", mask_targets.shape)
+        print('mask_pred:', mask_preds.shape)
+        print('mask_targets:', mask_targets.shape)
         loss_mask = self.loss_mask(
             mask_preds, 1 - mask_targets, avg_factor=num_total_masks * h * w)
 

@@ -2,12 +2,12 @@
 from argparse import ArgumentParser
 
 import cv2
-import mmcv_custom   # noqa: F401,F403
-import mmseg_custom   # noqa: F401,F403
-from mmseg.apis import inference_segmentor, init_segmentor
-from mmseg.core.evaluation import get_palette
+import mmcv_custom  # noqa: F401,F403
+import mmseg_custom  # noqa: F401,F403
 from mmcv.runner import load_checkpoint
+from mmseg.apis import inference_segmentor, init_segmentor
 from mmseg.core import get_classes
+from mmseg.core.evaluation import get_palette
 
 
 def main():
@@ -61,7 +61,7 @@ def main():
         model.CLASSES = checkpoint['meta']['CLASSES']
     else:
         model.CLASSES = get_classes(args.palette)
-        
+
     # build input video
     cap = cv2.VideoCapture(args.video)
     assert (cap.isOpened())

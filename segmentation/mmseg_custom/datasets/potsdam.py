@@ -2,6 +2,7 @@
 from mmseg.datasets.builder import DATASETS
 from mmseg.datasets.custom import CustomDataset
 
+
 @DATASETS.register_module(force=True)
 class PotsdamDataset(CustomDataset):
     """ISPRS Potsdam dataset.

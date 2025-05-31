@@ -65,7 +65,7 @@ class Attention(nn.Module):
         x = self.out_proj(x)
         x = self.proj_drop(x)
         return x
-    
+
 
 class WindowedAttention(nn.Module):
     def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., proj_drop=0., window_size=14):
@@ -122,21 +122,21 @@ class BertLayer(nn.Module):
         self.act_fn = nn.GELU()
         self.linear2 = nn.Linear(intermediate_size, hidden_size)
         self.drop_path = DropPath(drop_path_ratio) if drop_path_ratio > 0. else nn.Identity()
-        
+
         self.norm1 = nn.LayerNorm(hidden_size)
         self.norm2 = nn.LayerNorm(hidden_size)
-    
+
         self.gamma_1 = nn.Parameter(torch.zeros((hidden_size)), requires_grad=True)
         self.gamma_2 = nn.Parameter(torch.zeros((hidden_size)), requires_grad=True)
-        
+
     def ffn_forward(self, x):
         x = self.linear1(x)
         x = self.act_fn(x)
         x = self.linear2(x)
         return x
-        
+
     def forward(self, x, H, W):
-        
+
         def _inner_forward(x):
             x = x + self.gamma_1 * self.drop_path(self.self_attn(self.norm1(x), H, W))
             x = x + self.gamma_2 * self.drop_path(self.ffn_forward(self.norm2(x)))

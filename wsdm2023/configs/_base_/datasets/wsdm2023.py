@@ -8,7 +8,7 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='LoadRefer', tag='question'),
-    dict(type='RandomParaPhrase', 
+    dict(type='RandomParaPhrase',
          phrase_cache=data_root+'annotations/paraphrase_train.json'),
     dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
     dict(type='RandomFlipWithRefer', flip_ratio=0.5),
@@ -51,7 +51,7 @@ data = dict(
     #           img_prefix=data_root + 'test_public',
     #           pipeline=test_pipeline))
     test=dict(type=dataset_type,
-             ann_file=data_root + 'annotations/val.json',
-             img_prefix=data_root + 'train',
-             pipeline=test_pipeline))
+              ann_file=data_root + 'annotations/val.json',
+              img_prefix=data_root + 'train',
+              pipeline=test_pipeline))
 evaluation = dict(interval=1, metric=['bbox', 'IoU'])

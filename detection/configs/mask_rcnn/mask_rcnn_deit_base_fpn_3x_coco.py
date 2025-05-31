@@ -93,4 +93,3 @@ checkpoint_config = dict(
     max_keep_ckpts=3,
     save_last=True,
 )
-

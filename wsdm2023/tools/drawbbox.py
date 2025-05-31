@@ -1,9 +1,10 @@
-import cv2
 import argparse
-import torch
 import json
-from torchvision.utils import draw_bounding_boxes
+
+import cv2
+import torch
 from torch.utils.tensorboard import SummaryWriter
+from torchvision.utils import draw_bounding_boxes
 
 
 def xywh2xyxy(bbox):

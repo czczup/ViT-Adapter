@@ -1,10 +1,12 @@
+import argparse
+import json
+import warnings
+
+import pandas
 import torch
 from parrot import Parrot
-import json
-import pandas
-import argparse
-import warnings
-warnings.filterwarnings("ignore")
+
+warnings.filterwarnings('ignore')
 
 
 def parse_args():
@@ -19,7 +21,7 @@ def parse_args():
 
 def main(args):
     parrot = Parrot(
-        model_tag="prithivida/parrot_paraphraser_on_T5")
+        model_tag='prithivida/parrot_paraphraser_on_T5')
     parrot.model = parrot.model.to('cuda:0')
     print('Successfully load model.')
     res = dict()

@@ -17,6 +17,7 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 [Segmentation Colab Notebook](https://colab.research.google.com/drive/1yEd5lQMjShloicImtShkwttb74KPGY5U?usp=sharing) | [Detection Colab Notebook](https://colab.research.google.com/drive/1Im7l0dSvEgsP-AJtUOxgbU9a1C3DdSwe?usp=sharing) (thanks [@IamShubhamGupto](https://github.com/IamShubhamGupto), [@dudifrid](https://github.com/dudifrid))
 
 ## News
+
 - `2024/01/19`: Train ViT-Adapter with frozen InternViT-6B, see [here](https://github.com/OpenGVLab/InternVL-MMDetSeg)!
 - `2023/12/23`: 🚀🚀🚀 We release a ViT-based vision foundation model with 6B parameters, see [here](https://github.com/OpenGVLab/InternVL)!
 - `2023/08/31`: 🚀🚀 DINOv2 released the ViT-g-based segmentor with ViT-Adapter, see [here](https://github.com/facebookresearch/dinov2/blob/main/notebooks/semantic_segmentation.ipynb).
@@ -33,15 +34,12 @@ The official implementation of the paper "[Vision Transformer Adapter for Dense 
 - `2022/05/12`: ViT-Adapter-L reaches 85.2 mIoU on Cityscapes test set without coarse data.
 - `2022/05/05`: ViT-Adapter-L achieves the SOTA on ADE20K val set with 60.5 mIoU!
 
-
 ## Highlights
 
 - ViT-Adapter supports various dense prediction tasks, including `object detection`, `instance segmentation`, `semantic segmentation`, `visual grounding`, `panoptic segmentation`, etc.
 - This codebase includes many SOTA detectors and segmenters to achieve top performance, such as `HTC++`, `Mask2Former`, `DINO`.
 
 https://user-images.githubusercontent.com/23737120/208140362-f2029060-eb16-4280-b85f-074006547a12.mp4
-
-
 
 ## Abstract
 
@@ -62,6 +60,7 @@ facilitate future research. The code and models will be released.
 <img width="810" alt="image" src="https://user-images.githubusercontent.com/23737120/194904786-ea9c40a3-f6ac-4fe1-90ad-976e7b9e8f03.png">
 
 ## Catalog
+
 - [ ] Support flash attention
 - [ ] Support faster deformable attention
 - [x] Segmentation checkpoints
@@ -76,7 +75,7 @@ facilitate future research. The code and models will be released.
 </br>
 Tao Zhang, Xingye Tian, Yikang Zhou, Yuehua Wu, Shunping Ji, Cilin Yan, Xuebo Wang, Xin Tao, Yuanhui Zhang, Pengfei Wan
 </br>
-[[`Code`](https://github.com/zhang-tao-whu/DVIS)]
+\[[`Code`](https://github.com/zhang-tao-whu/DVIS)\]
 [![Star](https://img.shields.io/github/stars/zhang-tao-whu/DVIS.svg?style=social&label=Star)]([https://github.com/zhang-tao-whu/DVIS])
 </br>
 August 28, 2023
@@ -85,7 +84,7 @@ August 28, 2023
 </br>
 Mykola Lavreniuk, Nivedita Rufus, Unnikrishnan R Nair
 </br>
-[[`Code`](https://github.com/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery)]
+\[[`Code`](https://github.com/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery)\]
 [![Star](https://img.shields.io/github/stars/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery.svg?style=social&label=Star)]([https://github.com/Lavreniuk/2nd-place-solution-in-Scene-Understanding-for-Autonomous-Drone-Delivery])
 </br>
 July 18, 2023
@@ -96,17 +95,16 @@ July 18, 2023
 </br>
 Zhiqi Li, Zhiding Yu, David Austin, Mingsheng Fang, Shiyi Lan, Jan Kautz, Jose M. Alvarez
 </br>
-[[`Code`](https://github.com/NVlabs/FB-BEV)]
+\[[`Code`](https://github.com/NVlabs/FB-BEV)\]
 [![Star](https://img.shields.io/github/stars/NVlabs/FB-BEV.svg?style=social&label=Star)]([https://github.com/NVlabs/FB-BEV])
 </br>
-June 26, 2023 
-
+June 26, 2023
 
 **[3rd Place Solution for PVUW Challenge 2023: Video Panoptic Segmentation](https://arxiv.org/abs/2306.06753)**
 </br>
 Jinming Su, Wangwang Yang, Junfeng Luo, Xiaolin Wei
 </br>
-June 6, 2023 
+June 6, 2023
 
 **Champion solution in the Video Scene Parsing in the Wild Challenge at CVPR 2023**
 </br>
@@ -114,7 +112,7 @@ June 6, 2023
 </br>
 Min Yan, Qianxiong Ning, Qian Wang
 </br>
-June 3, 2023 
+June 3, 2023
 
 **2nd place in the Video Scene Parsing in the Wild Challenge at CVPR 2023**
 </br>
@@ -122,14 +120,13 @@ June 3, 2023
 </br>
 Biao Wu, Shaoli Liu, Diankai Zhang, Chengjian Zheng, Si Gao, Xiaofeng Zhang, Ning Wang
 </br>
-June 2, 2023 
-
+June 2, 2023
 
 **[Champion Solution for the WSDM2023 Toloka VQA Challenge](https://arxiv.org/abs/2301.09045)**
 </br>
 Shengyi Gao, Zhe Chen, Guo Chen, Wenhai Wang, Tong Lu
 </br>
-[[`Code`](https://github.com/czczup/ViT-Adapter/tree/main/wsdm2023)]
+\[[`Code`](https://github.com/czczup/ViT-Adapter/tree/main/wsdm2023)\]
 </br>
 January 9, 2023
 
@@ -138,7 +135,6 @@ January 9, 2023
 Jiajun Zhang, Boyu Chen, Zhilong Ji, Jinfeng Bai, Zonghai Hu
 </br>
 October 9, 2022
-
 
 ## Citation
 

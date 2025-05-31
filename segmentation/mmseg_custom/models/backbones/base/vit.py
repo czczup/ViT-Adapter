@@ -59,7 +59,7 @@ class PatchEmbed(nn.Module):
             x = x.flatten(2).transpose(1, 2)  # BCHW -> BNC
         x = self.norm(x)
         return x, H, W
-    
+
 
 class Attention(nn.Module):
     def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., proj_drop=0.):
@@ -120,7 +120,7 @@ def window_reverse(windows, window_size, H, W):
 
 class WindowedAttention(nn.Module):
     def __init__(self, dim, num_heads=8, qkv_bias=False, attn_drop=0., proj_drop=0., window_size=14,
-                 pad_mode="constant"):
+                 pad_mode='constant'):
         super().__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
@@ -210,7 +210,7 @@ class Block(nn.Module):
 
     def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0., attn_drop=0.,
                  drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm, windowed=False,
-                 window_size=14, pad_mode="constant", layer_scale=False, with_cp=False):
+                 window_size=14, pad_mode='constant', layer_scale=False, with_cp=False):
         super().__init__()
         self.with_cp = with_cp
         self.norm1 = norm_layer(dim)
@@ -230,7 +230,7 @@ class Block(nn.Module):
             self.gamma2 = nn.Parameter(torch.ones((dim)), requires_grad=True)
 
     def forward(self, x, H, W):
-        
+
         def _inner_forward(x):
             if self.layer_scale:
                 x = x + self.drop_path(self.gamma1 * self.attn(self.norm1(x), H, W))
@@ -239,12 +239,12 @@ class Block(nn.Module):
                 x = x + self.drop_path(self.attn(self.norm1(x), H, W))
                 x = x + self.drop_path(self.mlp(self.norm2(x)))
             return x
-        
+
         if self.with_cp and x.requires_grad:
             x = cp.checkpoint(_inner_forward, x)
         else:
             x = _inner_forward(x)
-            
+
         return x
 
 
@@ -295,14 +295,14 @@ class TIMMVisionTransformer(BaseModule):
 
         window_attn = [window_attn] * depth if not isinstance(window_attn, list) else window_attn
         window_size = [window_size] * depth if not isinstance(window_size, list) else window_size
-        logging.info("window attention:", window_attn)
-        logging.info("window size:", window_size)
-        logging.info("layer scale:", layer_scale)
+        logging.info('window attention:', window_attn)
+        logging.info('window size:', window_size)
+        logging.info('layer scale:', layer_scale)
 
         self.patch_embed = embed_layer(
             img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim)
         num_patches = self.patch_embed.num_patches
-        
+
         self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + self.num_tokens, embed_dim))
         self.pos_drop = nn.Dropout(p=drop_rate)
 
