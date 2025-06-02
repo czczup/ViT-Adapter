@@ -1,6 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 
+import mmcv_custom  # noqa: F401,F403
+import mmdet_custom  # noqa: F401,F403
 import numpy as np
 import torch
 from mmcv import Config, DictAction
