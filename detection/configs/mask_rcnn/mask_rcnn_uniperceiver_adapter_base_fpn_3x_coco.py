@@ -87,7 +87,7 @@ optimizer = dict(
     paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.65))
 optimizer_config = dict(grad_clip=None)
 evaluation = dict(save_best='auto')
-fp16 = dict(loss_scale=dict(init_scale=512))
+# fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,

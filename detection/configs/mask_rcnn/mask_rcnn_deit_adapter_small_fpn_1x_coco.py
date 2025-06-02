@@ -5,24 +5,23 @@ _base_ = [
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
 ]
-# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth'
-pretrained = 'pretrained/deit_tiny_patch16_224-a1311bcf.pth'
+# pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
+pretrained = 'pretrained/deit_small_patch16_224-cd65a155.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
         type='ViTAdapter',
         patch_size=16,
-        embed_dim=192,
+        embed_dim=384,
         depth=12,
-        num_heads=3,
+        num_heads=6,
         mlp_ratio=4,
-        drop_path_rate=0.1,
+        drop_path_rate=0.2,
         conv_inplane=64,
         n_points=4,
         deform_num_heads=6,
         cffn_ratio=0.25,
         deform_ratio=1.0,
-        layer_scale=True,
         interaction_indexes=[[0, 2], [3, 5], [6, 8], [9, 11]],
         window_attn=[True, True, False, True, True, False,
                      True, True, False, True, True, False],
@@ -31,14 +30,14 @@ model = dict(
         pretrained=pretrained),
     neck=dict(
         type='FPN',
-        in_channels=[192, 192, 192, 192],
+        in_channels=[384, 384, 384, 384],
         out_channels=256,
         num_outs=5))
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2)
 optimizer = dict(
-    _delete_=True, type='AdamW', lr=0.0002, weight_decay=0.01,
+    _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
     paramwise_cfg=dict(
     custom_keys={
         'level_embed': dict(decay_mult=0.),

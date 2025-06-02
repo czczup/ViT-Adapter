@@ -1,9 +1,9 @@
 # Copyright (c) Shanghai AI Lab. All rights reserved.
 _base_ = [
-    '../_base_/models/mask_rcnn_r50_fpn.py',
-    '../_base_/datasets/coco_instance.py',
-    '../_base_/schedules/schedule_3x.py',
-    '../_base_/default_runtime.py'
+    '../../_base_/models/mask_rcnn_r50_fpn.py',
+    '../../_base_/datasets/coco_instance.py',
+    '../../_base_/schedules/schedule_3x.py',
+    '../../_base_/default_runtime.py'
 ]
 # pretrained = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
 pretrained = 'pretrained/deit_small_patch16_224-cd65a155.pth'
@@ -90,6 +90,7 @@ optimizer = dict(
         'bias': dict(decay_mult=0.)
     }))
 optimizer_config = dict(grad_clip=None)
+evaluation = dict(save_best='auto')
 fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,

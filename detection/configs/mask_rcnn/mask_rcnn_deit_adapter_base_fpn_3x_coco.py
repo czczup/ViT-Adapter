@@ -16,7 +16,7 @@ model = dict(
         depth=12,
         num_heads=12,
         mlp_ratio=4,
-        drop_path_rate=0.3,
+        drop_path_rate=0.2,
         conv_inplane=64,
         n_points=4,
         deform_num_heads=12,
@@ -80,19 +80,18 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks']),
 ]
 data = dict(train=dict(pipeline=train_pipeline))
-optimizer = dict(_delete_=True,
-                 type='AdamW',
-                 lr=0.0001,
-                 weight_decay=0.05,
-                 paramwise_cfg=dict(
-                     custom_keys={
-                         'level_embed': dict(decay_mult=0.),
-                         'pos_embed': dict(decay_mult=0.),
-                         'norm': dict(decay_mult=0.),
-                         'bias': dict(decay_mult=0.)
-                     }))
+optimizer = dict(
+    _delete_=True, type='AdamW', lr=0.0001, weight_decay=0.05,
+    paramwise_cfg=dict(
+    custom_keys={
+        'level_embed': dict(decay_mult=0.),
+        'pos_embed': dict(decay_mult=0.),
+        'norm': dict(decay_mult=0.),
+        'bias': dict(decay_mult=0.)
+    }))
 optimizer_config = dict(grad_clip=None)
-fp16 = dict(loss_scale=dict(init_scale=512))
+evaluation = dict(save_best='auto')
+# fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,

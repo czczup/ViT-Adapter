@@ -34,7 +34,7 @@ model = dict(
         type='FPN',
         in_channels=[1024, 1024, 1024, 1024],
         out_channels=256,
-        num_outs=5),
+        num_outs=5)
 )
 # optimizer
 img_norm_cfg = dict(
@@ -88,6 +88,7 @@ optimizer = dict(
     constructor='LayerDecayOptimizerConstructor',
     paramwise_cfg=dict(num_layers=24, layer_decay_rate=0.80))
 optimizer_config = dict(grad_clip=None)
+evaluation = dict(save_best='auto')
 # fp16 = dict(loss_scale=dict(init_scale=512))
 checkpoint_config = dict(
     interval=1,
